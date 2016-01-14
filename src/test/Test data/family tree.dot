@@ -1,0 +1,49 @@
+digraph G {
+node [shape=box,fontname="Arial",fontsize="10"];
+edge [fontname="Arial",fontsize="8"];
+ranksep=.75;
+rankdir=BT;
+concentrate=true;
+
+elizabeth_elliot [label="Elizabeth Elliot" shape=rectangle color="blue"];
+douglas_bullard [label="Douglas Gary Bullard\nb. September 9, 1959 St. Paul, Minnesota" shape=rectangle color="blue"];
+donn_bullard [label="Donn Wiley Bullard\nb. Dec 4, 1925\nd. Nov 3, 1995" shape=rectangle color="blue"];
+Wylie_Aubrey_Bullard [label="Wylie Aubrey Bullard\nb. on December 31, 1899 Whitt, Parker County, Texas\nd. November 17 1982 Dallas, Dallas County, Texas" shape=rectangle color="blue"];
+Wiley_Petit_Bullard [label="Wiley Petit Bullard\nb. August 2, 1852 p. Brazos County, Texas\nd. Breckenridge, Stephens County, Texas September 17, 1927" shape=rectangle color="blue"];
+Sarah_Rachel_Carter [label="Sarah Rachel Carter\nb. Greenwood December 27, 1855\nd. Mineral Wells, Palo Pinto County Texas May 7, 1914.  \nFull-blooded Cree Indian.  Her father's entire family\nwas banished from their tribe.\nShe was adopted my Christian missionaries." shape=rectangle color="blue"];
+Sarah_Lewis [label="Sarah Lewis" shape=rectangle color="blue"];
+Ruth_Nemetz [label="Ruth Nemetz\nm. Wylie 1921" shape=rectangle color="blue"];
+John_Carter [label="John Carter" shape=rectangle color="blue"];
+Jerusha_Bullard [label="Jerusha Bullard" shape=rectangle color="blue"];
+James_Bullard [label="James R. S. Bullard" shape=rectangle color="blue"];
+Helen_Johnson [label="Helen Johnson" shape=rectangle color="blue"];
+Charles_Delevan_Elliot [label="Charles Delevan Elliot" shape=rectangle color="blue"];
+
+
+elizabeth_elliot -> Charles_Delevan_Elliot;
+elizabeth_elliot -> Helen_Johnson;
+douglas_bullard -> donn_bullard;
+douglas_bullard -> elizabeth_elliot;
+donn_bullard -> Wylie_Aubrey_Bullard;
+donn_bullard -> Ruth_Nemetz;
+Wylie_Aubrey_Bullard -> Wiley_Petit_Bullard;
+Wylie_Aubrey_Bullard -> Sarah_Rachel_Carter;
+Wiley_Petit_Bullard -> Jerusha_Bullard;
+Wiley_Petit_Bullard -> James_Bullard;
+Sarah_Rachel_Carter -> Sarah_Lewis;
+Sarah_Rachel_Carter -> John_Carter;
+elizabeth_elliot -> Charles_Delevan_Elliot;
+elizabeth_elliot -> Helen_Johnson;
+douglas_bullard -> donn_bullard;
+douglas_bullard -> elizabeth_elliot;
+donn_bullard -> Wylie_Aubrey_Bullard;
+donn_bullard -> Ruth_Nemetz;
+Wylie_Aubrey_Bullard -> Wiley_Petit_Bullard;
+Wylie_Aubrey_Bullard -> Sarah_Rachel_Carter;
+Wiley_Petit_Bullard -> Jerusha_Bullard;
+Wiley_Petit_Bullard -> James_Bullard;
+Sarah_Rachel_Carter -> Sarah_Lewis;
+Sarah_Rachel_Carter -> John_Carter;
+
+
+}

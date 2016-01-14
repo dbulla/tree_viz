@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <dependencyObjects>
+    <dependencyObject name="James_Bullard" displayName="James R. S. Bullard">
+      <ranking title="Great-Great Grandparents" color="blue" shape="rectangle" rank="0" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Jerusha_Bullard" displayName=" Jerusha Bullard">
+      <ranking title="Great-Great Grandparents" color="blue" shape="rectangle" rank="0" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="John_Carter" displayName="John Carter">
+      <ranking title="Great-Great Grandparents" color="blue" shape="rectangle" rank="0" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Sarah_Lewis" displayName="Sarah Lewis">
+      <ranking title="Great-Great Grandparents" color="blue" shape="rectangle" rank="0" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Wiley_Petit_Bullard" displayName="Wiley Petit Bullard">
+      <ranking title="Great Grandparents" color="blue" shape="rectangle" rank="1" />
+      <notes>
+        <note value="b. August 2, 1852 p. Brazos County, Texas" />
+        <note value="d. Breckenridge, Stephens County, Texas September 17, 1927" />
+      </notes>
+      <dependencies>
+        <dependency name="James_Bullard" />
+        <dependency name="Jerusha_Bullard" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Sarah_Rachel_Carter" displayName=" Sarah Rachel Carter">
+      <ranking title="Great Grandparents" color="blue" shape="rectangle" rank="1" />
+      <notes>
+        <note value="b. Greenwood December 27, 1855" />
+        <note value="d. Mineral Wells, Palo Pinto County Texas May 7, 1914.  " />
+        <note value="Full-blooded Cree Indian.  Her father's entire family" />
+        <note value="was banished from their tribe." />
+        <note value="She was adopted my Christian missionaries." />
+      </notes>
+      <dependencies>
+        <dependency name="John_Carter" />
+        <dependency name="Sarah_Lewis" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Russell" displayName=" Russell ???">
+      <ranking title="Great Grandparents" color="blue" shape="rectangle" rank="1" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Wylie_Aubrey_Bullard" displayName=" Wylie Aubrey Bullard">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes>
+        <note value="b. on December 31, 1899 Whitt, Parker County, Texas" />
+        <note value="d. November 17 1982 Dallas, Dallas County, Texas" />
+      </notes>
+      <dependencies>
+        <dependency name="Wiley_Petit_Bullard" />
+        <dependency name="Sarah_Rachel_Carter" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Ruth_Nemetz" displayName=" Ruth Nemetz">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes>
+        <note value="m. Wylie 1921" />
+      </notes>
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Julia_Cano" displayName=" Julia Cano">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Mary_Ola_Bullard" displayName=" Mary Ola Bullard">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes>
+        <note value="b. Greenwood, Sebastian County, Arkansas October 27, 1873" />
+        <note value="d. Weatherford, Parker County, Texas, December 27, 1949" />
+      </notes>
+      <dependencies>
+        <dependency name="Wiley_Petit_Bullard" />
+        <dependency name="Sarah_Rachel_Carter" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Elmer_Hasque_Russell" displayName=" Elmer Hasque Russell">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes>
+        <note value="b. Scyene, Dallas County, Texas September 6, 1873" />
+        <note value="d. Lovington, New Mexico June 10, 1956" />
+      </notes>
+      <dependencies>
+        <dependency name="Russell" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Helen_Johnson" displayName=" Helen Johnson">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Charles_Delevan_Elliot" displayName=" Charles Delevan Elliot">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="James_Thomas_Bullard" displayName=" James Thomas Bullard">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes>
+        <note value="b. 1875, Arkansas" />
+        <note value="dl. 1945 " />
+        <note value="m. October 28, 1900 in Mineral Wells, Palo Pinto County, Texas" />
+      </notes>
+      <dependencies>
+        <dependency name="Wiley_Petit_Bullard" />
+        <dependency name="Sarah_Rachel_Carter" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Elizabeth_Grant_Russell" displayName=" Elizabeth Grant Russell (Bessie)">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes>
+        <note value="b. March 12, 1880 Scyene, Dallas County, Texas" />
+        <note value="b. Houston, Harris County, Texas January 25, 1968" />
+      </notes>
+      <dependencies>
+        <dependency name="Russell" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Melissa_Bullard" displayName=" Melissa Bullard (Lissie)">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes>
+        <note value="b. Arkansas 1878" />
+        <note value="d. ????" />
+        <note value="m. Harry Warren December 23 1898 in Mineral Wells Palo Pinto County, Texas" />
+      </notes>
+      <dependencies>
+        <dependency name="Wiley_Petit_Bullard" />
+        <dependency name="Sarah_Rachel_Carter" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Harry_Warren" displayName=" Harry Warren">
+      <ranking title="Grandparents" color="blue" shape="rectangle" rank="2" />
+      <notes>
+        <note value="b. ???" />
+        <note value="d. ???" />
+      </notes>
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Rachel_Violene_Russell" displayName=" Rachel Violene Bullard (Rada)">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="b. Mineral Wells, Palo Pinto County, Texas August 25, 1898" />
+        <note value="d. ???" />
+      </notes>
+      <dependencies>
+        <dependency name="Mary_Ola_Bullard" />
+        <dependency name="Elmer_Hasque_Russell" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Minnie_Wylma_Russell" displayName=" Minnie Wylma Bullard">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="b.Bowie, Borden County, Texas July 24 1900" />
+        <note value="d. Fort Worth, Tarrant County, Texas June 9, 1984" />
+      </notes>
+      <dependencies>
+        <dependency name="Mary_Ola_Bullard" />
+        <dependency name="Elmer_Hasque_Russell" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="John_Henry_Byars" displayName=" John Henry Byars">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="b.Brown County, Texas July 28, 1895" />
+        <note value="d. Fort Worth, Tarrant County, Texas on March 7, 1954" />
+      </notes>
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Jewell_Mary" displayName=" Jewell Mary Russell">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="b.Mineral Wells, Palo Pinto County, Texas January 19, 1903" />
+        <note value="d. September 19, 1919(Typhoid Fever)" />
+      </notes>
+      <dependencies>
+        <dependency name="Mary_Ola_Bullard" />
+        <dependency name="Elmer_Hasque_Russell" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Doyle_Clinton_Russell" displayName=" Doyle Clinton Russell (Clint)">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="b. Treadway, Texas March 5, 1907" />
+        <note value="m. Ruby Esther Gregory in Weatherford, Texas May 11, 1935" />
+        <note value="m. Helen Ruth McGee in Fort Worth, Tarrant County, Texas June 13, 1942" />
+      </notes>
+      <dependencies>
+        <dependency name="Mary_Ola_Bullard" />
+        <dependency name="Elmer_Hasque_Russell" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Helen_Ruth_McGee" displayName=" Helen Ruth McGee (Babe)">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Elmer_Troy_Russell" displayName=" Elmer Troy Russell (twin)">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="b. Gail, Texas October 1, 1909\d. Fort Worth, Tarrant County, Texas, May 12, 1979" />
+        <note value="m. Goldie Lee Latham in Weatherford, Parker County, Texas November 8, 1935" />
+      </notes>
+      <dependencies>
+        <dependency name="Mary_Ola_Bullard" />
+        <dependency name="Elmer_Hasque_Russell" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Goldie_Lee_Latham" displayName=" Goldie Lee Latham">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Thelma_Floy_Russell" displayName=" Thelma Floy (twin)">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="m. Dallas, Dallas County, Texas April 13, 1934" />
+      </notes>
+      <dependencies>
+        <dependency name="Mary_Ola_Bullard" />
+        <dependency name="Elmer_Hasque_Russell" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Willis_Grover_Champion" displayName=" Willis Grover Champion (Champ)">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="d. Tarrant County, Texas August 1972??" />
+      </notes>
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Mattie_Bess_Russell" displayName=" Mattie Bess Russell">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="b. Lovington, New Mexico October 24, 1912" />
+        <note value="m.Garvice Lynn Pou October 19, 1940 Dallas, Dallas County, Texas" />
+        <note value="d. February 22, 1988" />
+      </notes>
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Garvice_Lynn_Pou" displayName=" Garvice Lynn Pou">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value=" b. May 1, 1911" />
+      </notes>
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Ruby_Bullard" displayName=" Ruby Bullard">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="James_Thomas_Bullard" />
+        <dependency name="Elizabeth_Grant_Russell" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Jasper_Porter_Stevenson" displayName=" Jasper Porter Stevenson`b. 1899`d. 1925">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Ruby_Bullard" />
+        <dependency name="Jasper_Porter_Stevenson" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Elizabeth_Warren" displayName=" Elizabeth Warren">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="d. 21 months" />
+      </notes>
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Leonard_Warren" displayName=" Leonard Warren">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Melissa_Bullard" />
+        <dependency name="Harry_Warren" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Cecil_Warren" displayName=" Cecil Warren">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Melissa_Bullard" />
+        <dependency name="Harry_Warren" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Ruth_Warren" displayName=" Ruth Warren">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Melissa_Bullard" />
+        <dependency name="Harry_Warren" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Josephine_Warren" displayName=" Josephine Warren">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="m. ? Harris" />
+      </notes>
+      <dependencies>
+        <dependency name="Melissa_Bullard" />
+        <dependency name="Harry_Warren" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Russell_Warren" displayName="Russell Warren">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Melissa_Bullard" />
+        <dependency name="Harry_Warren" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Beazley" displayName="? Beazley">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="donn_bullard" displayName=" Donn Wiley Bullard">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes>
+        <note value="b. Dec 4, 1925" />
+        <note value="d. Nov 3, 1995" />
+      </notes>
+      <dependencies>
+        <dependency name="Wylie_Aubrey_Bullard" />
+        <dependency name="Ruth_Nemetz" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="elizabeth_elliot" displayName=" Elizabeth Elliot">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Helen_Johnson" />
+        <dependency name="Charles_Delevan_Elliot" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="John_Carter_Bullard" displayName="John Carter Bullard">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Wylie_Aubrey_Bullard" />
+        <dependency name="Ruth_Nemetz" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Robert_Lee_Bullard" displayName="Robert Lee Bullard">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Wylie_Aubrey_Bullard" />
+        <dependency name="Ruth_Nemetz" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Adrienne_Stuhler" displayName=" Adrienne Bullard">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Wylie_Aubrey_Bullard" />
+        <dependency name="Ruth_Nemetz" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="George_Stuhler" displayName=" George Stuhler">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Geraldine" displayName=" Gerry">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Drucilla" displayName=" Drucilla">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Sarita_Bullard" displayName=" Sarita Bullard">
+      <ranking title="Parents" color="blue" shape="rectangle" rank="3" />
+      <notes />
+      <dependencies>
+        <dependency name="Wylie_Aubrey_Bullard" />
+        <dependency name="Julia_Cano" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Dorothy_Jean_Stevenson" displayName=" Dorothy Jean Stevenson">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Ruby_Bullard" />
+        <dependency name="Jasper_Porter_Stevenson" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Boone" displayName="Boone">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Robert_Allen_Beazley" displayName=" Robert Allen Beazley">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="douglas_bullard" displayName=" Douglas Gary Bullard">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes>
+        <note value="b. September 9, 1959 St. Paul, Minnesota" />
+      </notes>
+      <dependencies>
+        <dependency name="donn_bullard" />
+        <dependency name="elizabeth_elliot" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="bruce_bullard" displayName=" Bruce Elliot Bullard">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes>
+        <note value="b. November 30, 1957 St. Paul, Minnesota" />
+      </notes>
+      <dependencies>
+        <dependency name="donn_bullard" />
+        <dependency name="elizabeth_elliot" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Kurt_Stuhler" displayName=" Kurt Conrad Stuhler">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Adrienne_Stuhler" />
+        <dependency name="George_Stuhler" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Paul_Bullard" displayName=" Paul Bullard">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Robert_Lee_Bullard" />
+        <dependency name="Geraldine" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Sarah_Bullard" displayName=" Sarah Bullard">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Robert_Lee_Bullard" />
+        <dependency name="Geraldine" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Christine_Bullard" displayName=" Christine Bullard">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Drucilla" />
+        <dependency name="John_Carter_Bullard" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Katherine_Bullard" displayName=" Katherine Bullard">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Drucilla" />
+        <dependency name="John_Carter_Bullard" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Bradford_Bullard" displayName=" Bradford Bullard">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Drucilla" />
+        <dependency name="John_Carter_Bullard" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Roberta_Byars" displayName=" Roberta Byars">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Minnie_Wylma_Russell" />
+        <dependency name="John_Henry_Byars" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Wilma_Mae_Byars" displayName=" Wilma Mae Byars">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Minnie_Wylma_Russell" />
+        <dependency name="John_Henry_Byars" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Oscar_Harvey_Bryant" displayName=" Oscar Harvey Bryant">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Rosemary_Russell" displayName=" Rosemary Russell">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Doyle_Clinton_Russell" />
+        <dependency name="Helen_Ruth_McGee" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Troy_Russell" displayName=" Troy Russell">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Elmer_Troy_Russell" />
+        <dependency name="Goldie_Lee_Latham" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Wylene" displayName="Wylene">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Lynn_Champion" displayName=" Lynn Champion">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Thelma_Floy_Russell" />
+        <dependency name="Willis_Grover_Champion" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Mary_Sue_Champion" displayName=" Mary Sue Champion">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Thelma_Floy_Russell" />
+        <dependency name="Willis_Grover_Champion" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Robert_Champion" displayName=" Robert Champion">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Thelma_Floy_Russell" />
+        <dependency name="Willis_Grover_Champion" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Richard_Champion" displayName=" Richard Champion">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Thelma_Floy_Russell" />
+        <dependency name="Willis_Grover_Champion" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Virginia" displayName="Virginia">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Marylene" displayName="Marylene">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Richard_Pou" displayName=" Richard Pou (Dickie)(adopted)">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies>
+        <dependency name="Mattie_Bess_Russell" />
+        <dependency name="Garvice_Lynn_Pou" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Chris" displayName="Chris">
+      <ranking title="Contemporaries" color="blue" shape="rectangle" rank="4" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Jasper_Porter_Stevenson_Jr" displayName="Jasper Porter Stevenson, Jr.">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes>
+        <note value="b. July 11, 1922" />
+        <note value="d. October 13, 1969" />
+      </notes>
+      <dependencies>
+        <dependency name="Jasper_Porter_Stevenson" />
+        <dependency name="Ruby_Bullard" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Harry_Stevenson" displayName=" Harry Stevenson">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Jasper_Porter_Stevenson" />
+        <dependency name="Ruby_Bullard" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Richard_Beazley" displayName="Richard Beazley">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Donna_Bryant" displayName=" Donna Bryant Bryant">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Roberta_Byars" />
+        <dependency name="Oscar_Harvey_Bryant" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Troy_Russell_II" displayName=" Troy Russell">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Troy_Russell" />
+        <dependency name="Wylene" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Todd_Russell" displayName=" Todd Russell">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Troy_Russell" />
+        <dependency name="Wylene" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Trent_Russell" displayName=" Trent Russell">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Troy_Russell" />
+        <dependency name="Wylene" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Tonya_Russell" displayName=" Tonya Russell">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Troy_Russell" />
+        <dependency name="Wylene" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Christina_Champion" displayName=" Christina Champion">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Robert_Champion" />
+        <dependency name="Virginia" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Clayton_Champion" displayName=" Clayton Champion">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Richard_Champion" />
+        <dependency name="Marylene" />
+        <dependency name="Robert_Champion" />
+        <dependency name="Virginia" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Russell_Champion" displayName=" Russell Champion">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Richard_Champion" />
+        <dependency name="Marylene" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Carla_Champion" displayName=" Carla Champion">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Richard_Champion" />
+        <dependency name="Marylene" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Marta_Champion" displayName=" Marta Champion">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Richard_Champion" />
+        <dependency name="Marylene" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Laura_Lynn_Pou" displayName=" Laura Lynn Pou">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies>
+        <dependency name="Richard_Pou" />
+        <dependency name="Chris" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="John_Pou" displayName=" John Pou">
+      <ranking title="Children" color="blue" shape="rectangle" rank="5" />
+      <notes />
+      <dependencies />
+    </dependencyObject>
+    <dependencyObject name="Robert_Allen_Beazely" displayName="Robert_Allen_Beazely">
+      <ranking title="Great-Great Grandparents" color="blue" shape="rectangle" rank="0" />
+      <notes />
+      <dependencies>
+        <dependency name="Ruth_Warren" />
+        <dependency name="Beazley" />
+      </dependencies>
+    </dependencyObject>
+    <dependencyObject name="Richard_Beazely" displayName="Richard_Beazely">
+      <ranking title="Great-Great Grandparents" color="blue" shape="rectangle" rank="0" />
+      <notes />
+      <dependencies>
+        <dependency name="Robert_Allen_Beazley" />
+      </dependencies>
+    </dependencyObject>
+  </dependencyObjects>
+</root>
+

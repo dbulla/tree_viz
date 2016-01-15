@@ -1,11 +1,9 @@
 package com.nurflugel.dependencyvisualizer.readers;
 
-import com.nurflugel.dependencyvisualizer.DependencyObject;
+import com.nurflugel.dependencyvisualizer.DependencyDataSet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.File;
-import java.util.List;
-import java.util.Set;
 
 /** Created by IntelliJ IDEA. User: douglasbullard Date: Jan 4, 2008 Time: 5:45:13 PM To change this template use File | Settings | File Templates. */
 @Data
@@ -17,7 +15,7 @@ public class XmlFileReader extends DataFileReader
     super(sourceDataFile);
   }
 
-  public Set<DependencyObject> readObjectsFromFile()
+  public DependencyDataSet readObjectsFromFile()
   {
     return null;
   }
@@ -28,5 +26,8 @@ public class XmlFileReader extends DataFileReader
   }
 
   @Override
-  protected void parseLines(List<String> lines, Set<DependencyObject> objects) throws Exception {}
+  protected DependencyDataSet parseLines()
+  {
+    return null;
+  }
 }

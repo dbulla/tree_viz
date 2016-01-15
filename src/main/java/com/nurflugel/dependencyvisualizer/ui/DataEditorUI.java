@@ -6,46 +6,54 @@ package com.nurflugel.dependencyvisualizer.ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import com.nurflugel.dependencyvisualizer.DependencyDataSet;
 import com.nurflugel.dependencyvisualizer.DependencyObject;
 import com.nurflugel.dependencyvisualizer.Person;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 /**  */
-public class DataEditor extends NurflugelDialog
+public class DataEditorUI extends NurflugelDialog
 {
   /** Use serialVersionUID for interoperability. */
-  private static final long     serialVersionUID         = -7448882163052553989L;
-  private JButton               exitButton;
-  private JButton               editExistingButton;
-  private JButton               newButton;
-  private JComboBox             existingDataCombobox;
-  private JTextArea             notesText;
-  private JList                 parentsList;
-  private JTextField            displayNameField;
-  private Set<DependencyObject> objects;
-  private JPanel                mainPanel;
-  private JLabel                exitingDataDropdownLabel;
-  private JPanel                rankingsPanel;
-  private JButton               saveEditedButton;
-  private JButton               deleteButton;
-  private JPanel                parentsPanel;
-  private JScrollPane           parentsScrollPane;
-  private JLabel                parentsLabel;
-  private JButton               addEditRankingsButton;
-  private JList                 spouseList;
-  private JPanel                spousesPanel;
-  private JTextField            birthdatetField;
-  private JTextField            deathdateField;
+  private static final long serialVersionUID     = -7448882163052553989L;
+  private JButton           exitButton;
+  private JButton           editExistingButton;
+  private JButton           newButton;
+  private JComboBox         existingDataCombobox;
+  private JTextArea         notesText;
+  private JList             parentsList;
+  private JTextField        displayNameField;
 
-  DataEditor(Set<DependencyObject> objects)
+  // private Map<String,DependencyObject> objectsMap;
+  // private Map<String,Ranking> rankingsMap;
+  private DependencyDataSet dataSet;
+  private JPanel            mainPanel;
+  private JLabel            exitingDataDropdownLabel;
+  private JPanel            rankingsPanel;
+  private JButton           saveEditedButton;
+  private JButton           deleteButton;
+  private JPanel            parentsPanel;
+  private JScrollPane       parentsScrollPane;
+  private JLabel            parentsLabel;
+  private JButton           addEditRankingsButton;
+  private JList             spouseList;
+  private JPanel            spousesPanel;
+  private JTextField        birthDateField;
+  private JTextField        deathDateField;
+  private JPanel            slaveWrapper;
+  private JPanel            masterPanel;
+
+  DataEditorUI(DependencyDataSet dataSet)
   {
-    this.objects = objects;
+    this.dataSet = dataSet;
     buildDialog();
     addListeners();
     pack();
@@ -77,9 +85,11 @@ public class DataEditor extends NurflugelDialog
     buildRanksPanel();
   }
 
+  @SuppressWarnings("unchecked")
   private void populateDropdowns()
   {
-    // Collections.sort(objects);
+    Collection<DependencyObject> objects = dataSet.getObjects();
+
     existingDataCombobox.setModel(new DefaultComboBoxModel(objects.toArray(new DependencyObject[objects.size()])));
     parentsList.setListData(objects.toArray(new DependencyObject[objects.size()]));
     spouseList.setListData(objects.toArray(new DependencyObject[objects.size()]));
@@ -191,7 +201,7 @@ public class DataEditor extends NurflugelDialog
 
     for (Object value : selectedValues)
     {
-      currentDatapoint.addDependency((DependencyObject) value);
+      currentDatapoint.addDependency(((DependencyObject) value).getName());
     }
   }
 
@@ -231,8 +241,6 @@ public class DataEditor extends NurflugelDialog
     parentsScrollPane.setVisible(true);
     parentsLabel.setVisible(true);
 
-    List<Ranking> rankings = Ranking.values();
-
     // get rank from radio button list types
     // OR
     // be able to add new types
@@ -240,7 +248,7 @@ public class DataEditor extends NurflugelDialog
     Ranking          type      = null;
     DependencyObject newObject = new DependencyObject(name, type);
 
-    objects.add(newObject);
+    dataSet.add(newObject);
   }
 
   /** Edit the existing datapoint in the dialog. */
@@ -252,11 +260,14 @@ public class DataEditor extends NurflugelDialog
 
     if (object instanceof DependencyObject)
     {
-      DependencyObject             item         = (DependencyObject) object;
-      Collection<DependencyObject> dependencies = item.getDependencies();
+      DependencyObject   item         = (DependencyObject) object;
+      Collection<String> dependencies = item.getDependencies();
 
       displayNameField.setText(item.getDisplayName());
-      setParentsSelected(new ArrayList<>(dependencies));
+
+      Collection<DependencyObject> objectsFromNames = getObjectsFromNames(dependencies);
+
+      setParentsSelected(objectsFromNames);
       setRankingButtons(item);
 
       if (item.getNotes().length > 0)
@@ -274,8 +285,8 @@ public class DataEditor extends NurflugelDialog
       {
         Person person = (Person) item;
 
-        birthdatetField.setText(person.getBirthDate());
-        deathdateField.setText(person.getDeathDate());
+        birthDateField.setText(person.getBirthDate());
+        deathDateField.setText(person.getDeathDate());
         buildSpousesPanel();
       }
 
@@ -284,6 +295,16 @@ public class DataEditor extends NurflugelDialog
       setHeightToHalfScreen();
       validate();
     }                                           // end if
+  }
+
+  private Collection<DependencyObject> getObjectsFromNames(Collection<String> names)
+  {
+    List<DependencyObject> objects = names.stream()
+                                          .filter(n -> dataSet.getObjectsMap().containsKey(n))
+                                          .map(n -> dataSet.getObjectsMap().get(n))
+                                          .collect(toList());
+
+    return objects;
   }
 
   private void buildSpousesPanel()
@@ -303,13 +324,15 @@ public class DataEditor extends NurflugelDialog
     validate();
   }
 
-  private void setParentsSelected(List<DependencyObject> dependencies)
+  private void setParentsSelected(Collection<DependencyObject> dependencies)
   {
-    List<DependencyObject> listedObjects = new ArrayList<>(objects);
+    List<DependencyObject> listedObjects = new ArrayList<>(dataSet.getObjects());
 
     // Now we have to make an array of the indexes for the dropdown.
-    List<Integer> indicies = dependencies.stream().map(listedObjects::indexOf).collect(toList());
-    int[]         indexes  = new int[indicies.size()];
+    List<Integer> indicies = dependencies.stream()
+                                         .map(listedObjects::indexOf)
+                                         .collect(toList());
+    int[] indexes = new int[indicies.size()];
 
     for (int i = indexes.length - 1; i >= 0; i--)
     {
@@ -348,14 +371,15 @@ public class DataEditor extends NurflugelDialog
   {
     parentsPanel.removeAll();
 
-    Collection<DependencyObject> parents = currentDatapoint.getDependencies();
+    Collection<String>           parents           = currentDatapoint.getDependencies();
+    Collection<DependencyObject> dependencyObjects = getObjectsFromNames(parents);
 
-    parents.stream()
-           .map(p -> new JLabel(p.getDisplayName()))
-           .forEach(parentLabel -> parentsPanel.add(parentLabel));
+    dependencyObjects.stream()
+                     .map(DependencyObject::getDisplayName)
+                     .map(JLabel::new)
+                     .sorted()
+                     .forEach(parentLabel -> parentsPanel.add(parentLabel));
   }
-
-  public void process() {}
 
   {
     // GUI initializer generated by IntelliJ IDEA GUI Designer
@@ -553,12 +577,12 @@ public class DataEditor extends NurflugelDialog
     panel3.add(label5,
                new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
                                    GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-    birthdatetField = new JTextField();
-    panel3.add(birthdatetField,
+    birthDateField = new JTextField();
+    panel3.add(birthDateField,
                new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW,
                                    GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-    deathdateField = new JTextField();
-    panel3.add(deathdateField,
+    deathDateField = new JTextField();
+    panel3.add(deathDateField,
                new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW,
                                    GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
   }

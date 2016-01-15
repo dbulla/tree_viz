@@ -1,17 +1,21 @@
 package com.nurflugel.dependencyvisualizer.readers;
 
+import com.nurflugel.dependencyvisualizer.DependencyDataSet;
 import com.nurflugel.dependencyvisualizer.DependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.Color;
+import com.nurflugel.dependencyvisualizer.enums.FileType;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import com.nurflugel.dependencyvisualizer.enums.Shape;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import static com.nurflugel.dependencyvisualizer.Constants.*;
 
 /**  */
@@ -19,66 +23,85 @@ import static com.nurflugel.dependencyvisualizer.Constants.*;
 @NoArgsConstructor
 public class TextFileReader extends DataFileReader
 {
-  static final Logger logger     = LoggerFactory.getLogger(TextFileReader.class);
-  private boolean     familyTree;
+  private static final Logger logger = LoggerFactory.getLogger(TextFileReader.class);
+  // private boolean isFamilyTree;
 
   TextFileReader(File sourceDataFile)
   {
     super(sourceDataFile);
-  }
-
-  /** is this a family tree? */
-  @Override
-  public boolean isFamilyTree()
-  {
-    return familyTree;
+    fileType = FileType.TXT;
   }
 
   @Override
   @SuppressWarnings({ "ConstantConditions" })
-  protected void parseLines(List<String> lines, Set<DependencyObject> objects) throws Exception
+  protected DependencyDataSet parseLines()
   {
-    Ranking currentRanking = null;
-    boolean isDependencies = false;
+    DependencyDataSet dataSet = new DependencyDataSet(false, new HashMap<>(), new HashMap<>());
+    List<String>      lines;
 
-    for (String line : lines)
+    try
     {
-      if (logger.isDebugEnabled())
-      {
-        logger.debug(line);
-      }
+      lines = FileUtils.readLines(sourceDataFile);
 
-      if (!line.startsWith("//") && (!StringUtils.isEmpty(line)))
+      Ranking currentRanking = null;
+      boolean isDependencies = false;
+
+      for (String line : lines)
       {
-        if (line.startsWith("#dependencies"))
+        if (logger.isDebugEnabled())
         {
-          isDependencies = true;
+          logger.debug(line);
         }
-        else if (line.startsWith("#"))
+
+        if (!line.startsWith("//") && (!StringUtils.isEmpty(line)))
         {
-          currentRanking = getObjectType(line);
-        }
-        else if (line.startsWith("&"))
-        {
-          familyTree = parseFamilyHistory(line);
-        }
-        else if (isDependencies)
-        {
-          parseDependency(line, objects);
-        }
-        else
-        {
-          parseObjectDeclaration(line, currentRanking, objects, familyTree);
+          boolean isFamilyTree;
+
+          if (line.startsWith("#dependencies"))
+          {
+            isDependencies = true;
+          }
+          else if (line.startsWith("#"))
+          {
+            currentRanking = getObjectType(line);
+          }
+          else if (line.startsWith("&"))
+          {
+            isFamilyTree = parseFamilyHistory(line);
+            dataSet.setFamilyTree(isFamilyTree);
+          }
+          else if (isDependencies)
+          {
+            try
+            {
+              parseDependency(line, dataSet);
+            }
+            catch (Exception e)
+            {
+              e.printStackTrace();
+            }
+          }
+          else
+          {
+            parseObjectDeclaration(line, currentRanking, dataSet);
+          }
         }
       }
     }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+
+    return dataSet;
   }
 
   private boolean parseFamilyHistory(String line)
   {
     String[] nibbles = line.trim().split("=");
+    boolean  b       = Boolean.parseBoolean(nibbles[1]);
 
-    return Boolean.parseBoolean(nibbles[1]);
+    return b;
   }
 
   /**  */
@@ -111,7 +134,7 @@ public class TextFileReader extends DataFileReader
     return Ranking.valueOf(name, color, shape);
   }
 
-  private void parseDependency(String line, Set<DependencyObject> objects) throws Exception
+  private void parseDependency(String line, DependencyDataSet dataSet) throws Exception
   {
     try
     {
@@ -120,10 +143,10 @@ public class TextFileReader extends DataFileReader
 
       for (int i = 0; i < (chunks.length - 1); i++)
       {
-        DependencyObject main       = getLoaderObjectByName(chunks[i], objects);
-        DependencyObject dependency = getLoaderObjectByName(chunks[i + 1], objects);
+        DependencyObject main       = dataSet.getLoaderObjectByName(chunks[i]);
+        DependencyObject dependency = dataSet.getLoaderObjectByName(chunks[i + 1]);
 
-        main.addDependency(dependency);
+        main.addDependency(dependency.getName());
       }
     }
     catch (Exception e)

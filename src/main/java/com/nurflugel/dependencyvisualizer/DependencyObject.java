@@ -17,23 +17,23 @@ import static org.apache.commons.lang3.StringUtils.replace;
 public class DependencyObject implements Comparable
 {
   // ------------------------------ FIELDS ------------------------------
-  private String                name;
-  private String                displayName;
-  private String[]              notes        = new String[0];
-  private Ranking               ranking;
-  private Set<DependencyObject> dependencies = new HashSet<>();  // todo make this the unique names as a key, not the entire dependency object!
+  private String      name;
+  private String      displayName;
+  private String[]    notes        = new String[0];
+  private Ranking     ranking;
+  private Set<String> dependencies = new HashSet<>();  // todo make this the unique names as a key, not the entire dependency object!
 
   // --------------------------- CONSTRUCTORS ---------------------------
   public DependencyObject(String name, Ranking ranking)
   {
-    this.name    = cleanDefinition(name);
+    this.name    = replaceAllBadChars(name);
     displayName  = name;
     this.ranking = ranking;
   }
 
   public DependencyObject(String name, String[] notes, Ranking ranking)
   {
-    this.name    = cleanDefinition(name);
+    this.name    = replaceAllBadChars(name);
     this.notes   = notes;
     this.ranking = ranking;
   }
@@ -63,12 +63,12 @@ public class DependencyObject implements Comparable
 
     element.addContent(dependenciesElement);
 
-    for (DependencyObject dependency : dependencies)
+    for (String dependency : dependencies)
     {
       Element dependencyElement = new Element(DEPENDENCY);
 
       dependenciesElement.addContent(dependencyElement);
-      dependencyElement.setAttribute(NAME, dependency.getName());
+      dependencyElement.setAttribute(NAME, dependency);
     }
 
     return element;
@@ -79,9 +79,9 @@ public class DependencyObject implements Comparable
    *
    * <p>todo - something better with regular expressions - anything except text and numbers in one expression</p>
    */
-  public static String cleanDefinition(String jobNumber)
+  public static String replaceAllBadChars(String jobNumber)
   {
-    String newValue = jobNumber;
+    String newValue = jobNumber.trim();
 
     newValue = replace(newValue, "-", "_");
     newValue = replace(newValue, "@", "_");
@@ -119,7 +119,7 @@ public class DependencyObject implements Comparable
   }
 
   // ------------------------ Class Methods ------------------------
-  public void addDependency(DependencyObject dependency)
+  public void addDependency(String dependency)
   {
     dependencies.add(dependency);
   }

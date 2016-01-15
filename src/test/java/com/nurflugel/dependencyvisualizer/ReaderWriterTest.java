@@ -126,7 +126,7 @@ public class ReaderWriterTest
     directionalFilters.add(DirectionalFilter.Up);
     dataHandler.loadDataset();
 
-    DependencyObject object = dataHandler.findObjectByName(DependencyObject.cleanDefinition(ITEM_D));
+    DependencyObject object = dataHandler.findObjectByName(DependencyObject.replaceAllBadChars(ITEM_D));
 
     keyObjects.add(object);
     dataHandler.setKeyObjectsToFilterOn(keyObjects);
@@ -168,7 +168,7 @@ public class ReaderWriterTest
     directionalFilters.add(DirectionalFilter.Down);
     dataHandler.loadDataset();
 
-    DependencyObject object = dataHandler.findObjectByName(DependencyObject.cleanDefinition(ITEM_D));
+    DependencyObject object = dataHandler.findObjectByName(DependencyObject.replaceAllBadChars(ITEM_D));
 
     keyObjects.add(object);
     dataHandler.setKeyObjectsToFilterOn(keyObjects);
@@ -190,7 +190,7 @@ public class ReaderWriterTest
     directionalFilters.add(DirectionalFilter.Up);
     dataHandler.loadDataset();
 
-    DependencyObject object = dataHandler.findObjectByName(DependencyObject.cleanDefinition(ITEM_D));
+    DependencyObject object = dataHandler.findObjectByName(DependencyObject.replaceAllBadChars(ITEM_D));
 
     keyObjects.add(object);
     dataHandler.setKeyObjectsToFilterOn(keyObjects);

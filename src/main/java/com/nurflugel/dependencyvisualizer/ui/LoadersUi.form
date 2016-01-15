@@ -3,7 +3,7 @@
   <grid id="7db50" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="249" y="187" width="511" height="309"/>
+      <xy x="249" y="187" width="511" height="331"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -122,15 +122,6 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="848ff" class="javax.swing.JButton" binding="loadDatafileButton">
-                <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Load Data file"/>
-                  <toolTipText value="Load a data set from file on disk" noi18n="true"/>
-                </properties>
-              </component>
               <component id="beed4" class="javax.swing.JButton" binding="findDotButton">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -138,14 +129,7 @@
                 <properties>
                   <text value="Find Dot"/>
                   <toolTipText value="If Dot is in a non-standard location, click this to get a dialog to find it"/>
-                </properties>
-              </component>
-              <component id="3ebcd" class="javax.swing.JButton" binding="makeGraphButton">
-                <constraints>
-                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Make Graph"/>
+                  <visible value="false"/>
                 </properties>
               </component>
               <component id="c9c05" class="javax.swing.JButton" binding="quitButton">
@@ -156,31 +140,52 @@
                   <text value="Quit"/>
                 </properties>
               </component>
-              <component id="e1dda" class="javax.swing.JButton" binding="editDataButton">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Edit/Add Data"/>
-                  <toolTipText value="Edit or add to an existing data file"/>
-                </properties>
-              </component>
-              <component id="e5137" class="javax.swing.JButton" binding="newDataButton">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="New Data file"/>
-                  <toolTipText value="Create a new data file"/>
-                </properties>
-              </component>
               <component id="dd76b" class="javax.swing.JButton" binding="saveDataFileButton" default-binding="true">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="Save Data file"/>
+                  <toolTipText value="Save open dataset to disk"/>
+                </properties>
+              </component>
+              <component id="3ebcd" class="javax.swing.JButton" binding="makeGraphButton">
                 <constraints>
                   <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Save Data file"/>
-                  <toolTipText value="Save open dataset to disk"/>
+                  <enabled value="false"/>
+                  <text value="Make Graph"/>
+                </properties>
+              </component>
+              <component id="e5137" class="javax.swing.JButton" binding="newDataButton">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="New Data file"/>
+                  <toolTipText value="Create a new data file"/>
+                </properties>
+              </component>
+              <component id="e1dda" class="javax.swing.JButton" binding="editDataButton">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="false"/>
+                  <text value="Edit/Add Data"/>
+                  <toolTipText value="Edit or add to an existing data file"/>
+                </properties>
+              </component>
+              <component id="848ff" class="javax.swing.JButton" binding="loadDatafileButton">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Load Data file"/>
+                  <toolTipText value="Load a data set from file on disk" noi18n="true"/>
                 </properties>
               </component>
             </children>

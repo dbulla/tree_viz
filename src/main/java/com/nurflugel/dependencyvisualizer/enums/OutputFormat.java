@@ -14,6 +14,7 @@ public enum OutputFormat
   Svg              ("SVG", "svg", ".svg"),
   Png              ("PNG", "png", ".png"),
   Pdf              ("PDF", "epdf", ".pdf"),
+  Dot              ("DOT", "dot", ".dot"),
   PdfViaGhostscript("PDF_VIA_GHOSTSCRIPT", "ps", ".ps");
 
   private String displayLabel;  // for debug only

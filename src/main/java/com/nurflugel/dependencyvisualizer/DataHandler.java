@@ -5,14 +5,12 @@ import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import com.nurflugel.dependencyvisualizer.readers.DataFileReader;
 import com.nurflugel.dependencyvisualizer.writers.DataFileWriter;
 import com.nurflugel.dependencyvisualizer.writers.DotFileWriter;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**  */
 @SuppressWarnings({ "ProhibitedExceptionThrown", "ProhibitedExceptionDeclared" })
@@ -20,14 +18,15 @@ public class DataHandler
 {
   private static final Logger     logger             = LoggerFactory.getLogger(DataHandler.class);
   private File                    dotFile;
-  private List<DirectionalFilter> directionalFilters = new ArrayList<DirectionalFilter>();
-  private List<Ranking>           typesFilters       = new ArrayList<Ranking>();
-  private Set<DependencyObject>   keyObjects         = new TreeSet<DependencyObject>();
-  private Set<DependencyObject>   objects            = new TreeSet<DependencyObject>();
+  private List<DirectionalFilter> directionalFilters = new ArrayList<>();
+  private List<Ranking>           typesFilters       = new ArrayList<>();
+  private Set<DependencyObject>   keyObjects         = new TreeSet<>();
   private boolean                 isRanking          = true;
   private DataFileReader          dataFileReader;
   private DataFileWriter          dataFileWriter;
-  private boolean                 isFamilyTree;
+
+  // private boolean                 isFamilyTree;
+  private DependencyDataSet dataset;
 
   public DataHandler(File sourceDataFile)
   {
@@ -50,8 +49,8 @@ public class DataHandler
   // -------------------------- OTHER METHODS --------------------------
   public File doIt()
   {
-    Set<DependencyObject> filteredObjects = filterObjects();
-    DotFileWriter         writer          = new DotFileWriter(dotFile, isRanking);
+    Collection<DependencyObject> filteredObjects = filterObjects();
+    DotFileWriter                writer          = new DotFileWriter(dotFile, isRanking);
 
     try
     {
@@ -66,48 +65,45 @@ public class DataHandler
   }
 
   /** Filter the objects based on criteria from the UI- - Specific objects - filter up or down - show/don't show tiers (no NSC, etc). */
-  private Set<DependencyObject> filterObjects()
+  private Collection<DependencyObject> filterObjects()
   {
     ObjectFilterer filter = new ObjectFilterer(directionalFilters, typesFilters);
 
-    return filter.filter(objects, keyObjects);
+    return filter.filter(dataset.getObjects(), keyObjects);
   }
 
   /** See if the given object is found. if not, throw an excpetion. */
   public DependencyObject findObjectByName(String name) throws Exception
   {
-    for (DependencyObject dependencyObject : objects)
-    {
-      if (dependencyObject.getName().equals(DependencyObject.cleanDefinition(name)))
-      {
-        return dependencyObject;
-      }
-    }
+    String           cleanName        = DependencyObject.replaceAllBadChars(name);
+    DependencyObject dependencyObject = dataset.getObjects().stream()
+                                               .filter(o -> StringUtils.equals(o.getName(), cleanName))
+                                               .findFirst()
+                                               .orElseThrow(() -> new Exception("Object not found by name: " + name));
 
-    throw new Exception("Object not found by name: " + name);
+    return dependencyObject;
   }
 
   public void loadDataset()
   {
-    objects      = dataFileReader.readObjectsFromFile();
-    isFamilyTree = dataFileReader.isFamilyTree();
+    dataset = dataFileReader.readObjectsFromFile();
   }
 
-  public Set<DependencyObject> getObjects()
+  public Collection<DependencyObject> getObjects()
   {
-    return objects;
+    return dataset.getObjects();
   }
 
   public void initialize()
   {
-    directionalFilters = new ArrayList<DirectionalFilter>();
-    typesFilters       = new ArrayList<Ranking>();
-    keyObjects         = new TreeSet<DependencyObject>();
+    directionalFilters = new ArrayList<>();
+    typesFilters       = new ArrayList<>();
+    keyObjects         = new TreeSet<>();
   }
 
   public void setDirectionalFilters(List<DirectionalFilter> directionalFilters)
   {
-    this.directionalFilters = new ArrayList<DirectionalFilter>(directionalFilters);
+    this.directionalFilters = new ArrayList<>(directionalFilters);
   }
 
   public void setIsRanking(boolean isRanking)
@@ -117,12 +113,12 @@ public class DataHandler
 
   public void setKeyObjectsToFilterOn(List<DependencyObject> keyObjects)
   {
-    this.keyObjects = new TreeSet<DependencyObject>(keyObjects);
+    this.keyObjects = new TreeSet<>(keyObjects);
   }
 
   public void setTypesFilters(List<Ranking> typesFilters)
   {
-    this.typesFilters = new ArrayList<Ranking>(typesFilters);
+    this.typesFilters = new ArrayList<>(typesFilters);
   }
 
   public void saveDataset()
@@ -130,13 +126,8 @@ public class DataHandler
     dataFileWriter.saveToFile(this);
   }
 
-  public boolean isFamilyTree()
+  public DependencyDataSet getDataset()
   {
-    return isFamilyTree;
-  }
-
-  public void setIsFamilyTree(boolean familyTree)
-  {
-    isFamilyTree = familyTree;
+    return dataset;
   }
 }

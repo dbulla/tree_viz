@@ -13,7 +13,7 @@ import static com.nurflugel.dependencyvisualizer.Constants.*;
 @NoArgsConstructor
 public class Person extends DependencyObject
 {
-  private Set<Person> spouses   = new HashSet<>();
+  private Set<String> spouses   = new HashSet<>();
   private String      birthDate;
   private String      deathDate;
 
@@ -29,7 +29,7 @@ public class Person extends DependencyObject
 
   public void addSpouse(Person spouse)
   {
-    spouses.add(spouse);
+    spouses.add(spouse.getName());
   }
 
   public Element getElement()
@@ -43,12 +43,12 @@ public class Person extends DependencyObject
 
     element.addContent(spousesElement);
 
-    for (Person spouse : spouses)
+    for (String spouse : spouses)
     {
       Element spouseElement = new Element(SPOUSE);
 
       spousesElement.addContent(spouseElement);
-      spouseElement.setAttribute(NAME, spouse.getName());
+      spouseElement.setAttribute(NAME, spouse);
     }
 
     return element;
@@ -57,7 +57,7 @@ public class Person extends DependencyObject
   @Override
   public String toString()
   {
-    return getName();
+    return getDisplayName();
   }
 
   public void removeAllSpouses()

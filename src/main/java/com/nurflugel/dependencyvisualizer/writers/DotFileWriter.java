@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import static java.util.stream.Collectors.toCollection;
 
 /**  */
 public class DotFileWriter
@@ -26,17 +27,16 @@ public class DotFileWriter
   }
 
   /** Now, write the filtered objects back out to the file. */
-  public void writeObjectsToDotFile(Set<DependencyObject> objects, List<DirectionalFilter> directionalFilters) throws IOException
+  public void writeObjectsToDotFile(Collection<DependencyObject> objects, List<DirectionalFilter> directionalFilters) throws IOException
   {
-    // logger.debug("Writing output to file " + dotFile.getAbsolutePath());
-    OutputStream     outputStream = null;
-    DataOutputStream out          = null;
-
-    try
+    if (logger.isDebugEnabled())
     {
-      outputStream = new FileOutputStream(dotFile);
-      out          = new DataOutputStream(outputStream);
+      logger.debug("Writing output to file " + dotFile.getAbsolutePath());
+    }
 
+    try(OutputStream outputStream = new FileOutputStream(dotFile);
+          DataOutputStream out = new DataOutputStream(outputStream))
+    {
       Set<Ranking> types = getOnlyUsedTypes(objects);
 
       writeHeader(out);
@@ -50,29 +50,13 @@ public class DotFileWriter
     {
       throw e;
     }
-    finally
-    {
-      try
-      {
-        assert out != null;
-        out.close();
-        outputStream.close();
-      }
-      catch (IOException e)
-      {
-        logger.error("Error closing resources", e);
-      }
-    }
   }
 
-  private Set<Ranking> getOnlyUsedTypes(Set<DependencyObject> objects)
+  private Set<Ranking> getOnlyUsedTypes(Collection<DependencyObject> objects)
   {
-    Set<Ranking> types = new TreeSet<Ranking>();
-
-    for (DependencyObject dependencyObject : objects)
-    {
-      types.add(dependencyObject.getRanking());
-    }
+    Set<Ranking> types = objects.stream()
+                                .map(DependencyObject::getRanking)
+                                .collect(toCollection(TreeSet::new));
 
     return types;
   }
@@ -117,7 +101,7 @@ public class DotFileWriter
     return types;
   }
 
-  private void writeObjectDeclarations(Set<DependencyObject> objects, DataOutputStream out) throws IOException
+  private void writeObjectDeclarations(Collection<DependencyObject> objects, DataOutputStream out) throws IOException
   {
     for (DependencyObject object : objects)
     {
@@ -158,7 +142,7 @@ public class DotFileWriter
    * Write the actual groupings which tie the enum rankings with the objects. this ends up being a series of lines, like so:{ rank = same; "CDM
    * loaders"; "UpdateProd"; ..... }
    */
-  private void writeRankingGroupings(Set<DependencyObject> objects, DataOutputStream out, Set<Ranking> types) throws IOException
+  private void writeRankingGroupings(Collection<DependencyObject> objects, DataOutputStream out, Set<Ranking> types) throws IOException
   {
     if (doRankings)
     {
@@ -181,37 +165,37 @@ public class DotFileWriter
     }
   }
 
-  private void writeObjectDependencies(Set<DependencyObject> objects, DataOutputStream out, List<DirectionalFilter> directionalFilters)
+  private void writeObjectDependencies(Collection<DependencyObject> objects, DataOutputStream out, List<DirectionalFilter> directionalFilters)
                                 throws IOException
   {
-    for (DependencyObject object : objects)
-    {
-      Collection<DependencyObject> dependencies = object.getDependencies();
-
-      for (DependencyObject dependency : dependencies)
-      {
-        // if ((directionalFilters.isEmpty() || directionalFilters.contains(DirectionalFilter.Up)))
-        // {
-        // out.writeBytes(object.getName() + " -> " + dependency.getName() + ";\n");
-        // }
-        // else
-        if (objects.contains(dependency))
-        {
-          out.writeBytes(object.getName() + " -> " + dependency.getName() + ";\n");
-        }
-      }
-    }
-
+    // for (DependencyObject object : objects)
+    // {
+    // Collection<String> dependencies = object.getDependencies();
+    //
+    // for (String dependency : dependencies)
+    // {
+    // // if ((directionalFilters.isEmpty() || directionalFilters.contains(DirectionalFilter.Up)))
+    // // {
+    // // out.writeBytes(object.getName() + " -> " + dependency.getName() + ";\n");
+    // // }
+    // // else
+    // if (objects.contains(dependency))
+    // {
+    // out.writeBytes(object.getName() + " -> " + dependency + ";\n");
+    // }
+    // }
+    // }
     for (DependencyObject object : objects)
     {
       object.getDependencies()
             .stream()
-            .filter(objects::contains)
-            .forEach(d ->
+
+            // .filter(objects::contains)
+            .forEach(dependency ->
                      {
                        try
                        {
-                         out.writeBytes(object.getName() + " -> " + d.getName() + ";\n");
+                         out.writeBytes(object.getName() + " -> " + dependency + ";\n");
                        }
                        catch (IOException e)
                        {

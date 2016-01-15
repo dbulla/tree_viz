@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.nurflugel.dependencyvisualizer.DataHandler;
+import com.nurflugel.dependencyvisualizer.DependencyDataSet;
 import com.nurflugel.dependencyvisualizer.DependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.OutputFormat;
@@ -19,10 +20,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.prefs.Preferences;
-import java.util.stream.Collectors;
+import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Down;
+import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Up;
+import static com.nurflugel.dependencyvisualizer.enums.OutputFormat.Dot;
+import static java.lang.Boolean.parseBoolean;
+import static java.util.stream.Collectors.toList;
+import static javax.swing.JFileChooser.APPROVE_OPTION;
 
 /**  */
 @SuppressWarnings({
@@ -66,12 +74,14 @@ public class LoadersUi extends JFrame
   private JCheckBox             familyTreeCheckBox;
   private JButton               saveDataFileButton;
   private JButton               clearDropdownsButton;
-  private Set<DependencyObject> objects              = new TreeSet<>();
-  private static final String   WINDOWS_DOT_LOCATION = "\"C:\\Program Files\\ATT\\Graphviz\\bin\\dot.exe\"";
-  private static final String   OSX_DOT_LOCATION     = "/Applications/Graphviz.app/Contents/MacOS/dot";
-  private static final String   MAC_OS               = "Mac OS";
-  private static final String   PREVIEW_LOCATION     = "/Applications/Preview.app/Contents/MacOS/Preview";
-  private static final String   WINDOWS              = "windows";
+
+  // private Set<DependencyObject> objects              = new TreeSet<>();
+  private DependencyDataSet   dataSet;
+  private static final String WINDOWS_DOT_LOCATION   = "\"C:\\Program Files\\ATT\\Graphviz\\bin\\dot.exe\"";
+  private static final String OSX_DOT_LOCATION       = "/Applications/Graphviz.app/Contents/MacOS/dot";
+  private static final String MAC_OS                 = "Mac OS";
+  private static final String PREVIEW_LOCATION       = "/Applications/Preview.app/Contents/MacOS/Preview";
+  private static final String WINDOWS                = "windows";
 
   @SuppressWarnings({ "OverridableMethodCallInConstructor" })
   public LoadersUi()
@@ -96,10 +106,10 @@ public class LoadersUi extends JFrame
   {
     preferences       = Preferences.userNodeForPackage(LoadersUi.class);
     dotExecutablePath = preferences.get(DOT_EXECUTABLE, "");
-    rankingCheckBox.setSelected(Boolean.parseBoolean(preferences.get(USE_RANKING, "true")));
-    filterUpCheckBox.setSelected(Boolean.parseBoolean(preferences.get(FILTER_UP, "true")));
-    filterDownCheckBox.setSelected(Boolean.parseBoolean(preferences.get(FILTER_DOWN, "true")));
-    familyTreeCheckBox.setSelected(Boolean.parseBoolean(preferences.get(FAMILY_TREE, "true")));
+    rankingCheckBox.setSelected(parseBoolean(preferences.get(USE_RANKING, "true")));
+    filterUpCheckBox.setSelected(parseBoolean(preferences.get(FILTER_UP, "false")));
+    filterDownCheckBox.setSelected(parseBoolean(preferences.get(FILTER_DOWN, "false")));
+    familyTreeCheckBox.setSelected(parseBoolean(preferences.get(FAMILY_TREE, "true")));
   }
 
   /**  */
@@ -116,7 +126,7 @@ public class LoadersUi extends JFrame
 
   private void addListeners()
   {
-    familyTreeCheckBox.addActionListener(e -> dataHandler.setIsFamilyTree(familyTreeCheckBox.isSelected()));
+    familyTreeCheckBox.addActionListener(e -> dataSet.setFamilyTree(familyTreeCheckBox.isSelected()));
     quitButton.addActionListener(actionEvent -> doQuitAction());
     makeGraphButton.addActionListener(actionEvent ->
                                       {
@@ -131,7 +141,7 @@ public class LoadersUi extends JFrame
                                       });
     findDotButton.addActionListener(actionEvent -> findDotExecutablePath());
     loadDatafileButton.addActionListener(actionEvent -> loadDatafile());
-    editDataButton.addActionListener(actionEvent -> new DataEditor(objects));
+    editDataButton.addActionListener(actionEvent -> new DataEditorUI(dataSet));
     saveDataFileButton.addActionListener(e -> dataHandler.saveDataset());
     addWindowListener(new WindowAdapter()
       {
@@ -152,10 +162,11 @@ public class LoadersUi extends JFrame
     dataHandler.setKeyObjectsToFilterOn(getKeyObjects());
     dataHandler.setTypesFilters(new ArrayList<Ranking>());
 
-    File   dotFile        = dataHandler.doIt();
-    String outputFilePath = convertDataFile(dotFile);
+    File dotFile = dataHandler.doIt();
+    // String outputFilePath = convertDataFile(dotFile);
 
-    showImage(outputFilePath);
+    // showImage(outputFilePath);
+    showImage(dotFile.getAbsolutePath());
   }
 
   private List<DirectionalFilter> getDirectionalFilters()
@@ -169,12 +180,12 @@ public class LoadersUi extends JFrame
 
     if (filterUpCheckBox.isSelected())
     {
-      filters.add(DirectionalFilter.Up);
+      filters.add(Up);
     }
 
     if (filterDownCheckBox.isSelected())
     {
-      filters.add(DirectionalFilter.Down);
+      filters.add(Down);
     }
 
     return filters;
@@ -322,13 +333,18 @@ public class LoadersUi extends JFrame
       {
         commandList.add("cmd.exe");
         commandList.add("/c");
+        commandList.add(outputFilePath);
       }
       else if (isOsX())
       {
-        commandList.add(PREVIEW_LOCATION);
-      }
+        // commandList.add(PREVIEW_LOCATION);
+        commandList.add("open");
 
-      commandList.add(outputFilePath);
+        String delimitedOutputFilePath = outputFilePath;
+
+        // String delimitedOutputFilePath = StringUtils.replace(outputFilePath, " ", "\\ ");
+        commandList.add(delimitedOutputFilePath);
+      }
 
       String[] command = commandList.toArray(new String[commandList.size()]);
 
@@ -337,7 +353,8 @@ public class LoadersUi extends JFrame
         logger.debug("Command to run: " + concatenate(command));
       }
 
-      Process p = new ProcessBuilder(commandList).start();
+      Process     process     = new ProcessBuilder(commandList).start();
+      InputStream errorStream = process.getErrorStream();
     }
     catch (Exception e)
     {
@@ -411,7 +428,7 @@ public class LoadersUi extends JFrame
 
     int returnVal = fileChooser.showOpenDialog(this);
 
-    if (returnVal == JFileChooser.APPROVE_OPTION)
+    if (returnVal == APPROVE_OPTION)
     {
       File selectedFile = fileChooser.getSelectedFile();
 
@@ -419,9 +436,12 @@ public class LoadersUi extends JFrame
       makeGraphButton.setEnabled(true);
       dataHandler = new DataHandler(selectedFile);
       dataHandler.loadDataset();
-      objects = dataHandler.getObjects();
-      familyTreeCheckBox.setSelected(dataHandler.isFamilyTree());
+      dataSet = dataHandler.getDataset();
+      familyTreeCheckBox.setSelected(dataSet.isFamilyTree());
       populateDropdowns();
+      editDataButton.setEnabled(true);
+      saveDataFileButton.setEnabled(true);
+      makeGraphButton.setEnabled(true);
     }
 
     pack();
@@ -454,9 +474,9 @@ public class LoadersUi extends JFrame
     List<DependencyObject> filteredObjects = new ArrayList<>();
 
     filteredObjects.add(new DependencyObject("", type));
-    filteredObjects.addAll(objects.stream()
+    filteredObjects.addAll(dataSet.getObjects().stream()
                              .filter(dependencyObject -> dependencyObject.getRanking().equals(type))
-                             .collect(Collectors.toList()));
+                             .collect(toList()));
 
     return filteredObjects.toArray(new DependencyObject[filteredObjects.size()]);
   }
@@ -479,10 +499,10 @@ public class LoadersUi extends JFrame
   {
     if (isOsX())
     {
-      return OutputFormat.Pdf;
+      return Dot;
     }
 
-    return OutputFormat.Png;
+    return Dot;
   }
 
   private void populateDropdown(JComboBox comboBox, Ranking type)
@@ -490,14 +510,9 @@ public class LoadersUi extends JFrame
     List<DependencyObject> dropdownList = new ArrayList<>();
 
     dropdownList.add(new DependencyObject("", type));
-
-    for (DependencyObject object : objects)
-    {
-      if (object.getRanking().equals(type))
-      {
-        dropdownList.add(object);
-      }
-    }
+    dropdownList.addAll(dataSet.getObjects().stream()
+                          .filter(object -> object.getRanking().equals(type))
+                          .collect(toList()));
 
     DependencyObject[] loaderObjects = dropdownList.toArray(new DependencyObject[dropdownList.size()]);
 

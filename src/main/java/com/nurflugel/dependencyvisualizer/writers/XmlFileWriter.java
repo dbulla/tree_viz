@@ -27,8 +27,8 @@ public class XmlFileWriter extends DataFileWriter
   {
     Element  root  = new Element(ROOT);
     Document doc   = new Document(root);
-    String   value = dataHandler.isFamilyTree() ? TRUE
-                                                : FALSE;
+    String   value = dataHandler.getDataset().isFamilyTree() ? TRUE
+                                                             : FALSE;
 
     root.addContent(new Element(IS_FAMILY_TREE).setAttribute(VALUE, value));
     root.addContent(Ranking.getElements());

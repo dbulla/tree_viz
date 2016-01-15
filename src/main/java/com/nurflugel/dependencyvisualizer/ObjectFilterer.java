@@ -3,6 +3,7 @@ package com.nurflugel.dependencyvisualizer;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import java.util.*;
+import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Up;
 import static java.util.stream.Collectors.toList;
 
 /**  */
@@ -27,7 +28,7 @@ public class ObjectFilterer
    *
    * @return  the filtered array of typesToFilter
    */
-  public Set<DependencyObject> filter(Set<DependencyObject> objectsToFilter, Set<DependencyObject> keyObjects)
+  public Collection<DependencyObject> filter(final Collection<DependencyObject> objectsToFilter, final Collection<DependencyObject> keyObjects)
   {
     // quick test
     if (directionalFilters.isEmpty() && typesToFilter.isEmpty() && keyObjects.isEmpty())
@@ -41,7 +42,7 @@ public class ObjectFilterer
     if (directionalFilters.isEmpty())
     {
       directionalFilters.add(DirectionalFilter.Down);
-      directionalFilters.add(DirectionalFilter.Up);
+      directionalFilters.add(Up);
     }
 
     if (!directionalFilters.isEmpty())
@@ -65,12 +66,12 @@ public class ObjectFilterer
    * This is a recursive method - it'll take several passes to get all the objects. At the end of the method, it calls itself to see if there were any
    * more objects added. If not, it exits. If so, it calls itself again.
    */
-  private Set<DependencyObject> filterObjectsByDirection(Set<DependencyObject> objects, Set<DependencyObject> keyObjects, int initialSize,
-                                                         DirectionalFilter directionalFilter)
+  private Set<DependencyObject> filterObjectsByDirection(Collection<DependencyObject> objects, Collection<DependencyObject> keyObjects,
+                                                         int initialSize, DirectionalFilter directionalFilter)
   {
     Set<DependencyObject> filteredObjects = new HashSet<>();
 
-    if (directionalFilter.equals(DirectionalFilter.Up))
+    if (directionalFilter.equals(Up))
     {
       filteredObjects.addAll(filterUp(objects, keyObjects));
     }
@@ -93,42 +94,35 @@ public class ObjectFilterer
   }
 
   /** Filter from this object on up. */
-  private Set<DependencyObject> filterUp(Set<DependencyObject> objects, Set<DependencyObject> keyObjects)
+  private Set<DependencyObject> filterUp(Collection<DependencyObject> objects, Collection<DependencyObject> keyObjects)
   {
     Set<DependencyObject> filteredObjects = new TreeSet<>();
 
-    if (directionalFilters.contains(DirectionalFilter.Up))
+    if (directionalFilters.contains(Up))
     {
-      for (DependencyObject mainObject : objects)
-      {
-        // Is this object in the list of key objects we're interested in?
-        if (keyObjects.contains(mainObject))
-        {
-          // Add the object itself if it has a higher ranking.
-          filteredObjects.add(mainObject);
+      // Is this object in the list of key objects we're interested in?
+      // Add the object itself if it has a higher ranking.
+      // now, valueOf all dependencies of this object that have a higher ranking, too
+      // filteredObjects.addAll(dependencies);//todo uncomment
+      objects.stream()
+             .filter(keyObjects::contains)
+             .forEach(mainObject ->
+                      {
+                        // Add the object itself if it has a higher ranking.
+                        filteredObjects.add(mainObject);
 
-          // now, valueOf all dependencies of this object that have a higher ranking, too
-          Collection<DependencyObject> dependencies = mainObject.getDependencies();
+                        // now, valueOf all dependencies of this object that have a higher ranking, too
+                        Collection<String> dependencies = mainObject.getDependencies();
 
-          // for (DependencyObject dependency : dependencies)
-          // {
-          //
-          // if (dependency.getRanking().getRank() > mainObject.getRanking().getRank())
-          // {
-          // filteredObjects.valueOf(dependency);
-          // }
-          //
-          // }
-          filteredObjects.addAll(dependencies);
-        }
-      }
+                        // filteredObjects.addAll(dependencies);//todo uncomment
+                        });
     }
 
     return filteredObjects;
   }
 
   /** Filter from this object on down. */
-  private Set<DependencyObject> filterDown(Set<DependencyObject> objects, Set<DependencyObject> keyObjects)
+  private Set<DependencyObject> filterDown(Collection<DependencyObject> objects, Collection<DependencyObject> keyObjects)
   {
     Set<DependencyObject> filteredObjects = new TreeSet<>();
 
@@ -138,7 +132,7 @@ public class ObjectFilterer
 
       for (DependencyObject mainObject : objects)
       {
-        Collection<DependencyObject> dependencies = mainObject.getDependencies();
+        Collection<String> dependencies = mainObject.getDependencies();
 
         if (!dependencies.isEmpty())
         {

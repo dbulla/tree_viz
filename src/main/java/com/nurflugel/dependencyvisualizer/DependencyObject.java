@@ -1,13 +1,11 @@
 package com.nurflugel.dependencyvisualizer;
 
-import com.nurflugel.dependencyvisualizer.enums.Ranking;
+import com.nurflugel.dependencyvisualizer.enums.RankingName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.jdom.Element;
 import java.util.HashSet;
 import java.util.Set;
-import static com.nurflugel.dependencyvisualizer.Constants.*;
 import static org.apache.commons.lang3.StringUtils.replace;
 
 /** Representation of an object. */
@@ -20,58 +18,22 @@ public class DependencyObject implements Comparable
   private String      name;
   private String      displayName;
   private String[]    notes        = new String[0];
-  private Ranking     ranking;
+  private RankingName ranking;
   private Set<String> dependencies = new HashSet<>();  // todo make this the unique names as a key, not the entire dependency object!
 
   // --------------------------- CONSTRUCTORS ---------------------------
-  public DependencyObject(String name, Ranking ranking)
+  public DependencyObject(String name, RankingName ranking)
   {
     this.name    = replaceAllBadChars(name);
     displayName  = name;
     this.ranking = ranking;
   }
 
-  public DependencyObject(String name, String[] notes, Ranking ranking)
+  public DependencyObject(String name, String[] notes, RankingName ranking)
   {
     this.name    = replaceAllBadChars(name);
     this.notes   = notes;
     this.ranking = ranking;
-  }
-
-  /** Generates XML stuff for JDOM output. */
-  public Element getElement()
-  {
-    Element element = new Element(DEPENDENCY_OBJECT);
-
-    element.setAttribute(NAME, name);
-    element.setAttribute(DISPLAY_NAME, displayName);
-    element.addContent(ranking.getElement());
-
-    Element notesElements = new Element(NOTES);
-
-    element.addContent(notesElements);
-
-    for (String note : notes)
-    {
-      Element noteElement = new Element(NOTE);
-
-      notesElements.addContent(noteElement);
-      noteElement.setAttribute(VALUE, note);
-    }
-
-    Element dependenciesElement = new Element(DEPENDENCIES);
-
-    element.addContent(dependenciesElement);
-
-    for (String dependency : dependencies)
-    {
-      Element dependencyElement = new Element(DEPENDENCY);
-
-      dependenciesElement.addContent(dependencyElement);
-      dependencyElement.setAttribute(NAME, dependency);
-    }
-
-    return element;
   }
 
   /**

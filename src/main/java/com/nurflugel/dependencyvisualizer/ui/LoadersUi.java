@@ -120,8 +120,9 @@ public class LoadersUi extends JFrame
     Dimension screenSize     = defaultToolkit.getScreenSize();
     int       x              = (int) ((screenSize.getWidth() - getWidth()) / 2);
     int       y              = (int) ((screenSize.getHeight() - getHeight()) / 2);
+    LoadersUi loadersUi      = this;
 
-    setBounds(x, y, getWidth(), getHeight());
+    loadersUi.setBounds(x, y, getWidth(), getHeight());
   }
 
   private void addListeners()
@@ -461,7 +462,7 @@ public class LoadersUi extends JFrame
       DependencyObject[] filteredObjects = getObjectsForType(type);
       JComboBox          comboBox        = new JComboBox(filteredObjects);
       JPanel             borderPanel     = new JPanel();
-      Border             border          = BorderFactory.createTitledBorder(new EtchedBorder(), type.getLevel());
+      Border             border          = BorderFactory.createTitledBorder(new EtchedBorder(), type.getName().getName());
 
       borderPanel.setBorder(border);
       borderPanel.add(comboBox);
@@ -473,9 +474,9 @@ public class LoadersUi extends JFrame
   {
     List<DependencyObject> filteredObjects = new ArrayList<>();
 
-    filteredObjects.add(new DependencyObject("", type));
+    filteredObjects.add(new DependencyObject("", type.getName()));
     filteredObjects.addAll(dataSet.getObjects().stream()
-                             .filter(dependencyObject -> dependencyObject.getRanking().equals(type))
+                             .filter(dependencyObject -> dependencyObject.getRanking().equals(type.getName()))
                              .collect(toList()));
 
     return filteredObjects.toArray(new DependencyObject[filteredObjects.size()]);
@@ -509,9 +510,9 @@ public class LoadersUi extends JFrame
   {
     List<DependencyObject> dropdownList = new ArrayList<>();
 
-    dropdownList.add(new DependencyObject("", type));
+    dropdownList.add(new DependencyObject("", type.getName()));
     dropdownList.addAll(dataSet.getObjects().stream()
-                          .filter(object -> object.getRanking().equals(type))
+                          .filter(object -> object.getRanking().equals(type.getName()))
                           .collect(toList()));
 
     DependencyObject[] loaderObjects = dropdownList.toArray(new DependencyObject[dropdownList.size()]);

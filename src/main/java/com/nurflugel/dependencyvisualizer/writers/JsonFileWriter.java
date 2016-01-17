@@ -22,9 +22,12 @@ public class JsonFileWriter extends DataFileWriter
   @Override
   public void saveToFile(DataHandler dataHandler)
   {
-    DependencyDataSet dataSet  = dataHandler.getDataset();
-    String            fileName = sourceDataFile.getAbsolutePath();
-    String            baseName = FilenameUtils.getBaseName(fileName);
+    DependencyDataSet dataSet = dataHandler.getDataset();
+
+    dataSet.generateRankingsMap();
+
+    String fileName = sourceDataFile.getAbsolutePath();
+    String baseName = FilenameUtils.getBaseName(fileName);
 
     fileName = baseName + fileType.getExtension();
 

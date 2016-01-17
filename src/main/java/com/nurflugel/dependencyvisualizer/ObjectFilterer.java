@@ -138,7 +138,8 @@ public class ObjectFilterer
         {
           filteredObjects.addAll(keyObjects.stream()
                                    .filter(dependencies::contains)
-                                   .filter(keyObject -> mainObject.getRanking().getRank() > keyObject.getRanking().getRank())
+                                   .filter(keyObject ->
+                                             Ranking.valueOf(mainObject.getRanking()).getRank() > Ranking.valueOf(keyObject.getRanking()).getRank())
                                    .map(keyObject -> mainObject)
                                    .collect(toList()));
         }

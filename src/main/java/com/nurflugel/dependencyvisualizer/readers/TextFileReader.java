@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import static com.nurflugel.dependencyvisualizer.Constants.*;
@@ -36,7 +37,7 @@ public class TextFileReader extends DataFileReader
   @SuppressWarnings({ "ConstantConditions" })
   protected DependencyDataSet parseLines()
   {
-    DependencyDataSet dataSet = new DependencyDataSet(false, new HashMap<>(), new HashMap<>());
+    DependencyDataSet dataSet = new DependencyDataSet(false, new HashMap<>(), new ArrayList<>());
     List<String>      lines;
 
     try

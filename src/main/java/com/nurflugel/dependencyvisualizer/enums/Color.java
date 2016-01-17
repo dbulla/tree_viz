@@ -12,55 +12,25 @@ public enum Color
   /** Get the next color in the enum. */
   public static Color next(Color color)
   {
-    Color[] colors = values();
+    int     ordinal = color.ordinal();
+    Color[] values  = values();
 
-    for (int i = 0; i < colors.length; i++)
-    {
-      Color testColor = colors[i];
-
-      if (testColor.equals(color))
-      {
-        int nextIndex = i + 1;
-
-        if (nextIndex >= colors.length)
-        {
-          nextIndex = 0;
-        }
-
-        return colors[nextIndex];
-      }
-    }
-
-    assert false;
-
-    return colors[0];
+    return values[(ordinal + 1) % values.length];
   }
 
   /** Get the next color in the enum. */
   public static Color previous(Color color)
   {
-    Color[] colors = values();
+    int     ordinal       = color.ordinal();
+    Color[] colors        = values();
+    int     previousIndex = ordinal - 1;
 
-    for (int i = 0; i < colors.length; i++)
+    if (previousIndex < 0)
     {
-      Color testColor = colors[i];
-
-      if (testColor.equals(color))
-      {
-        int previousIndex = i - 1;
-
-        if (previousIndex < 0)
-        {
-          previousIndex = colors.length - 1;
-        }
-
-        return colors[previousIndex];
-      }
+      previousIndex = colors.length - 1;
     }
 
-    assert false;
-
-    return colors[0];
+    return colors[previousIndex];
   }
 
   public static Color first()

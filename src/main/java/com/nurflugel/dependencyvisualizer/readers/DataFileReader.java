@@ -33,8 +33,8 @@ public abstract class DataFileReader
     String[]         strings  = lineText.split("\\|");
     DependencyObject object;
 
-    object = dataSet.isFamilyTree() ? new Person(strings[0].trim(), ranking)
-                                    : new DependencyObject(replaceAllBadChars(strings[0]), ranking);
+    object = dataSet.isFamilyTree() ? new Person(strings[0].trim(), ranking.getName())
+                                    : new DependencyObject(replaceAllBadChars(strings[0]), ranking.getName());
 
     if (strings.length > 1)
     {

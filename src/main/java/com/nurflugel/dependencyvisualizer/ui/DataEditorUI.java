@@ -10,6 +10,7 @@ import com.nurflugel.dependencyvisualizer.DependencyDataSet;
 import com.nurflugel.dependencyvisualizer.DependencyObject;
 import com.nurflugel.dependencyvisualizer.Person;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
+import com.nurflugel.dependencyvisualizer.enums.RankingName;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -106,7 +107,7 @@ public class DataEditorUI extends NurflugelDialog
 
     for (Ranking type : shapeAttributeses)
     {
-      JRadioButton button = new JRadioButton(type.getLevel());
+      JRadioButton button = new JRadioButton(type.getName().getName());
 
       buttonGroup.add(button);
       rankingsPanel.add(button);
@@ -220,7 +221,7 @@ public class DataEditorUI extends NurflugelDialog
           String  text    = radioButton.getText();
           Ranking ranking = Ranking.valueOf(text);
 
-          currentDatapoint.setRanking(ranking);
+          currentDatapoint.setRanking(ranking.getName());
 
           break;
         }
@@ -244,9 +245,7 @@ public class DataEditorUI extends NurflugelDialog
     // get rank from radio button list types
     // OR
     // be able to add new types
-    String           name      = null;
-    Ranking          type      = null;
-    DependencyObject newObject = new DependencyObject(name, type);
+    DependencyObject newObject = new DependencyObject(null, null);
 
     dataSet.add(newObject);
   }
@@ -345,7 +344,7 @@ public class DataEditorUI extends NurflugelDialog
 
   private void setRankingButtons(DependencyObject item)
   {
-    Ranking     rankTitle = item.getRanking();
+    RankingName rankTitle = item.getRanking();
     Component[] buttons   = rankingsPanel.getComponents();
 
     for (Component component : buttons)
@@ -357,7 +356,7 @@ public class DataEditorUI extends NurflugelDialog
       {
         Ranking buttonRanking = Ranking.valueOf(text);
 
-        radioButton.setSelected(buttonRanking.equals(rankTitle));
+        radioButton.setSelected(buttonRanking.equals(Ranking.valueOf(rankTitle)));
       }
       catch (Exception e)
       {

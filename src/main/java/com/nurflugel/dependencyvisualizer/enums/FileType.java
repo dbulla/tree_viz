@@ -3,11 +3,9 @@ package com.nurflugel.dependencyvisualizer.enums;
 import com.nurflugel.dependencyvisualizer.readers.DataFileReader;
 import com.nurflugel.dependencyvisualizer.readers.JsonFileReader;
 import com.nurflugel.dependencyvisualizer.readers.TextFileReader;
-import com.nurflugel.dependencyvisualizer.readers.XmlFileReader;
 import com.nurflugel.dependencyvisualizer.writers.DataFileWriter;
 import com.nurflugel.dependencyvisualizer.writers.JsonFileWriter;
 import com.nurflugel.dependencyvisualizer.writers.TextFileWriter;
-import com.nurflugel.dependencyvisualizer.writers.XmlFileWriter;
 import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.util.stream.Stream;
@@ -15,7 +13,6 @@ import java.util.stream.Stream;
 /** What type of text file is this? */
 public enum FileType
 {
-  XML (".xml", XmlFileReader.class, XmlFileWriter.class),
   JSON(".json", JsonFileReader.class, JsonFileWriter.class),
   TXT (".txt", TextFileReader.class, TextFileWriter.class);
 

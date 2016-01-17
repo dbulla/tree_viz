@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import static java.util.stream.Collectors.toList;
 
@@ -16,14 +17,17 @@ import static java.util.stream.Collectors.toList;
 public class DependencyDataSet
 {
   private boolean                       isFamilyTree;
-  private Map<String, DependencyObject> objectsMap  = new HashMap<>();
-  private Map<String, Ranking>          rankingsMap = new HashMap<>();
-  private static final Logger           logger      = LoggerFactory.getLogger(DependencyDataSet.class);
+  private Map<String, DependencyObject> objectsMap = new HashMap<>();
+
+  // private Map<Integer, Ranking>          rankingsMap = new HashMap<>();
+  private List<Ranking>       rankings;
+  private static final Logger logger = LoggerFactory.getLogger(DependencyDataSet.class);
 
   public DependencyDataSet()
   {
-    objectsMap  = new HashMap<>();
-    rankingsMap = new HashMap<>();
+    objectsMap = new HashMap<>();
+
+    // rankingsMap = new HashMap<>();
   }
 
   public Collection<DependencyObject> getObjects()
@@ -33,9 +37,13 @@ public class DependencyDataSet
 
   public Collection<Ranking> getRankings()
   {
-    return objectsMap.values().stream()
-                     .map(DependencyObject::getRanking)
-                     .collect(toList());
+    List<Ranking> collect = objectsMap.values().stream()
+                                      .map(DependencyObject::getRanking)
+                                      .distinct()
+                                      .map(Ranking::valueOf)
+                                      .collect(toList());
+
+    return collect;
   }
 
   public void add(DependencyObject newObject)
@@ -51,7 +59,8 @@ public class DependencyDataSet
     DependencyObject dependencyObject = objectsMap.computeIfAbsent(trimmedName,
                                                                    i ->
                                                                    {
-                                                                     DependencyObject newObject = new DependencyObject(trimmedName, Ranking.first());
+                                                                     DependencyObject newObject = new DependencyObject(trimmedName,
+                                                                                                                       Ranking.first().getName());
 
                                                                      if (logger.isDebugEnabled())
                                                                      {
@@ -78,5 +87,10 @@ public class DependencyDataSet
                                     System.out.println("name = " + name);
                                     System.out.println("dependencyObject = " + dependencyObject);
                                   });
+  }
+
+  public void generateRankingsMap()
+  {
+    rankings = Ranking.values();
   }
 }

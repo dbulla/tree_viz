@@ -10,55 +10,26 @@ public enum Shape
   /** Get the next color in the enum. */
   public static Shape next(Shape shape)
   {
-    Shape[] shapes = values();
+    Shape[] shapes  = values();
+    int     ordinal = shape.ordinal();
+    Shape[] values  = values();
 
-    for (int i = 0; i < shapes.length; i++)
-    {
-      Shape testShape = shapes[i];
-
-      if (testShape.equals(shape))
-      {
-        int nextIndex = i + 1;
-
-        if (nextIndex >= shapes.length)
-        {
-          nextIndex = 0;
-        }
-
-        return shapes[nextIndex];
-      }
-    }
-
-    assert false;
-
-    return shapes[0];
+    return values[(ordinal + 1) % values.length];
   }
 
   /** Get the next shape in the enum. */
   public static Shape previous(Shape shape)
   {
-    Shape[] shapes = values();
+    int     ordinal       = shape.ordinal();
+    Shape[] values        = values();
+    int     previousIndex = ordinal - 1;
 
-    for (int i = 0; i < shapes.length; i++)
+    if (previousIndex < 0)
     {
-      Shape testShape = shapes[i];
-
-      if (testShape.equals(shape))
-      {
-        int previousIndex = i - 1;
-
-        if (previousIndex < 0)
-        {
-          previousIndex = shapes.length - 1;
-        }
-
-        return shapes[previousIndex];
-      }
+      previousIndex = values.length - 1;
     }
 
-    assert false;
-
-    return shapes[0];
+    return values[previousIndex];
   }
 
   public static Shape first()

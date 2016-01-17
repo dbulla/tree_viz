@@ -2,15 +2,17 @@ package com.nurflugel.dependencyvisualizer.enums;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.jdom.Element;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import static com.nurflugel.dependencyvisualizer.Constants.*;
+import static com.nurflugel.dependencyvisualizer.enums.Color.black;
+import static com.nurflugel.dependencyvisualizer.enums.Shape.rectangle;
 
 /**
  * This is the representation of the type of bounding polygon for the data item. It has a title, a color, a shape, and a rank. The rank is built up
  * from the list of types, so as new ones are added, the rank is incremented.
+ *
+ * <p>This is sort of like an enum but is determined from the data loaded</p>
  */
 @Data
 @EqualsAndHashCode(of = "rank")
@@ -20,7 +22,7 @@ public class Ranking implements Comparable
   // ------------------------------ FIELDS ------------------------------
   private static int                 rankCounter = 0;
   private static final List<Ranking> types       = new ArrayList<>();
-  private String                     level;
+  private RankingName                name;
   private Color                      color;
   private Shape                      shape;
   private final int                  rank;
@@ -28,29 +30,33 @@ public class Ranking implements Comparable
   public static Ranking valueOf(String title) throws Exception
   {
     return types.stream()
-                .filter(r -> r.getLevel().equals(title))
+                .filter(r -> r.getName().getName().equals(title))
                 .findFirst()
-                .orElseThrow(() -> new Exception(title + " not found"));
+                .orElseGet(() -> valueOf(new RankingName(title)));
+  }
+
+  public static Ranking valueOf(RankingName rankingName)
+  {
+    return valueOf(rankingName.getName(), black, rectangle);
   }
 
   @SuppressWarnings({ "AccessingNonPublicFieldOfAnotherObject" })
   public static Ranking valueOf(String title, Color color, Shape shape)
   {
     Optional<Ranking> first = types.stream()
-                                   .filter(r -> r.getLevel().equals(title))
+                                   .filter(r -> r.getName().getName().equals(title))
                                    .findFirst();
+    Ranking ranking = first.orElseGet(() ->
+                                      {
+                                        // create the next type if it didn't already exist
+                                        Ranking type = new Ranking(title, color, shape, rankCounter++);
 
-    if (first.isPresent())
-    {
-      return first.get();
-    }
+                                        types.add(type);
 
-    // create the next type if it didn't already exist
-    Ranking type = new Ranking(title, color, shape, rankCounter++);
+                                        return type;
+                                      });
 
-    types.add(type);
-
-    return type;
+    return ranking;
   }
 
   public static List<Ranking> values()
@@ -64,9 +70,9 @@ public class Ranking implements Comparable
   }
 
   // --------------------------- CONSTRUCTORS ---------------------------
-  private Ranking(String level, Color color, Shape shape, int rank)
+  private Ranking(String name, Color color, Shape shape, int rank)
   {
-    this.level = level;
+    this.name  = new RankingName(name);
     this.color = color;
     this.shape = shape;
     this.rank  = rank;
@@ -82,33 +88,6 @@ public class Ranking implements Comparable
   @Override
   public String toString()
   {
-    return level;
-  }
-
-  public Element getElement()
-  {
-    Element rankingElement = new Element(RANKING);
-
-    rankingElement.setAttribute(LEVEL, level);
-
-    return rankingElement;
-  }
-
-  public static Element getElements()
-  {
-    Element element = new Element("rankings");
-
-    for (Ranking type : types)
-    {
-      Element rankingElement = new Element(RANKING);
-
-      rankingElement.setAttribute(LEVEL, type.level);
-      rankingElement.setAttribute(COLOR, type.color.toString());
-      rankingElement.setAttribute(SHAPE, type.shape.toString());
-      rankingElement.setAttribute(RANK, type.rank + "");
-      element.addContent(rankingElement);
-    }
-
-    return element;
+    return name.getName();
   }
 }

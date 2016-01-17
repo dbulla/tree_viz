@@ -3,6 +3,7 @@ package com.nurflugel.dependencyvisualizer.writers;
 import com.nurflugel.dependencyvisualizer.DependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
+import com.nurflugel.dependencyvisualizer.enums.RankingName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.*;
@@ -56,6 +57,7 @@ public class DotFileWriter
   {
     Set<Ranking> types = objects.stream()
                                 .map(DependencyObject::getRanking)
+                                .map(Ranking::valueOf)
                                 .collect(toCollection(TreeSet::new));
 
     return types;
@@ -105,7 +107,8 @@ public class DotFileWriter
   {
     for (DependencyObject object : objects)
     {
-      Ranking       type        = object.getRanking();
+      RankingName   name        = object.getRanking();
+      Ranking       type        = Ranking.valueOf(name);
       StringBuilder text        = new StringBuilder();
       String[]      notes       = object.getNotes();
       String        displayName;

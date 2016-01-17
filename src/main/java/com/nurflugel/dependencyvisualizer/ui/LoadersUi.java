@@ -462,7 +462,7 @@ public class LoadersUi extends JFrame
       DependencyObject[] filteredObjects = getObjectsForType(type);
       JComboBox          comboBox        = new JComboBox(filteredObjects);
       JPanel             borderPanel     = new JPanel();
-      Border             border          = BorderFactory.createTitledBorder(new EtchedBorder(), type.getName().getName());
+      Border             border          = BorderFactory.createTitledBorder(new EtchedBorder(), type.getName());
 
       borderPanel.setBorder(border);
       borderPanel.add(comboBox);

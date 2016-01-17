@@ -22,29 +22,28 @@ public class Ranking implements Comparable
   // ------------------------------ FIELDS ------------------------------
   private static int                 rankCounter = 0;
   private static final List<Ranking> types       = new ArrayList<>();
-  private RankingName                name;
+  private String                     name;
   private Color                      color;
   private Shape                      shape;
   private final int                  rank;
 
-  public static Ranking valueOf(String title) throws Exception
+  public static Ranking valueOf(String title)
   {
     return types.stream()
-                .filter(r -> r.getName().getName().equals(title))
+                .filter(r -> r.getName().equals(title))
                 .findFirst()
-                .orElseGet(() -> valueOf(new RankingName(title)));
+                .orElseGet(() -> valueOf(title, black, rectangle));
   }
 
-  public static Ranking valueOf(RankingName rankingName)
-  {
-    return valueOf(rankingName.getName(), black, rectangle);
-  }
-
+  // public static Ranking valueOf(RankingName rankingName)
+  // {
+  // return valueOf(rankingName.getName(), black, rectangle);
+  // }
   @SuppressWarnings({ "AccessingNonPublicFieldOfAnotherObject" })
   public static Ranking valueOf(String title, Color color, Shape shape)
   {
     Optional<Ranking> first = types.stream()
-                                   .filter(r -> r.getName().getName().equals(title))
+                                   .filter(r -> r.getName().equals(title))
                                    .findFirst();
     Ranking ranking = first.orElseGet(() ->
                                       {
@@ -72,7 +71,7 @@ public class Ranking implements Comparable
   // --------------------------- CONSTRUCTORS ---------------------------
   private Ranking(String name, Color color, Shape shape, int rank)
   {
-    this.name  = new RankingName(name);
+    this.name  = name;
     this.color = color;
     this.shape = shape;
     this.rank  = rank;
@@ -88,6 +87,6 @@ public class Ranking implements Comparable
   @Override
   public String toString()
   {
-    return name.getName();
+    return name;
   }
 }

@@ -1,6 +1,5 @@
 package com.nurflugel.dependencyvisualizer;
 
-import com.nurflugel.dependencyvisualizer.enums.RankingName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,18 +17,18 @@ public class DependencyObject implements Comparable
   private String      name;
   private String      displayName;
   private String[]    notes        = new String[0];
-  private RankingName ranking;
+  private String      ranking;
   private Set<String> dependencies = new HashSet<>();  // todo make this the unique names as a key, not the entire dependency object!
 
   // --------------------------- CONSTRUCTORS ---------------------------
-  public DependencyObject(String name, RankingName ranking)
+  public DependencyObject(String name, String ranking)
   {
     this.name    = replaceAllBadChars(name);
     displayName  = name;
     this.ranking = ranking;
   }
 
-  public DependencyObject(String name, String[] notes, RankingName ranking)
+  public DependencyObject(String name, String[] notes, String ranking)
   {
     this.name    = replaceAllBadChars(name);
     this.notes   = notes;

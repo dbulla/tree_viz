@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 /**  */
@@ -56,7 +55,7 @@ public class DataHandler
     {
       writer.writeObjectsToDotFile(filteredObjects, directionalFilters);
     }
-    catch (IOException e)
+    catch (Exception e)
     {
       logger.error("Error writing file", e);
     }

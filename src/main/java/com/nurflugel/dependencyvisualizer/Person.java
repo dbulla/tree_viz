@@ -1,6 +1,5 @@
 package com.nurflugel.dependencyvisualizer;
 
-import com.nurflugel.dependencyvisualizer.enums.RankingName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.HashSet;
@@ -16,12 +15,12 @@ public class Person extends DependencyObject
   private String      birthDate;
   private String      deathDate;
 
-  public Person(String name, RankingName type)
+  public Person(String name, String type)
   {
     super(name, type);
   }
 
-  public Person(String name, String[] notes, RankingName type)
+  public Person(String name, String[] notes, String type)
   {
     super(name, notes, type);
   }

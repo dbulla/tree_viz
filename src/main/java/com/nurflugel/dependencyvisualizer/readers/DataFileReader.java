@@ -56,6 +56,8 @@ public abstract class DataFileReader
   {
     DependencyDataSet dataSet = parseLines();
 
+    dataSet.generateRankingsMap();
+
     return dataSet;
   }
 

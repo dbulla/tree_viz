@@ -3,7 +3,6 @@ package com.nurflugel.dependencyvisualizer.writers;
 import com.nurflugel.dependencyvisualizer.DependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
-import com.nurflugel.dependencyvisualizer.enums.RankingName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.*;
@@ -28,7 +27,7 @@ public class DotFileWriter
   }
 
   /** Now, write the filtered objects back out to the file. */
-  public void writeObjectsToDotFile(Collection<DependencyObject> objects, List<DirectionalFilter> directionalFilters) throws IOException
+  public void writeObjectsToDotFile(Collection<DependencyObject> objects, List<DirectionalFilter> directionalFilters) throws Exception
   {
     if (logger.isDebugEnabled())
     {
@@ -47,7 +46,7 @@ public class DotFileWriter
       writeObjectDependencies(objects, out, directionalFilters);
       writeFooter(out);
     }
-    catch (IOException e)
+    catch (Exception e)
     {
       throw e;
     }
@@ -103,11 +102,11 @@ public class DotFileWriter
     return types;
   }
 
-  private void writeObjectDeclarations(Collection<DependencyObject> objects, DataOutputStream out) throws IOException
+  private void writeObjectDeclarations(Collection<DependencyObject> objects, DataOutputStream out) throws Exception
   {
     for (DependencyObject object : objects)
     {
-      RankingName   name        = object.getRanking();
+      String        name        = object.getRanking();
       Ranking       type        = Ranking.valueOf(name);
       StringBuilder text        = new StringBuilder();
       String[]      notes       = object.getNotes();

@@ -1,0 +1,33 @@
+// The datafile format is pretty simple - you have your group designations, which consist of name, color, and shape,
+// followed by the dependencies declaration.
+&familyTree=true
+
+#name=Grandparents, color = red, shape=rectangle
+Wylie_Aubrey_Bullard| Wylie Aubrey Bullard|b. on December 31, 1899 Whitt, Parker County, Texas`d. November 17 1982 Dallas, Dallas County, Texas
+Ruth_Nemetz| Ruth Nemetz|m. Wylie 1921
+Helen_Johnson| Helen Johnson
+Charles_Delevan_Elliot| Charles Delevan Elliot
+
+
+#name=Parents, color=blue, shape=rectangle
+donn_bullard| Donn Wiley Bullard|b. Dec 4, 1925`d. Nov 3, 1995
+elisabeth_elliot| Elisabeth Elliot
+
+#name=Contemporaries, color=blue, shape=rectangle
+douglas_bullard| Douglas Gary Bullard|b. September 9, 1959 St. Paul, Minnesota
+bruce_bullard| Bruce Elliot Bullard|b. November 30, 1957 St. Paul, Minnesota
+
+#dependencies
+
+
+douglas_bullard -> donn_bullard
+douglas_bullard -> elisabeth_elliot
+bruce_bullard -> donn_bullard
+bruce_bullard -> elisabeth_elliot
+
+
+elisabeth_elliot->Charles_Delevan_Elliot
+elisabeth_elliot->Helen_Johnson
+
+donn_bullard->Wylie_Aubrey_Bullard
+donn_bullard->Ruth_Nemetz

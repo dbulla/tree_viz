@@ -13,11 +13,13 @@ import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
+import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
+import static javax.swing.BoxLayout.Y_AXIS;
 
 /**  */
 public class DataEditorUI extends NurflugelDialog
@@ -75,9 +77,9 @@ public class DataEditorUI extends NurflugelDialog
     // exitingDataDropdownLabel.setVisible(false);
     // parentsLabel.setVisible(false);
     // parentsScrollPane.setVisible(false);
-    BoxLayout rankingsLayout = new BoxLayout(rankingsPanel, BoxLayout.Y_AXIS);
-    BoxLayout parentsLayout  = new BoxLayout(parentsPanel, BoxLayout.Y_AXIS);
-    BoxLayout spousesLayout  = new BoxLayout(spousesPanel, BoxLayout.Y_AXIS);
+    BoxLayout rankingsLayout = new BoxLayout(rankingsPanel, Y_AXIS);
+    BoxLayout parentsLayout  = new BoxLayout(parentsPanel, Y_AXIS);
+    BoxLayout spousesLayout  = new BoxLayout(spousesPanel, Y_AXIS);
 
     rankingsPanel.setLayout(rankingsLayout);
     parentsPanel.setLayout(parentsLayout);
@@ -88,11 +90,16 @@ public class DataEditorUI extends NurflugelDialog
   @SuppressWarnings("unchecked")
   private void populateDropdowns()
   {
-    Collection<DependencyObject> objects = dataSet.getObjects();
+    Stream<DependencyObject> objects         = dataSet.getObjects();
+    List<DependencyObject>   dropdownObjects = getDropdownListWithEmptyTopItem(objects);
 
-    existingDataCombobox.setModel(new DefaultComboBoxModel(objects.toArray(new DependencyObject[objects.size()])));
-    parentsList.setListData(objects.toArray(new DependencyObject[objects.size()]));
-    spouseList.setListData(objects.toArray(new DependencyObject[objects.size()]));
+    existingDataCombobox.setModel(new DefaultComboBoxModel(dropdownObjects.toArray(new DependencyObject[dropdownObjects.size()])));
+  }
+
+  private List<DependencyObject> getDropdownListWithEmptyTopItem(Stream<DependencyObject> objects)
+  {
+    return Stream.concat(singletonList(new DependencyObject("", "")).stream(), objects)
+                 .collect(toList());
   }
 
   /** Build up the radio button list from the types. */
@@ -258,7 +265,17 @@ public class DataEditorUI extends NurflugelDialog
 
     if (object instanceof DependencyObject)
     {
-      DependencyObject   item         = (DependencyObject) object;
+      DependencyObject item = (DependencyObject) object;
+
+      // filter out item from list
+      List<DependencyObject> filteredObjects = dataSet.getObjects()
+                                                      .filter(o -> !item.equals(o))
+                                                      .collect(toList());
+      DependencyObject[] listData = filteredObjects.toArray(new DependencyObject[filteredObjects.size()]);
+
+      parentsList.setListData(listData);
+      spouseList.setListData(listData);
+
       Collection<String> dependencies = item.getDependencies();
 
       displayNameField.setText(item.getDisplayName());
@@ -298,8 +315,9 @@ public class DataEditorUI extends NurflugelDialog
   private Collection<DependencyObject> getObjectsFromNames(Collection<String> names)
   {
     List<DependencyObject> objects = names.stream()
-                                          .filter(n -> dataSet.getObjectsMap().containsKey(n))
-                                          .map(n -> dataSet.getObjectsMap().get(n))
+                                          .filter(n -> dataSet.containsKey(n))
+                                          .map(n -> dataSet.get(n))
+                                          .sorted()
                                           .collect(toList());
 
     return objects;
@@ -324,7 +342,8 @@ public class DataEditorUI extends NurflugelDialog
 
   private void setParentsSelected(Collection<DependencyObject> dependencies)
   {
-    List<DependencyObject> listedObjects = new ArrayList<>(dataSet.getObjects());
+    List<DependencyObject> listedObjects = dataSet.getObjects()
+                                                  .collect(toList());
 
     // Now we have to make an array of the indexes for the dropdown.
     List<Integer> indicies = dependencies.stream()

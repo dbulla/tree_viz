@@ -475,7 +475,7 @@ public class LoadersUi extends JFrame
     List<DependencyObject> filteredObjects = new ArrayList<>();
 
     filteredObjects.add(new DependencyObject("", type.getName()));
-    filteredObjects.addAll(dataSet.getObjects().stream()
+    filteredObjects.addAll(dataSet.getObjects()
                              .filter(dependencyObject -> dependencyObject.getRanking().equals(type.getName()))
                              .collect(toList()));
 
@@ -511,7 +511,7 @@ public class LoadersUi extends JFrame
     List<DependencyObject> dropdownList = new ArrayList<>();
 
     dropdownList.add(new DependencyObject("", type.getName()));
-    dropdownList.addAll(dataSet.getObjects().stream()
+    dropdownList.addAll(dataSet.getObjects()
                           .filter(object -> object.getRanking().equals(type.getName()))
                           .collect(toList()));
 

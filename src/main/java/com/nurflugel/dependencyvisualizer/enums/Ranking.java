@@ -80,7 +80,7 @@ public class Ranking implements Comparable
   // --------------------- Interface Comparable ---------------------
   public int compareTo(Object o)
   {
-    return Integer.compare(((Ranking) o).rank, rank);
+    return Integer.compare(rank, ((Ranking) o).rank);
   }
 
   // ------------------------ CANONICAL METHODS ------------------------

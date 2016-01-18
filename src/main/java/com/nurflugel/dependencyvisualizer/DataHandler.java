@@ -68,14 +68,14 @@ public class DataHandler
   {
     ObjectFilterer filter = new ObjectFilterer(directionalFilters, typesFilters);
 
-    return filter.filter(dataset.getObjects(), keyObjects);
+    return filter.filter(dataset, keyObjects);
   }
 
   /** See if the given object is found. if not, throw an excpetion. */
   public DependencyObject findObjectByName(String name) throws Exception
   {
     String           cleanName        = DependencyObject.replaceAllBadChars(name);
-    DependencyObject dependencyObject = dataset.getObjects().stream()
+    DependencyObject dependencyObject = dataset.getObjects()
                                                .filter(o -> StringUtils.equals(o.getName(), cleanName))
                                                .findFirst()
                                                .orElseThrow(() -> new Exception("Object not found by name: " + name));
@@ -86,11 +86,6 @@ public class DataHandler
   public void loadDataset()
   {
     dataset = dataFileReader.readObjectsFromFile();
-  }
-
-  public Collection<DependencyObject> getObjects()
-  {
-    return dataset.getObjects();
   }
 
   public void initialize()

@@ -63,9 +63,7 @@ public class DependencyObject implements Comparable
     {
       DependencyObject theOther = (DependencyObject) o;
 
-      return theOther.getName().compareTo(name);
-
-      // return theOther.getNotes().compareTo(notes) * -1;
+      return name.compareTo(theOther.getName());
     }
     else
     {

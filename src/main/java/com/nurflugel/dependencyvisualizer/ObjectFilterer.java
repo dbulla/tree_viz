@@ -1,10 +1,13 @@
 package com.nurflugel.dependencyvisualizer;
 
+import com.google.common.collect.Sets;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import java.util.*;
+import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Down;
 import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Up;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 /**  */
 public class ObjectFilterer
@@ -23,62 +26,61 @@ public class ObjectFilterer
    * Some assumptions here - if they don't pass in any filters, they want everything. If they DO pass in a filter, then filter everything based on
    * that.
    *
-   * @param   objectsToFilter  the array of typesToFilter to filter
-   * @param   keyObjects
+   * @param   dataSet     the objects to filter
+   * @param   keyObjects  - keep the stream objects if they reference key objects
    *
    * @return  the filtered array of typesToFilter
    */
-  public Collection<DependencyObject> filter(final Collection<DependencyObject> objectsToFilter, final Collection<DependencyObject> keyObjects)
+  public Collection<DependencyObject> filter(DependencyDataSet dataSet, Collection<DependencyObject> keyObjects)
   {
+    Set<DependencyObject> objectsToFilter = dataSet.getObjects().collect(toSet());
+
     // quick test
     if (directionalFilters.isEmpty() && typesToFilter.isEmpty() && keyObjects.isEmpty())
     {
       return objectsToFilter;
     }
 
-    Set<DependencyObject> filteredObjects = new HashSet<>();
+    Set<DependencyObject> filteredObjects = new TreeSet<>();
 
     // handle empty case - fix this in the UI, dammit!
     if (directionalFilters.isEmpty())
     {
-      directionalFilters.add(DirectionalFilter.Down);
+      directionalFilters.add(Down);
       directionalFilters.add(Up);
     }
-
-    if (!directionalFilters.isEmpty())
+    else
     {
       for (DirectionalFilter directionalFilter : directionalFilters)
       {
-        Set<DependencyObject> loaderObjects = filterObjectsByDirection(objectsToFilter, keyObjects, 0, directionalFilter);
+        Set<DependencyObject> loaderObjects = filterObjectsByDirection(dataSet, keyObjects, 0, directionalFilter);
 
         filteredObjects.addAll(loaderObjects);
       }
     }
 
-    // if (!typesToFilter.isEmpty())
-    // {
-    // filteredObjects = filterObjectsByType(filteredObjects);
-    // }
-    return new TreeSet<>(filteredObjects);
+    return filteredObjects;
   }
 
   /**
    * This is a recursive method - it'll take several passes to get all the objects. At the end of the method, it calls itself to see if there were any
    * more objects added. If not, it exits. If so, it calls itself again.
    */
-  private Set<DependencyObject> filterObjectsByDirection(Collection<DependencyObject> objects, Collection<DependencyObject> keyObjects,
-                                                         int initialSize, DirectionalFilter directionalFilter)
+  private Set<DependencyObject> filterObjectsByDirection(DependencyDataSet dataSet, Collection<DependencyObject> keyObjects, int initialSize,
+                                                         DirectionalFilter directionalFilter)
   {
     Set<DependencyObject> filteredObjects = new HashSet<>();
 
     if (directionalFilter.equals(Up))
     {
-      filteredObjects.addAll(filterUp(objects, keyObjects));
+      Set<DependencyObject> objects = filterUp(dataSet, keyObjects);
+
+      filteredObjects.addAll(objects);
     }
 
-    if (directionalFilter.equals(DirectionalFilter.Down))
+    if (directionalFilter.equals(Down))
     {
-      filteredObjects.addAll(filterDown(objects, keyObjects));
+      filteredObjects.addAll(filterDown(dataSet, keyObjects));
     }
 
     int                   currentSize           = filteredObjects.size();
@@ -87,14 +89,14 @@ public class ObjectFilterer
     // Keep doing this until it stabilizes
     if (currentSize != initialSize)
     {
-      loaderObjectsToReturn = filterObjectsByDirection(objects, loaderObjectsToReturn, currentSize, directionalFilter);
+      loaderObjectsToReturn = filterObjectsByDirection(dataSet, loaderObjectsToReturn, currentSize, directionalFilter);
     }
 
     return loaderObjectsToReturn;
   }
 
   /** Filter from this object on up. */
-  private Set<DependencyObject> filterUp(Collection<DependencyObject> objects, Collection<DependencyObject> keyObjects)
+  private Set<DependencyObject> filterUp(DependencyDataSet dataSet, Collection<DependencyObject> keyObjects)
   {
     Set<DependencyObject> filteredObjects = new TreeSet<>();
 
@@ -103,8 +105,7 @@ public class ObjectFilterer
       // Is this object in the list of key objects we're interested in?
       // Add the object itself if it has a higher ranking.
       // now, valueOf all dependencies of this object that have a higher ranking, too
-      // filteredObjects.addAll(dependencies);//todo uncomment
-      objects.stream()
+      dataSet.getObjects()
              .filter(keyObjects::contains)
              .forEach(mainObject ->
                       {
@@ -112,50 +113,52 @@ public class ObjectFilterer
                         filteredObjects.add(mainObject);
 
                         // now, valueOf all dependencies of this object that have a higher ranking, too
-                        Collection<String> dependencies = mainObject.getDependencies();
+                        Collection<String>     dependencies      = mainObject.getDependencies();
+                        List<DependencyObject> dependencyObjects = dependencies.stream()
+                                                                     .map(dataSet::get)
+                                                                     .collect(toList());
 
-                        // filteredObjects.addAll(dependencies);//todo uncomment
+                        filteredObjects.addAll(dependencyObjects);
                         });
     }
 
     return filteredObjects;
   }
 
-  /** Filter from this object on down. */
-  private Set<DependencyObject> filterDown(Collection<DependencyObject> objects, Collection<DependencyObject> keyObjects)
+  /**
+   * Filter from this object on down.
+   *
+   * <p>Go through each of the objects, and see if any of the key objects call them as references. If so, add them to the list.</p>
+   */
+  private Set<DependencyObject> filterDown(DependencyDataSet dataSet, Collection<DependencyObject> keyObjects)
   {
     Set<DependencyObject> filteredObjects = new TreeSet<>();
+    Set<String>           keyNames        = keyObjects.stream()
+                                                      .map(DependencyObject::getName)
+                                                      .collect(toSet());
 
-    if (directionalFilters.contains(DirectionalFilter.Down))
+    if (directionalFilters.contains(Down))
     {
       filteredObjects.addAll(keyObjects);
 
-      for (DependencyObject mainObject : objects)
+      if (!keyNames.isEmpty())
       {
-        Collection<String> dependencies = mainObject.getDependencies();
+        dataSet.getObjects()
 
-        if (!dependencies.isEmpty())
-        {
-          filteredObjects.addAll(keyObjects.stream()
-                                   .filter(dependencies::contains)
-                                   .filter(keyObject ->
-                                             Ranking.valueOf(mainObject.getRanking()).getRank() > Ranking.valueOf(keyObject.getRanking()).getRank())
-                                   .map(keyObject -> mainObject)
-                                   .collect(toList()));
-        }
+               // for this object, are any of the keyNames in it's list of dependencies?
+               .forEach(mainObject ->
+                        {
+                          Set<String>          dependencies = mainObject.getDependencies();
+                          Sets.SetView<String> intersection = Sets.intersection(keyNames, dependencies);
+
+                          if (!intersection.isEmpty())
+                          {
+                            filteredObjects.add(mainObject);
+                          }
+                          });
       }
     }
 
-    return filteredObjects;
-  }
-
-  /**
-   * This will "turn on" or "turn off" sets of objects - for example, don't show any CDB views.
-   *
-   * @param  filteredObjects  - the type of objects not to show.
-   */
-  private List<DependencyObject> filterObjectsByType(List<DependencyObject> filteredObjects)
-  {
     return filteredObjects;
   }
 }

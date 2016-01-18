@@ -2,18 +2,17 @@ package com.nurflugel.dependencyvisualizer;
 
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 /** Created by douglas_bullard on 1/13/16. */
 @AllArgsConstructor
-@Data
 public class DependencyDataSet
 {
   private boolean                       isFamilyTree;
@@ -30,9 +29,9 @@ public class DependencyDataSet
     // rankingsMap = new HashMap<>();
   }
 
-  public Collection<DependencyObject> getObjects()
+  public Stream<DependencyObject> getObjects()
   {
-    return objectsMap.values();
+    return objectsMap.values().stream();
   }
 
   public Collection<Ranking> getRankings()
@@ -92,5 +91,25 @@ public class DependencyDataSet
   public void generateRankingsMap()
   {
     rankings = Ranking.values();
+  }
+
+  public boolean isFamilyTree()
+  {
+    return isFamilyTree;
+  }
+
+  public void setFamilyTree(boolean isFamilyTree)
+  {
+    this.isFamilyTree = isFamilyTree;
+  }
+
+  public boolean containsKey(String key)
+  {
+    return objectsMap.containsKey(key);
+  }
+
+  public DependencyObject get(String key)
+  {
+    return objectsMap.get(key);
   }
 }

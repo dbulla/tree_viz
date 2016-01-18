@@ -1,12 +1,14 @@
 package com.nurflugel.dependencyvisualizer;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
 /** A person is a special type of object, with birth dates, death dates, and spouses. */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @SuppressWarnings("Lombok")
 public class Person extends DependencyObject

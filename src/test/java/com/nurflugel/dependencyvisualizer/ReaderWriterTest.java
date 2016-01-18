@@ -36,7 +36,7 @@ public class ReaderWriterTest
       logger.debug("Comparing " + expectedDotFile + " and " + resultFile);
     }
 
-    assertEquals("Should have the same number of lines", expectedOutput.length, testOutput.length);
+    assertEquals(resultFile + " and " + expectedDotFile + " should have the same number of lines", expectedOutput.length, testOutput.length);
 
     for (int i = 0; i < expectedOutput.length; i++)
     {

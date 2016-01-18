@@ -1,4 +1,4 @@
-package com.nurflugel.dependencyvisualizer;
+package com.nurflugel.dependencyvisualizer.data.pojos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +11,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @SuppressWarnings("Lombok")
-public class Person extends DependencyObject
+public class Person extends BaseDependencyObject
 {
   private Set<String> spouses   = new HashSet<>();
   private String      birthDate;

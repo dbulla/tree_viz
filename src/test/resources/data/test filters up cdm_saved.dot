@@ -1,3 +1,4 @@
+//Header
 digraph G {
 node [shape=box,fontname="Arial",fontsize="10"];
 edge [fontname="Arial",fontsize="8"];
@@ -5,9 +6,11 @@ ranksep=.75;
 rankdir=BT;
 concentrate=true;
 
+//Ranking Enumeration
 node [shape=plaintext,fontname="Arial",fontsize="10"];
 { "CDM Tables" -> "CDM Java Loaders" -> "CDM Staging Tables" -> "CDM Staging PL/SQL Scripts" -> "CDB Views" -> "CDB Tables" }
 
+//Declarations
 UpdateProd [label="UpdateProd" shape=rectangle color="green"];
 cdb_prod [label="cdb_prod" shape=ellipse color="green"];
 cdm_prod [label="cdm_prod" shape=triangle color="blue"];
@@ -17,6 +20,7 @@ nsc_prod [label="nsc_prod" shape=ellipse color="blue"];
 prod_reg_cyc [label="prod_reg_cyc" shape=ellipse color="blue"];
 
 
+//Ranking groupings
 { rank = same; "CDM Tables"; "cdm_style"; }
 { rank = same; "CDM Java Loaders"; "UpdateProd"; }
 { rank = same; "CDM Staging Tables"; "cdb_prod"; }
@@ -25,12 +29,15 @@ prod_reg_cyc [label="prod_reg_cyc" shape=ellipse color="blue"];
 { rank = same; "CDB Tables"; "nsc_prod"; "prod_reg_cyc"; }
 
 
+//Dependencies
 UpdateProd -> cdb_prod;
 cdb_prod -> delta_cdbProd_sql;
 cdm_prod -> nsc_prod;
 cdm_prod -> prod_reg_cyc;
 cdm_style -> UpdateProd;
 delta_cdbProd_sql -> cdm_prod;
+
+
 
 
 }

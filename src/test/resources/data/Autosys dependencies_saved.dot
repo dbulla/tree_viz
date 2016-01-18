@@ -1,3 +1,4 @@
+//Header
 digraph G {
 node [shape=box,fontname="Arial",fontsize="10"];
 edge [fontname="Arial",fontsize="8"];
@@ -5,9 +6,11 @@ ranksep=.75;
 rankdir=BT;
 concentrate=true;
 
+//Ranking Enumeration
 node [shape=plaintext,fontname="Arial",fontsize="10"];
 { "CDM Tables" -> "CDM Java Loaders" -> "CDM Staging Tables" -> "CDM Staging PL/SQL Scripts" -> "CDB Views" -> "CDB Tables" -> "Informix Tables" }
 
+//Declarations
 CatalogPriceRefresher [label="CatalogPriceRefresher" shape=rectangle color="green"];
 ExportCatalogs [label="ExportCatalogs" shape=rectangle color="green"];
 ImageDataLoader [label="ImageDataLoader" shape=rectangle color="green"];
@@ -190,6 +193,7 @@ vxum0001 [label="vxum0001" shape=ellipse color="blue"];
 vzfc0001 [label="vzfc0001" shape=ellipse color="blue"];
 
 
+//Ranking groupings
 { rank = same; "CDM Tables"; "cdm5_5_block_prc_lst_typ_cd"; "cdm_5_5_pwb_region"; "cdm_body_type"; "cdm_catalog_delta"; "cdm_category"; "cdm_country"; "cdm_currency"; "cdm_dimension"; "cdm_gender"; "cdm_gender_age"; "cdm_header_style_color"; "cdm_image"; "cdm_language"; "cdm_lifecycle"; "cdm_marketing_type"; "cdm_marketing_type_group"; "cdm_master_profile"; "cdm_msc"; "cdm_msc_clsfn"; "cdm_pre_sales_season"; "cdm_price_types"; "cdm_product_type"; "cdm_reg_style_color_size"; "cdm_reg_style_lang_aprl_sesnyr"; "cdm_region"; "cdm_region_style"; "cdm_region_style_color"; "cdm_region_style_color_sesnyr"; "cdm_region_style_language"; "cdm_region_style_language_ftwr"; "cdm_region_style_sesnyr"; "cdm_remove_header_style_color"; "cdm_sales_season"; "cdm_season_year"; "cdm_segment_code"; "cdm_silhouette"; "cdm_size_display"; "cdm_size_type"; "cdm_style"; "cdm_style_air_bags"; "cdm_style_aprl"; "cdm_style_color"; "cdm_style_color_price"; "cdm_style_color_size"; "cdm_style_eqmt"; "cdm_style_ftwr"; "cdm_style_size"; "cdm_style_spain"; "cdm_sub_category"; "cdm_transactional_profile"; "cdm_uom"; "temp1_cdb_price"; "temp_cdm_prod_category"; "user_tables"; }
 { rank = same; "CDM Java Loaders"; "CatalogPriceRefresher"; "ExportCatalogs"; "ImageDataLoader"; "ImageSync"; "SizeDisplayLoader"; "UpdateBodyType"; "UpdateCategory"; "UpdateCountry"; "UpdateCurrency"; "UpdateDimension"; "UpdateFabricContent"; "UpdateGender"; "UpdateGenderAge"; "UpdateLanguage"; "UpdateLifeCycle"; "UpdateMarketingType"; "UpdateMarketingTypeGroup"; "UpdateMsc"; "UpdateMscClsfn"; "UpdatePreSalesSeason"; "UpdatePrice"; "UpdatePriceTypes"; "UpdateProd"; "UpdateProdCategory"; "UpdateProdReg"; "UpdateProdRegCyc"; "UpdateProductType"; "UpdateRegion"; "UpdateSalesSeason"; "UpdateSeasonYear"; "UpdateSegment"; "UpdateSilhouette"; "UpdateSizeType"; "UpdateStyleCarryOverFlag"; "UpdateStyleColorSize"; "UpdateStyleSize"; "UpdateSubCategory"; "UpdateTTAllSesnChanges"; "UpdateUom"; }
 { rank = same; "CDM Staging Tables"; "cdb_fbrc_ctnt"; "cdb_price"; "cdb_prod"; "cdb_prod_reg"; "cdb_prod_reg_cyc"; "cdb_size_master"; "cdb_size_master_grid"; "cdb_size_region"; "cdb_size_translations"; "cdb_size_upc"; "cdb_sty_reg_cyc"; "nsc_size_upc"; }
@@ -199,6 +203,7 @@ vzfc0001 [label="vzfc0001" shape=ellipse color="blue"];
 { rank = same; "Informix Tables"; "informix_apparel_prox"; "informix_eq_asset"; "informix_eq_asset_prox"; "informix_eq_product_ref"; "informix_new_apparel_image"; }
 
 
+//Dependencies
 CatalogPriceRefresher -> cdm_header_style_color;
 CatalogPriceRefresher -> cdm_master_profile;
 CatalogPriceRefresher -> cdm_region_style_color_sesnyr;
@@ -412,6 +417,8 @@ delta_nscSizeUpc_sql -> nsc_size_upc_cdb_cdm_link;
 nsc_size_upc -> delta_nscSizeUpc_sql;
 temp1_cdb_price -> UpdatePrice;
 temp_cdm_prod_category -> UpdateProd;
+
+
 
 
 }

@@ -1,7 +1,7 @@
-package com.nurflugel.dependencyvisualizer.writers;
+package com.nurflugel.dependencyvisualizer.io.writers;
 
-import com.nurflugel.dependencyvisualizer.DependencyObject;
-import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
+import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
+import com.nurflugel.dependencyvisualizer.data.pojos.Person;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class DotFileWriter
   }
 
   /** Now, write the filtered objects back out to the file. */
-  public void writeObjectsToDotFile(Collection<DependencyObject> objects, List<DirectionalFilter> directionalFilters) throws Exception
+  public void writeObjectsToDotFile(Collection<BaseDependencyObject> objects) throws Exception
   {
     if (logger.isDebugEnabled())
     {
@@ -44,7 +44,8 @@ public class DotFileWriter
       writeRankingEnumeration(out, types);
       writeObjectDeclarations(objects, out);
       writeRankingGroupings(objects, out, types);
-      writeObjectDependencies(objects, out, directionalFilters);
+      writeObjectDependencies(objects, out);
+      writeSpouses(objects, out);
       writeFooter(out);
     }
     catch (Exception e)
@@ -53,10 +54,10 @@ public class DotFileWriter
     }
   }
 
-  private List<Ranking> getOnlyUsedTypes(Collection<DependencyObject> objects)
+  private List<Ranking> getOnlyUsedTypes(Collection<BaseDependencyObject> objects)
   {
     List<Ranking> types = objects.stream()
-                                 .map(DependencyObject::getRanking)
+                                 .map(BaseDependencyObject::getRanking)
                                  .distinct()
                                  .map(Ranking::valueOf)
                                  .sorted(comparing(Ranking::getRank).reversed())
@@ -67,6 +68,8 @@ public class DotFileWriter
 
   private void writeHeader(DataOutputStream out)
   {
+    writeToComment(out, "Header");
+
     String header = "digraph G {\n" + "node [shape=box,fontname=\"Arial\",fontsize=\"10\"];\n" + "edge [fontname=\"Arial\",fontsize=\"8\"];\n"
                       + "ranksep=.75;\n" + "rankdir=BT;\n" + "concentrate=true;\n\n";
 
@@ -83,6 +86,7 @@ public class DotFileWriter
   {
     if (doRankings)
     {
+      writeToComment(out, "Ranking Enumeration");
       writeToOutput(out, "node [shape=plaintext,fontname=\"Arial\",fontsize=\"10\"];\n");
       writeToOutput(out, "{ ");
 
@@ -97,8 +101,9 @@ public class DotFileWriter
     return types;
   }
 
-  private void writeObjectDeclarations(Collection<DependencyObject> objects, DataOutputStream out)
+  private void writeObjectDeclarations(Collection<BaseDependencyObject> objects, DataOutputStream out)
   {
+    writeToComment(out, "Declarations");
     objects.stream()
            .sorted()
            .forEach(object ->
@@ -140,10 +145,12 @@ public class DotFileWriter
    * Write the actual groupings which tie the enum rankings with the objects. this ends up being a series of lines, like so:{ rank = same; "CDM
    * loaders"; "UpdateProd"; ..... }
    */
-  private void writeRankingGroupings(Collection<DependencyObject> objects, DataOutputStream out, List<Ranking> types)
+  private void writeRankingGroupings(Collection<BaseDependencyObject> objects, DataOutputStream out, List<Ranking> types)
   {
     if (doRankings)
     {
+      writeToComment(out, "Ranking groupings");
+
       for (Ranking type : types)
       {
         writeToOutput(out, "{ rank = same; \"" + type + "\"; ");
@@ -158,14 +165,16 @@ public class DotFileWriter
     }
   }
 
-  private void writeObjectDependencies(Collection<DependencyObject> objects, DataOutputStream out, List<DirectionalFilter> directionalFilters)
+  private void writeObjectDependencies(Collection<BaseDependencyObject> objects, DataOutputStream out)
   {
+    writeToComment(out, "Dependencies");
+
     List<String> names = objects.stream()
-                                .map(DependencyObject::getName)
+                                .map(BaseDependencyObject::getName)
                                 .collect(toList());
     List<String> lines = new ArrayList<>();
 
-    for (DependencyObject object : objects)
+    for (BaseDependencyObject object : objects)
     {
       object.getDependencies()
             .stream()
@@ -179,23 +188,64 @@ public class DotFileWriter
     writeToOutput(out, "\n\n");
   }
 
-  /** method to suppress checked exceptions). */
-  private void writeToOutput(DataOutputStream out, String text)
+  private void writeSpouses(Collection<BaseDependencyObject> objects, DataOutputStream out)
   {
-    try
-    {
-      out.writeBytes(text);
+    List<String> names = objects.stream()
+                                .map(BaseDependencyObject::getName)
+                                .collect(toList());
+    List<String> lines = new ArrayList<>();
+
+    objects.stream()
+           .peek(o -> System.out.println("o = " + o))
+           .filter(object -> object instanceof Person)
+           .peek(o -> System.out.println("o2 = " + o))
+           .forEach(object ->
+                    {
+                      Person person = (Person) object;
+
+                      person.getSpouses().stream()
+                        .peek(p -> System.out.println("p = " + p))
+                          .filter(names::contains)
+                          .forEach(spouse ->
+                                   {
+                                     lines.add(object.getName() + " -> " + spouse + ";\n");
+                                     lines.add(spouse + " -> " + object.getName() + ";\n");
+                                     });
+                      });
+
+      if (!lines.isEmpty())
+      {
+        writeToComment(out, "Spouses");
+      }
+
+      lines.stream()
+           .sorted()
+           .forEach(l -> writeToOutput(out, l));
+      writeToOutput(out, "\n\n");
     }
-    catch (IOException e)
+
+    /** method to suppress checked exceptions). */
+    private void writeToOutput(DataOutputStream out, String text)
     {
-      throw new RuntimeException("Error writing to output", e);
+      try
+      {
+        out.writeBytes(text);
+      }
+      catch (IOException e)
+      {
+        throw new RuntimeException("Error writing to output", e);
+      }
+    }
+
+    private void writeToComment(DataOutputStream out, String text)
+    {
+      writeToOutput(out, "//" + text + '\n');
+    }
+
+    private void writeFooter(DataOutputStream out)
+    {
+      String footer = "}\n";
+
+      writeToOutput(out, footer);
     }
   }
-
-  private void writeFooter(DataOutputStream out)
-  {
-    String footer = "}\n";
-
-    writeToOutput(out, footer);
-  }
-}

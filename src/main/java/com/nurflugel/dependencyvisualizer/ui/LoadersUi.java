@@ -3,9 +3,10 @@ package com.nurflugel.dependencyvisualizer.ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import com.nurflugel.dependencyvisualizer.DataHandler;
-import com.nurflugel.dependencyvisualizer.DependencyDataSet;
-import com.nurflugel.dependencyvisualizer.DependencyObject;
+import com.nurflugel.dependencyvisualizer.data.DataHandler;
+import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
+import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.OutputFormat;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
@@ -193,9 +194,9 @@ public class LoadersUi extends JFrame
   }
 
   @SuppressWarnings({ "CastConflictsWithInstanceof" })
-  private List<DependencyObject> getKeyObjects()
+  private List<BaseDependencyObject> getKeyObjects()
   {
-    List<DependencyObject> keyObjects = new ArrayList<>();
+    List<BaseDependencyObject> keyObjects = new ArrayList<>();
 
     for (Component component : filtersPanel.getComponents())
     {
@@ -216,9 +217,9 @@ public class LoadersUi extends JFrame
     return keyObjects;
   }
 
-  private void getValueFromDropdown(List<DependencyObject> keyObjects, JComboBox comboBox)
+  private void getValueFromDropdown(List<BaseDependencyObject> keyObjects, JComboBox comboBox)
   {
-    DependencyObject selectedItem = (DependencyObject) comboBox.getSelectedItem();
+    BaseDependencyObject selectedItem = (BaseDependencyObject) comboBox.getSelectedItem();
 
     if ((selectedItem != null) && !selectedItem.getName().isEmpty())
     {
@@ -459,10 +460,10 @@ public class LoadersUi extends JFrame
 
     for (Ranking type : shapeAttributeses)
     {
-      DependencyObject[] filteredObjects = getObjectsForType(type);
-      JComboBox          comboBox        = new JComboBox(filteredObjects);
-      JPanel             borderPanel     = new JPanel();
-      Border             border          = BorderFactory.createTitledBorder(new EtchedBorder(), type.getName());
+      BaseDependencyObject[] filteredObjects = getObjectsForType(type);
+      JComboBox              comboBox        = new JComboBox(filteredObjects);
+      JPanel                 borderPanel     = new JPanel();
+      Border                 border          = BorderFactory.createTitledBorder(new EtchedBorder(), type.getName());
 
       borderPanel.setBorder(border);
       borderPanel.add(comboBox);
@@ -470,16 +471,16 @@ public class LoadersUi extends JFrame
     }
   }
 
-  private DependencyObject[] getObjectsForType(Ranking type)
+  private BaseDependencyObject[] getObjectsForType(Ranking type)
   {
-    List<DependencyObject> filteredObjects = new ArrayList<>();
+    List<BaseDependencyObject> filteredObjects = new ArrayList<>();
 
     filteredObjects.add(new DependencyObject("", type.getName()));
     filteredObjects.addAll(dataSet.getObjects()
                              .filter(dependencyObject -> dependencyObject.getRanking().equals(type.getName()))
                              .collect(toList()));
 
-    return filteredObjects.toArray(new DependencyObject[filteredObjects.size()]);
+    return filteredObjects.toArray(new BaseDependencyObject[filteredObjects.size()]);
   }
 
   private void doQuitAction()
@@ -508,14 +509,14 @@ public class LoadersUi extends JFrame
 
   private void populateDropdown(JComboBox comboBox, Ranking type)
   {
-    List<DependencyObject> dropdownList = new ArrayList<>();
+    List<BaseDependencyObject> dropdownList = new ArrayList<>();
 
     dropdownList.add(new DependencyObject("", type.getName()));
     dropdownList.addAll(dataSet.getObjects()
                           .filter(object -> object.getRanking().equals(type.getName()))
                           .collect(toList()));
 
-    DependencyObject[] loaderObjects = dropdownList.toArray(new DependencyObject[dropdownList.size()]);
+    BaseDependencyObject[] loaderObjects = dropdownList.toArray(new BaseDependencyObject[dropdownList.size()]);
 
     // Arrays.sort(loaderObjects);
     comboBox.setModel(new DefaultComboBoxModel(loaderObjects));

@@ -1,7 +1,7 @@
-package com.nurflugel.dependencyvisualizer.readers;
+package com.nurflugel.dependencyvisualizer.io.readers;
 
-import com.nurflugel.dependencyvisualizer.DependencyDataSet;
-import com.nurflugel.dependencyvisualizer.DependencyObject;
+import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.Color;
 import com.nurflugel.dependencyvisualizer.enums.FileType;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
@@ -14,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import static com.nurflugel.dependencyvisualizer.Constants.*;
 
@@ -37,7 +35,8 @@ public class TextFileReader extends DataFileReader
   @SuppressWarnings({ "ConstantConditions" })
   protected DependencyDataSet parseLines()
   {
-    DependencyDataSet dataSet = new DependencyDataSet(false, new HashMap<>(), new ArrayList<>());
+    // DependencyDataSet dataSet = new DependencyDataSet(new HashMap<>(), new ArrayList<>());
+    DependencyDataSet dataSet = new DependencyDataSet();
     List<String>      lines;
 
     try
@@ -144,8 +143,8 @@ public class TextFileReader extends DataFileReader
 
       for (int i = 0; i < (chunks.length - 1); i++)
       {
-        DependencyObject main       = dataSet.getLoaderObjectByName(chunks[i]);
-        DependencyObject dependency = dataSet.getLoaderObjectByName(chunks[i + 1]);
+        BaseDependencyObject main       = dataSet.getLoaderObjectByName(chunks[i]);
+        BaseDependencyObject dependency = dataSet.getLoaderObjectByName(chunks[i + 1]);
 
         main.addDependency(dependency.getName());
       }

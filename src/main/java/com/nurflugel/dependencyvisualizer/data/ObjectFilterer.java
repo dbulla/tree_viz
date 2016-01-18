@@ -1,6 +1,8 @@
-package com.nurflugel.dependencyvisualizer;
+package com.nurflugel.dependencyvisualizer.data;
 
 import com.google.common.collect.Sets;
+import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import java.util.*;
@@ -31,9 +33,9 @@ public class ObjectFilterer
    *
    * @return  the filtered array of typesToFilter
    */
-  public Collection<DependencyObject> filter(DependencyDataSet dataSet, Set<DependencyObject> keyObjects)
+  public Collection<BaseDependencyObject> filter(DependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects)
   {
-    Set<DependencyObject> objectsToFilter = dataSet.getObjects().collect(toSet());
+    Set<BaseDependencyObject> objectsToFilter = dataSet.getObjects().collect(toSet());
 
     // quick test
     if (directionalFilters.isEmpty() && typesToFilter.isEmpty() && keyObjects.isEmpty())
@@ -41,7 +43,7 @@ public class ObjectFilterer
       return objectsToFilter;
     }
 
-    Set<DependencyObject> filteredObjects = new TreeSet<>();
+    Set<BaseDependencyObject> filteredObjects = new TreeSet<>();
 
     // handle empty case - fix this in the UI, dammit!
     if (directionalFilters.isEmpty())
@@ -53,7 +55,7 @@ public class ObjectFilterer
     {
       for (DirectionalFilter directionalFilter : directionalFilters)
       {
-        Set<DependencyObject> loaderObjects = filterObjectsByDirection(dataSet, keyObjects, 0, directionalFilter);
+        Set<BaseDependencyObject> loaderObjects = filterObjectsByDirection(dataSet, keyObjects, 0, directionalFilter);
 
         filteredObjects.addAll(loaderObjects);
       }
@@ -66,14 +68,14 @@ public class ObjectFilterer
    * This is a recursive method - it'll take several passes to get all the objects. At the end of the method, it calls itself to see if there were any
    * more objects added. If not, it exits. If so, it calls itself again.
    */
-  private Set<DependencyObject> filterObjectsByDirection(DependencyDataSet dataSet, Set<DependencyObject> keyObjects, int initialSize,
-                                                         DirectionalFilter directionalFilter)
+  private Set<BaseDependencyObject> filterObjectsByDirection(DependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects, int initialSize,
+                                                             DirectionalFilter directionalFilter)
   {
-    Set<DependencyObject> filteredObjects = new HashSet<>();
+    Set<BaseDependencyObject> filteredObjects = new HashSet<>();
 
     if (directionalFilter.equals(Up))
     {
-      Set<DependencyObject> objects = filterUp(dataSet, keyObjects);
+      Set<BaseDependencyObject> objects = filterUp(dataSet, keyObjects);
 
       filteredObjects.addAll(objects);
     }
@@ -83,8 +85,8 @@ public class ObjectFilterer
       filteredObjects.addAll(filterDown(dataSet, keyObjects));
     }
 
-    int                   currentSize           = filteredObjects.size();
-    Set<DependencyObject> loaderObjectsToReturn = new TreeSet<>(filteredObjects);  // todo remove temp set when unit tests pass
+    int                       currentSize           = filteredObjects.size();
+    Set<BaseDependencyObject> loaderObjectsToReturn = new TreeSet<>(filteredObjects);  // todo remove temp set when unit tests pass
 
     // Keep doing this until it stabilizes
     if (currentSize != initialSize)
@@ -96,9 +98,9 @@ public class ObjectFilterer
   }
 
   /** Filter from this object on up. */
-  private Set<DependencyObject> filterUp(DependencyDataSet dataSet, Collection<DependencyObject> keyObjects)
+  private Set<BaseDependencyObject> filterUp(DependencyDataSet dataSet, Collection<BaseDependencyObject> keyObjects)
   {
-    Set<DependencyObject> filteredObjects = new TreeSet<>();
+    Set<BaseDependencyObject> filteredObjects = new TreeSet<>();
 
     if (directionalFilters.contains(Up))
     {
@@ -113,12 +115,12 @@ public class ObjectFilterer
                         filteredObjects.add(mainObject);
 
                         // now, valueOf all dependencies of this object that have a higher ranking, too
-                        Collection<String>     dependencies      = mainObject.getDependencies();
-                        List<DependencyObject> dependencyObjects = dependencies.stream()
-                                                                     .map(dataSet::get)
-                                                                     .collect(toList());
+                        Collection<String>         dependencies          = mainObject.getDependencies();
+                        List<BaseDependencyObject> baseDependencyObjects = dependencies.stream()
+                                                                             .map(dataSet::get)
+                                                                             .collect(toList());
 
-                        filteredObjects.addAll(dependencyObjects);
+                        filteredObjects.addAll(baseDependencyObjects);
                         });
     }
 
@@ -130,12 +132,12 @@ public class ObjectFilterer
    *
    * <p>Go through each of the objects, and see if any of the key objects call them as references. If so, add them to the list.</p>
    */
-  private Set<DependencyObject> filterDown(DependencyDataSet dataSet, Set<DependencyObject> keyObjects)
+  private Set<BaseDependencyObject> filterDown(DependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects)
   {
-    Set<DependencyObject> filteredObjects = new TreeSet<>();
-    Set<String>           keyNames        = keyObjects.stream()
-                                                      .map(DependencyObject::getName)
-                                                      .collect(toSet());
+    Set<BaseDependencyObject> filteredObjects = new TreeSet<>();
+    Set<String>               keyNames        = keyObjects.stream()
+                                                          .map(BaseDependencyObject::getName)
+                                                          .collect(toSet());
 
     if (!directionalFilters.contains(Down))
     {

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
-import static com.nurflugel.dependencyvisualizer.DependencyObject.replaceAllBadChars;
 
 /** Created by IntelliJ IDEA. User: douglasbullard Date: Jan 4, 2008 Time: 5:24:16 PM To change this template use File | Settings | File Templates. */
 @Data
@@ -32,9 +31,10 @@ public abstract class DataFileReader
     String           lineText = line.trim();
     String[]         strings  = lineText.split("\\|");
     DependencyObject object;
+    String           name     = strings[0];
 
-    object = dataSet.isFamilyTree() ? new Person(strings[0].trim(), ranking.getName())
-                                    : new DependencyObject(replaceAllBadChars(strings[0]), ranking.getName());
+    object = dataSet.isFamilyTree() ? new Person(name, ranking.getName())
+                                    : new DependencyObject(name, ranking.getName());
 
     if (strings.length > 1)
     {

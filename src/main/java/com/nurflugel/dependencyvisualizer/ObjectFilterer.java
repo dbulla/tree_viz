@@ -31,7 +31,7 @@ public class ObjectFilterer
    *
    * @return  the filtered array of typesToFilter
    */
-  public Collection<DependencyObject> filter(DependencyDataSet dataSet, Collection<DependencyObject> keyObjects)
+  public Collection<DependencyObject> filter(DependencyDataSet dataSet, Set<DependencyObject> keyObjects)
   {
     Set<DependencyObject> objectsToFilter = dataSet.getObjects().collect(toSet());
 
@@ -66,7 +66,7 @@ public class ObjectFilterer
    * This is a recursive method - it'll take several passes to get all the objects. At the end of the method, it calls itself to see if there were any
    * more objects added. If not, it exits. If so, it calls itself again.
    */
-  private Set<DependencyObject> filterObjectsByDirection(DependencyDataSet dataSet, Collection<DependencyObject> keyObjects, int initialSize,
+  private Set<DependencyObject> filterObjectsByDirection(DependencyDataSet dataSet, Set<DependencyObject> keyObjects, int initialSize,
                                                          DirectionalFilter directionalFilter)
   {
     Set<DependencyObject> filteredObjects = new HashSet<>();
@@ -84,7 +84,7 @@ public class ObjectFilterer
     }
 
     int                   currentSize           = filteredObjects.size();
-    Set<DependencyObject> loaderObjectsToReturn = new TreeSet<>(filteredObjects);
+    Set<DependencyObject> loaderObjectsToReturn = new TreeSet<>(filteredObjects);  // todo remove temp set when unit tests pass
 
     // Keep doing this until it stabilizes
     if (currentSize != initialSize)
@@ -130,33 +130,36 @@ public class ObjectFilterer
    *
    * <p>Go through each of the objects, and see if any of the key objects call them as references. If so, add them to the list.</p>
    */
-  private Set<DependencyObject> filterDown(DependencyDataSet dataSet, Collection<DependencyObject> keyObjects)
+  private Set<DependencyObject> filterDown(DependencyDataSet dataSet, Set<DependencyObject> keyObjects)
   {
     Set<DependencyObject> filteredObjects = new TreeSet<>();
     Set<String>           keyNames        = keyObjects.stream()
                                                       .map(DependencyObject::getName)
                                                       .collect(toSet());
 
-    if (directionalFilters.contains(Down))
+    if (!directionalFilters.contains(Down))
     {
-      filteredObjects.addAll(keyObjects);
+      return keyObjects;
+    }
 
-      if (!keyNames.isEmpty())
-      {
-        dataSet.getObjects()
+    filteredObjects.addAll(keyObjects);
 
-               // for this object, are any of the keyNames in it's list of dependencies?
-               .forEach(mainObject ->
+    if (!keyNames.isEmpty())
+    {
+      dataSet.getObjects()
+
+             // todo can filter and collect
+             // for this object, are any of the keyNames in it's list of dependencies?
+             .forEach(mainObject ->
+                      {
+                        Set<String>          dependencies = mainObject.getDependencies();
+                        Sets.SetView<String> intersection = Sets.intersection(keyNames, dependencies);
+
+                        if (!intersection.isEmpty())
                         {
-                          Set<String>          dependencies = mainObject.getDependencies();
-                          Sets.SetView<String> intersection = Sets.intersection(keyNames, dependencies);
-
-                          if (!intersection.isEmpty())
-                          {
-                            filteredObjects.add(mainObject);
-                          }
-                          });
-      }
+                          filteredObjects.add(mainObject);
+                        }
+                        });
     }
 
     return filteredObjects;

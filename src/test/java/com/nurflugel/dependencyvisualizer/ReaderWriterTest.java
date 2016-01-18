@@ -14,6 +14,7 @@ import java.util.List;
 import static com.nurflugel.dependencyvisualizer.DependencyObject.replaceAllBadChars;
 import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Down;
 import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Up;
+import static org.apache.commons.io.FileUtils.copyFile;
 import static org.testng.AssertJUnit.assertEquals;
 
 /**  */
@@ -40,7 +41,7 @@ public class ReaderWriterTest
 
     for (int i = 0; i < expectedOutput.length; i++)
     {
-      assertEquals("Test output should be equal to expected output", expectedOutput[i], testOutput[i]);
+      assertEquals("Test output at line " + i + " should be equal to expected output", expectedOutput[i], testOutput[i]);
     }
   }
 
@@ -62,7 +63,7 @@ public class ReaderWriterTest
   public void testAutosys() throws IOException
   {
     File        sourceDataFile  = new File("build/resources/test/data/Autosys dependencies.txt");
-    File        expectedDotFile = new File("build/resources/test/data/Autosys dependencies.dot_saved");
+    File        expectedDotFile = new File("build/resources/test/data/Autosys dependencies_saved.dot");
     DataHandler dataHandler     = new DataHandler(sourceDataFile);
 
     dataHandler.loadDataset();
@@ -74,7 +75,7 @@ public class ReaderWriterTest
   public void testNoFilters() throws IOException
   {
     File                    sourceDataFile     = new File("build/resources/test/data/test dependencies.txt");
-    File                    expectedDotFile    = new File("build/resources/test/data/test dependencies.dot_saved");
+    File                    expectedDotFile    = new File("build/resources/test/data/test dependencies_saved.dot");
     List<DirectionalFilter> directionalFilters = new ArrayList<>();
     List<DependencyObject>  keyObjects         = new ArrayList<>();
     DataHandler             dataHandler        = new DataHandler(sourceDataFile);
@@ -89,9 +90,12 @@ public class ReaderWriterTest
   @Test
   public void testUpFilters() throws Exception
   {
-    File                    sourceDataFile     = new File("build/resources/test/data/test dependencies.txt");
-    File                    expectedDotFile    = new File("build/resources/test/data/test filters up.dot");
-    DataHandler             dataHandler        = new DataHandler(sourceDataFile);
+    File destFile = new File("build/resources/test/data/test filters up.txt");
+
+    copyFile(new File("build/resources/test/data/test dependencies.txt"), destFile);
+
+    File                    expectedDotFile    = new File("build/resources/test/data/test filters up_saved.dot");
+    DataHandler             dataHandler        = new DataHandler(destFile);
     List<DirectionalFilter> directionalFilters = new ArrayList<>();
     List<DependencyObject>  keyObjects         = new ArrayList<>();
 
@@ -104,15 +108,18 @@ public class ReaderWriterTest
     dataHandler.setKeyObjectsToFilterOn(keyObjects);
     dataHandler.setDirectionalFilters(directionalFilters);
     dataHandler.doIt();
-    doTestComparisons(sourceDataFile, expectedDotFile);
+    doTestComparisons(destFile, expectedDotFile);
   }
 
   @Test
   public void testUpFiltersOnCdm() throws IOException
   {
-    File                    sourceDataFile     = new File("build/resources/test/data/Autosys dependencies.txt");
-    File                    expectedDotFile    = new File("build/resources/test/data/test filters up cdm.dot");
-    DataHandler             dataHandler        = new DataHandler(sourceDataFile);
+    File destFile = new File("build/resources/test/data/test filters up cdm.txt");
+
+    copyFile(new File("build/resources/test/data/Autosys dependencies.txt"), destFile);
+
+    File                    expectedDotFile    = new File("build/resources/test/data/test filters up cdm_saved.dot");
+    DataHandler             dataHandler        = new DataHandler(destFile);
     List<DirectionalFilter> directionalFilters = new ArrayList<>();
     List<DependencyObject>  keyObjects         = new ArrayList<>();
 
@@ -125,15 +132,18 @@ public class ReaderWriterTest
     dataHandler.setKeyObjectsToFilterOn(keyObjects);
     dataHandler.setDirectionalFilters(directionalFilters);
     dataHandler.doIt();
-    doTestComparisons(sourceDataFile, expectedDotFile);
+    doTestComparisons(destFile, expectedDotFile);
   }
 
   @Test
   public void testDownFilters() throws Exception
   {
-    File                    sourceDataFile     = new File("build/resources/test/data/test dependencies.txt");
-    File                    expectedDotFile    = new File("build/resources/test/data/test filters down.dot");
-    DataHandler             dataHandler        = new DataHandler(sourceDataFile);
+    File destFile = new File("build/resources/test/data/test filters down.txt");
+
+    copyFile(new File("build/resources/test/data/test dependencies.txt"), destFile);
+
+    File                    expectedDotFile    = new File("build/resources/test/data/test filters down_saved.dot");
+    DataHandler             dataHandler        = new DataHandler(destFile);
     List<DirectionalFilter> directionalFilters = new ArrayList<>();
     List<DependencyObject>  keyObjects         = new ArrayList<>();
 
@@ -146,15 +156,18 @@ public class ReaderWriterTest
     dataHandler.setKeyObjectsToFilterOn(keyObjects);
     dataHandler.setDirectionalFilters(directionalFilters);
     dataHandler.doIt();
-    doTestComparisons(sourceDataFile, expectedDotFile);
+    doTestComparisons(destFile, expectedDotFile);
   }
 
   @Test
   public void testUpAndDownFilters() throws Exception
   {
-    File                    sourceDataFile     = new File("build/resources/test/data/test dependencies.txt");
-    File                    expectedDotFile    = new File("build/resources/test/data/test filters up and down.dot");
-    DataHandler             dataHandler        = new DataHandler(sourceDataFile);
+    File destFile = new File("build/resources/test/data/test filters up and down.txt");
+
+    copyFile(new File("build/resources/test/data/test dependencies.txt"), destFile);
+
+    File                    expectedDotFile    = new File("build/resources/test/data/test filters up and down_saved.dot");
+    DataHandler             dataHandler        = new DataHandler(destFile);
     List<DirectionalFilter> directionalFilters = new ArrayList<>();
     List<DependencyObject>  keyObjects         = new ArrayList<>();
 
@@ -168,7 +181,7 @@ public class ReaderWriterTest
     dataHandler.setKeyObjectsToFilterOn(keyObjects);
     dataHandler.setDirectionalFilters(directionalFilters);
     dataHandler.doIt();
-    doTestComparisons(sourceDataFile, expectedDotFile);
+    doTestComparisons(destFile, expectedDotFile);
   }
 
   // public void testDownFilters()

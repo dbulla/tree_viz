@@ -160,31 +160,16 @@ public class DotFileWriter
 
   private void writeObjectDependencies(Collection<DependencyObject> objects, DataOutputStream out, List<DirectionalFilter> directionalFilters)
   {
-    // for (DependencyObject object : objects)
-    // {
-    // Collection<String> dependencies = object.getDependencies();
-    //
-    // for (String dependency : dependencies)
-    // {
-    // // if ((directionalFilters.isEmpty() || directionalFilters.contains(DirectionalFilter.Up)))
-    // // {
-    // // out.writeBytes(object.getName() + " -> " + dependency.getName() + ";\n");
-    // // }
-    // // else
-    // if (objects.contains(dependency))
-    // {
-    // out.writeBytes(object.getName() + " -> " + dependency + ";\n");
-    // }
-    // }
-    // }
+    List<String> names = objects.stream()
+                                .map(DependencyObject::getName)
+                                .collect(toList());
     List<String> lines = new ArrayList<>();
 
     for (DependencyObject object : objects)
     {
       object.getDependencies()
             .stream()
-
-            // .filter(objects::contains)
+            .filter(names::contains)
             .forEach(dependency -> lines.add(object.getName() + " -> " + dependency + ";\n"));
     }
 

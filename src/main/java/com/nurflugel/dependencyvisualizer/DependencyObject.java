@@ -40,9 +40,9 @@ public class DependencyObject implements Comparable
    *
    * <p>todo - something better with regular expressions - anything except text and numbers in one expression</p>
    */
-  public static String replaceAllBadChars(String jobNumber)
+  public static String replaceAllBadChars(String text)
   {
-    String newValue = jobNumber.trim();
+    String newValue = text.trim();
 
     newValue = replace(newValue, "-", "_");
     newValue = replace(newValue, "@", "_");

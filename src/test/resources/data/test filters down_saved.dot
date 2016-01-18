@@ -6,21 +6,20 @@ rankdir=BT;
 concentrate=true;
 
 node [shape=plaintext,fontname="Arial",fontsize="10"];
-{ "Level Three" -> "Level Two" -> "level One" }
+{ "Level Five" -> "Level Four" -> "Level Three" }
 
-h [label="h" shape=hexagon color="yellow"];
-f [label="f" shape=triangle color="black"];
 Item_d [label="Item d" shape=ellipse color="green"];
-g [label="g" shape=hexagon color="yellow"];
+a [label="a" shape=ellipse color="blue"];
+b [label="b" shape=rectangle color="red"];
 
 
+{ rank = same; "Level Five"; "a"; }
+{ rank = same; "Level Four"; "b"; }
 { rank = same; "Level Three"; "Item_d"; }
-{ rank = same; "Level Two"; "f"; }
-{ rank = same; "level One"; "h"; "g"; }
 
-f -> g;
-f -> h;
-Item_d -> f;
+
+a -> b;
+b -> Item_d;
 
 
 }

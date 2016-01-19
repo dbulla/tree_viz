@@ -45,7 +45,8 @@ public class DotFileWriter
       writeObjectDeclarations(objects, out);
       writeRankingGroupings(objects, out, types);
       writeObjectDependencies(objects, out);
-      writeSpouses(objects, out);
+
+      // writeSpouses(objects, out);
       writeFooter(out);
     }
     catch (Exception e)
@@ -71,7 +72,7 @@ public class DotFileWriter
     writeToComment(out, "Header");
 
     String header = "digraph G {\n" + "node [shape=box,fontname=\"Arial\",fontsize=\"10\"];\n" + "edge [fontname=\"Arial\",fontsize=\"8\"];\n"
-                      + "ranksep=.75;\n" + "rankdir=BT;\n" + "concentrate=true;\n\n";
+                      + "ranksep=.75;\n" + "rankdir=TB;\n" + "concentrate=false;\n\n";
 
     writeToOutput(out, header);
   }

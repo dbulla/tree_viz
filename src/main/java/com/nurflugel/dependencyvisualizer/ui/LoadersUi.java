@@ -4,7 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.nurflugel.dependencyvisualizer.data.DataHandler;
-import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
@@ -77,12 +77,12 @@ public class LoadersUi extends JFrame
   private JButton               clearDropdownsButton;
 
   // private Set<DependencyObject> objects              = new TreeSet<>();
-  private DependencyDataSet   dataSet;
-  private static final String WINDOWS_DOT_LOCATION   = "\"C:\\Program Files\\ATT\\Graphviz\\bin\\dot.exe\"";
-  private static final String OSX_DOT_LOCATION       = "/Applications/Graphviz.app/Contents/MacOS/dot";
-  private static final String MAC_OS                 = "Mac OS";
-  private static final String PREVIEW_LOCATION       = "/Applications/Preview.app/Contents/MacOS/Preview";
-  private static final String WINDOWS                = "windows";
+  private BaseDependencyDataSet dataSet;
+  private static final String   WINDOWS_DOT_LOCATION = "\"C:\\Program Files\\ATT\\Graphviz\\bin\\dot.exe\"";
+  private static final String   OSX_DOT_LOCATION     = "/Applications/Graphviz.app/Contents/MacOS/dot";
+  private static final String   MAC_OS               = "Mac OS";
+  private static final String   PREVIEW_LOCATION     = "/Applications/Preview.app/Contents/MacOS/Preview";
+  private static final String   WINDOWS              = "windows";
 
   @SuppressWarnings({ "OverridableMethodCallInConstructor" })
   public LoadersUi()

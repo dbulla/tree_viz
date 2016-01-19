@@ -196,56 +196,47 @@ public class DotFileWriter
     List<String> lines = new ArrayList<>();
 
     objects.stream()
-           .peek(o -> System.out.println("o = " + o))
            .filter(object -> object instanceof Person)
-           .peek(o -> System.out.println("o2 = " + o))
            .forEach(object ->
-                    {
-                      Person person = (Person) object;
+                      ((Person) object).getSpouses()
+                      .stream()
+                      .filter(names::contains)
+                      .map(spouse -> object.getName() + " -> " + spouse + ";\n")
+                      .forEach(lines::add));
 
-                      person.getSpouses().stream()
-                        .peek(p -> System.out.println("p = " + p))
-                          .filter(names::contains)
-                          .forEach(spouse ->
-                                   {
-                                     lines.add(object.getName() + " -> " + spouse + ";\n");
-                                     lines.add(spouse + " -> " + object.getName() + ";\n");
-                                     });
-                      });
-
-      if (!lines.isEmpty())
-      {
-        writeToComment(out, "Spouses");
-      }
-
-      lines.stream()
-           .sorted()
-           .forEach(l -> writeToOutput(out, l));
-      writeToOutput(out, "\n\n");
+    if (!lines.isEmpty())
+    {
+      writeToComment(out, "Spouses");
     }
 
-    /** method to suppress checked exceptions). */
-    private void writeToOutput(DataOutputStream out, String text)
+    lines.stream()
+         .sorted()
+         .forEach(l -> writeToOutput(out, l));
+    writeToOutput(out, "\n\n");
+  }
+
+  /** method to suppress checked exceptions). */
+  private void writeToOutput(DataOutputStream out, String text)
+  {
+    try
     {
-      try
-      {
-        out.writeBytes(text);
-      }
-      catch (IOException e)
-      {
-        throw new RuntimeException("Error writing to output", e);
-      }
+      out.writeBytes(text);
     }
-
-    private void writeToComment(DataOutputStream out, String text)
+    catch (IOException e)
     {
-      writeToOutput(out, "//" + text + '\n');
-    }
-
-    private void writeFooter(DataOutputStream out)
-    {
-      String footer = "}\n";
-
-      writeToOutput(out, footer);
+      throw new RuntimeException("Error writing to output", e);
     }
   }
+
+  private void writeToComment(DataOutputStream out, String text)
+  {
+    writeToOutput(out, "//" + text + '\n');
+  }
+
+  private void writeFooter(DataOutputStream out)
+  {
+    String footer = "}\n";
+
+    writeToOutput(out, footer);
+  }
+}

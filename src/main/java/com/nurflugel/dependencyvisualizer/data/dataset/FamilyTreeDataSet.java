@@ -1,15 +1,20 @@
 package com.nurflugel.dependencyvisualizer.data.dataset;
 
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
-import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject;
+import com.nurflugel.dependencyvisualizer.data.pojos.Person;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
 /** Created by douglas_bullard on 1/17/16. */
-public class DependencyDataSet extends BaseDependencyDataSet
+public class FamilyTreeDataSet extends BaseDependencyDataSet
 {
-  private Map<String, DependencyObject> objectsMap = new HashMap<>();
+  private Map<String, Person> objectsMap = new HashMap<>();
+
+  public FamilyTreeDataSet()
+  {
+    setFamilyTree(true);
+  }
 
   // rather than return the map, add operations on the dataset each type can implement (get, put, contains)
   @Override
@@ -34,7 +39,7 @@ public class DependencyDataSet extends BaseDependencyDataSet
   @Override
   public void put(String key, BaseDependencyObject object)
   {
-    assert object instanceof DependencyObject;
-    objectsMap.put(key, (DependencyObject) object);
+    assert object instanceof Person;
+    objectsMap.put(key, (Person) object);
   }
 }

@@ -1,7 +1,7 @@
 package com.nurflugel.dependencyvisualizer.data;
 
 import com.google.common.collect.Sets;
-import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
@@ -33,7 +33,7 @@ public class ObjectFilterer
    *
    * @return  the filtered array of typesToFilter
    */
-  public Collection<BaseDependencyObject> filter(DependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects)
+  public Collection<BaseDependencyObject> filter(BaseDependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects)
   {
     Set<BaseDependencyObject> objectsToFilter = dataSet.getObjects().collect(toSet());
 
@@ -68,7 +68,7 @@ public class ObjectFilterer
    * This is a recursive method - it'll take several passes to get all the objects. At the end of the method, it calls itself to see if there were any
    * more objects added. If not, it exits. If so, it calls itself again.
    */
-  private Set<BaseDependencyObject> filterObjectsByDirection(DependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects, int initialSize,
+  private Set<BaseDependencyObject> filterObjectsByDirection(BaseDependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects, int initialSize,
                                                              DirectionalFilter directionalFilter)
   {
     Set<BaseDependencyObject> filteredObjects = new HashSet<>();
@@ -98,7 +98,7 @@ public class ObjectFilterer
   }
 
   /** Filter from this object on up. */
-  private Set<BaseDependencyObject> filterUp(DependencyDataSet dataSet, Collection<BaseDependencyObject> keyObjects)
+  private Set<BaseDependencyObject> filterUp(BaseDependencyDataSet dataSet, Collection<BaseDependencyObject> keyObjects)
   {
     Set<BaseDependencyObject> filteredObjects = new TreeSet<>();
 
@@ -132,7 +132,7 @@ public class ObjectFilterer
    *
    * <p>Go through each of the objects, and see if any of the key objects call them as references. If so, add them to the list.</p>
    */
-  private Set<BaseDependencyObject> filterDown(DependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects)
+  private Set<BaseDependencyObject> filterDown(BaseDependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects)
   {
     Set<BaseDependencyObject> filteredObjects = new TreeSet<>();
     Set<String>               keyNames        = keyObjects.stream()

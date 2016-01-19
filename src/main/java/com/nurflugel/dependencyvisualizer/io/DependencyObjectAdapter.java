@@ -33,8 +33,11 @@ public class DependencyObjectAdapter implements JsonSerializer<BaseDependencyObj
 
     try
     {
-      String   thePackage    = "com.nurflugel.dependencyvisualizer.data.pojos.";
-      Class<?> classInstance = Class.forName(thePackage + className);
+      String theClassName = "com.nurflugel.dependencyvisualizer.data.pojos." + className;
+
+      System.out.println("theClassName = " + theClassName);
+
+      Class<?> classInstance = Class.forName(theClassName);
 
       return context.deserialize(element, classInstance);
     }

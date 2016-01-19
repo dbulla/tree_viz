@@ -1,6 +1,8 @@
 package com.nurflugel.dependencyvisualizer.io.readers;
 
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
 import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet;
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.Color;
 import com.nurflugel.dependencyvisualizer.enums.FileType;
@@ -33,15 +35,28 @@ public class TextFileReader extends DataFileReader
 
   @Override
   @SuppressWarnings({ "ConstantConditions" })
-  protected DependencyDataSet parseLines()
+  protected BaseDependencyDataSet parseLines()
   {
     // DependencyDataSet dataSet = new DependencyDataSet(new HashMap<>(), new ArrayList<>());
-    DependencyDataSet dataSet = new DependencyDataSet();
-    List<String>      lines;
+    List<String>          lines;
+    boolean               isFamilyTree;
+    BaseDependencyDataSet dataSet = new DependencyDataSet();
 
     try
     {
       lines = FileUtils.readLines(sourceDataFile);
+
+      // else if (line.startsWith("&"))
+      // {
+      // isFamilyTree = parseFamilyHistory(line);
+      // dataSet.setFamilyTree(isFamilyTree);
+      // }
+      isFamilyTree = lines.stream()
+                          .filter(l -> l.startsWith("&"))
+                          .filter(this::parseFamilyHistory)
+                          .findFirst().isPresent();
+      dataSet = isFamilyTree ? new FamilyTreeDataSet()
+                             : new DependencyDataSet();
 
       Ranking currentRanking = null;
       boolean isDependencies = false;
@@ -55,8 +70,6 @@ public class TextFileReader extends DataFileReader
 
         if (!line.startsWith("//") && (!StringUtils.isEmpty(line)))
         {
-          boolean isFamilyTree;
-
           if (line.startsWith("#dependencies"))
           {
             isDependencies = true;
@@ -134,7 +147,7 @@ public class TextFileReader extends DataFileReader
     return Ranking.valueOf(name, color, shape);
   }
 
-  private void parseDependency(String line, DependencyDataSet dataSet) throws Exception
+  private void parseDependency(String line, BaseDependencyDataSet dataSet) throws Exception
   {
     try
     {

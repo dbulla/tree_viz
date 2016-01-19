@@ -6,7 +6,7 @@ package com.nurflugel.dependencyvisualizer.ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject;
 import com.nurflugel.dependencyvisualizer.data.pojos.Person;
@@ -37,24 +37,24 @@ public class DataEditorUI extends NurflugelDialog
 
   // private Map<String,DependencyObject> objectsMap;
   // private Map<String,Ranking> rankingsMap;
-  private DependencyDataSet dataSet;
-  private JPanel            mainPanel;
-  private JLabel            exitingDataDropdownLabel;
-  private JPanel            rankingsPanel;
-  private JButton           saveEditedButton;
-  private JButton           deleteButton;
-  private JPanel            parentsPanel;
-  private JScrollPane       parentsScrollPane;
-  private JLabel            parentsLabel;
-  private JButton           addEditRankingsButton;
-  private JList             spouseList;
-  private JPanel            spousesPanel;
-  private JTextField        birthDateField;
-  private JTextField        deathDateField;
-  private JPanel            slaveWrapper;
-  private JPanel            masterPanel;
+  private BaseDependencyDataSet dataSet;
+  private JPanel                mainPanel;
+  private JLabel                exitingDataDropdownLabel;
+  private JPanel                rankingsPanel;
+  private JButton               saveEditedButton;
+  private JButton               deleteButton;
+  private JPanel                parentsPanel;
+  private JScrollPane           parentsScrollPane;
+  private JLabel                parentsLabel;
+  private JButton               addEditRankingsButton;
+  private JList                 spouseList;
+  private JPanel                spousesPanel;
+  private JTextField            birthDateField;
+  private JTextField            deathDateField;
+  private JPanel                slaveWrapper;
+  private JPanel                masterPanel;
 
-  DataEditorUI(DependencyDataSet dataSet)
+  DataEditorUI(BaseDependencyDataSet dataSet)
   {
     this.dataSet = dataSet;
     buildDialog();

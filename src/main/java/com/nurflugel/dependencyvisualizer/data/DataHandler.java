@@ -1,6 +1,6 @@
 package com.nurflugel.dependencyvisualizer.data;
 
-import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
@@ -26,9 +26,7 @@ public class DataHandler
   private boolean                   isRanking          = true;
   private DataFileReader            dataFileReader;
   private DataFileWriter            dataFileWriter;
-
-  // private boolean                 isFamilyTree;
-  private DependencyDataSet dataset;
+  private BaseDependencyDataSet     dataset;
 
   public DataHandler(File sourceDataFile)
   {
@@ -123,7 +121,7 @@ public class DataHandler
     dataFileWriter.saveToFile(this);
   }
 
-  public DependencyDataSet getDataset()
+  public BaseDependencyDataSet getDataset()
   {
     return dataset;
   }

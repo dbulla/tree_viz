@@ -6,9 +6,9 @@ import java.lang.reflect.Type;
 
 /** Created by douglas_bullard on 1/18/16. */
 @SuppressWarnings("Duplicates")
-public class PersonAdapter implements JsonSerializer<Person>, JsonDeserializer<Person>
+public class PersonAdapter                // implements JsonSerializer<Person>, JsonDeserializer<Person>
 {
-  @Override
+  // @Override
   public JsonElement serialize(Person src, Type typeOfSrc, JsonSerializationContext context)
   {
     JsonObject result = new JsonObject();
@@ -19,7 +19,7 @@ public class PersonAdapter implements JsonSerializer<Person>, JsonDeserializer<P
     return result;
   }
 
-  @Override
+  // @Override
   public Person deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
   {
     JsonObject  jsonObject = json.getAsJsonObject();
@@ -34,8 +34,11 @@ public class PersonAdapter implements JsonSerializer<Person>, JsonDeserializer<P
 
     try
     {
-      String   thePackage    = "com.nurflugel.dependencyvisualizer.data.pojos.";
-      Class<?> classInstance = Class.forName(thePackage + className);
+      String theClassName = "com.nurflugel.dependencyvisualizer.data.pojos." + className;
+
+      System.out.println("theClassName = " + theClassName);
+
+      Class<?> classInstance = Class.forName(theClassName);
 
       return context.deserialize(element, classInstance);
     }

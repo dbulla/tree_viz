@@ -2,11 +2,7 @@ package com.nurflugel.dependencyvisualizer.io.writers;
 
 import com.google.gson.GsonBuilder;
 import com.nurflugel.dependencyvisualizer.data.DataHandler;
-import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
-import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject;
-import com.nurflugel.dependencyvisualizer.data.pojos.Person;
-import com.nurflugel.dependencyvisualizer.io.DependencyObjectAdapter;
-import com.nurflugel.dependencyvisualizer.io.PersonAdapter;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
 import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,7 +21,7 @@ public class JsonFileWriter extends DataFileWriter
   @Override
   public void saveToFile(DataHandler dataHandler)
   {
-    DependencyDataSet dataSet = dataHandler.getDataset();
+    BaseDependencyDataSet dataSet = dataHandler.getDataset();
 
     dataSet.generateRankingsMap();
 
@@ -39,9 +35,8 @@ public class JsonFileWriter extends DataFileWriter
     // String json = gson.create().toJson(list);
     GsonBuilder gson = new GsonBuilder().setPrettyPrinting();
 
-    gson.registerTypeAdapter(DependencyObject.class, new DependencyObjectAdapter());
-    gson.registerTypeAdapter(Person.class, new PersonAdapter());
-
+    // gson.registerTypeAdapter(DependencyObject.class, new DependencyObjectAdapter());
+    // gson.registerTypeAdapter(Person.class, new PersonAdapter());
     String json = gson.create().toJson(dataSet);
     // Gson gson = new GsonBuilder().setPrettyPrinting().create();
 

@@ -2,11 +2,9 @@ package com.nurflugel.dependencyvisualizer.io.readers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
 import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
-import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject;
-import com.nurflugel.dependencyvisualizer.data.pojos.Person;
-import com.nurflugel.dependencyvisualizer.io.DependencyObjectAdapter;
-import com.nurflugel.dependencyvisualizer.io.PersonAdapter;
+import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -16,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,20 +30,11 @@ public class JsonFileReader extends DataFileReader
   }
 
   @SuppressWarnings({ "ConstantConditions" })
-  protected DependencyDataSet parseLines()
+  protected BaseDependencyDataSet parseLines()
   {
-    // Gson gson = new Gson();
-
-    /**
-     * GsonBuilder gson = new GsonBuilder();
-     gson.registerTypeAdapter(A.class, new ATypeAdapter());
-             return gson.create().fromJson(json,
-                     A[].class);
-     */
     GsonBuilder gsonBuilder = new GsonBuilder();
-    Gson        gson        = gsonBuilder.registerTypeAdapter(Person.class, new PersonAdapter())
-                                         .registerTypeAdapter(DependencyObject.class, new DependencyObjectAdapter())
-                                         .create();
+    Gson        gson        = gsonBuilder
+                                .create();
 
     // determine if it's a family tree BEFORE determining which type of data set
     List<String> lines;
@@ -67,17 +57,11 @@ public class JsonFileReader extends DataFileReader
     try(BufferedReader br = new BufferedReader(new FileReader(sourceDataFile)))
     {
       // convert the json string back to object
-      DependencyDataSet dataSet;
+      BaseDependencyDataSet dataSet;
+      Type theClazz = isFamilyTree ? FamilyTreeDataSet.class
+                                   : DependencyDataSet.class;
 
-      // if (isFamilyTree)
-      // {
-      dataSet = gson.fromJson(br, DependencyDataSet.class);
-
-      // }
-      // else
-      // {
-      // dataSet = gson.fromJson(br, DependencyDataSet.class);
-      // }
+      dataSet = gson.fromJson(br, theClazz);
       dataSet.rectify();
       System.out.println("dataSet = " + dataSet);
 

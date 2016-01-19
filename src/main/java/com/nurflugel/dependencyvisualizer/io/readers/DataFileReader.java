@@ -1,6 +1,6 @@
 package com.nurflugel.dependencyvisualizer.io.readers;
 
-import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject;
 import com.nurflugel.dependencyvisualizer.data.pojos.Person;
@@ -27,7 +27,7 @@ public abstract class DataFileReader
   }
 
   /** Parse the individual line. */
-  protected void parseObjectDeclaration(String line, Ranking ranking, DependencyDataSet dataSet)
+  protected void parseObjectDeclaration(String line, Ranking ranking, BaseDependencyDataSet dataSet)
   {
     String               lineText = line.trim();
     String[]             strings  = lineText.split("\\|");
@@ -53,14 +53,14 @@ public abstract class DataFileReader
   }
 
   // -------------------------- OTHER METHODS --------------------------
-  public DependencyDataSet readObjectsFromFile()
+  public BaseDependencyDataSet readObjectsFromFile()
   {
-    DependencyDataSet dataSet = parseLines();
+    BaseDependencyDataSet dataSet = parseLines();
 
     dataSet.generateRankingsMap();
 
     return dataSet;
   }
 
-  protected abstract DependencyDataSet parseLines();
+  protected abstract BaseDependencyDataSet parseLines();
 }

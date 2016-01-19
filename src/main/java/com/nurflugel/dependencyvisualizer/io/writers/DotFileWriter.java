@@ -209,6 +209,7 @@ public class DotFileWriter
       writeToComment(out, "Spouses");
     }
 
+    writeToOutput(out, "edge [color=red,arrowhead=none]\n");
     lines.stream()
          .sorted()
          .forEach(l -> writeToOutput(out, l));

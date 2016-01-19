@@ -10,7 +10,6 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@SuppressWarnings("Lombok")
 public class Person extends BaseDependencyObject
 {
   private Set<String> spouses   = new HashSet<>();

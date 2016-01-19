@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /** Representation of an object. */
 @Data
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class DependencyObject extends BaseDependencyObject
 {

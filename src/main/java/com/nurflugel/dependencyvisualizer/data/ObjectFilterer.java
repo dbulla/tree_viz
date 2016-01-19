@@ -35,7 +35,8 @@ public class ObjectFilterer
    */
   public Collection<BaseDependencyObject> filter(BaseDependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects)
   {
-    Set<BaseDependencyObject> objectsToFilter = dataSet.getObjects().collect(toSet());
+    Set<BaseDependencyObject> objectsToFilter = dataSet.getObjects()
+                                                       .collect(toSet());
 
     // quick test
     if (directionalFilters.isEmpty() && typesToFilter.isEmpty() && keyObjects.isEmpty())

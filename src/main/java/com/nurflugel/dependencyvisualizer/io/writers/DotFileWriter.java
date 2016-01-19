@@ -207,9 +207,9 @@ public class DotFileWriter
     if (!lines.isEmpty())
     {
       writeToComment(out, "Spouses");
+      writeToOutput(out, "edge [color=red,arrowhead=none]\n");
     }
 
-    writeToOutput(out, "edge [color=red,arrowhead=none]\n");
     lines.stream()
          .sorted()
          .forEach(l -> writeToOutput(out, l));

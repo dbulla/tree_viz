@@ -35,10 +35,6 @@ public class Ranking implements Comparable
                 .orElseGet(() -> valueOf(title, black, rectangle));
   }
 
-  // public static Ranking valueOf(RankingName rankingName)
-  // {
-  // return valueOf(rankingName.getName(), black, rectangle);
-  // }
   @SuppressWarnings({ "AccessingNonPublicFieldOfAnotherObject" })
   public static Ranking valueOf(String title, Color color, Shape shape)
   {

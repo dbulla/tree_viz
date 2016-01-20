@@ -89,4 +89,9 @@ public class Ranking implements Comparable
   {
     return name;
   }
+
+  public static void clearRankings()
+  {
+    types.clear();
+  }
 }

@@ -29,6 +29,7 @@ import java.util.prefs.Preferences;
 import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Down;
 import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Up;
 import static com.nurflugel.dependencyvisualizer.enums.OutputFormat.Dot;
+import static com.nurflugel.dependencyvisualizer.enums.Ranking.clearRankings;
 import static java.lang.Boolean.parseBoolean;
 import static java.util.stream.Collectors.toList;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
@@ -415,8 +416,7 @@ public class LoadersUi extends JFrame
 
     filter.addExtension("txt");
     filter.addExtension("json");
-    filter.addExtension("xml");
-    filter.setDescription("text files");
+    filter.setDescription("data files");
     fileChooser.setFileFilter(filter);
 
     String lastDir = preferences.get(LAST_DIR, "");
@@ -436,6 +436,7 @@ public class LoadersUi extends JFrame
 
       preferences.put(LAST_DIR, selectedFile.getParent());
       makeGraphButton.setEnabled(true);
+      clearRankings();
       dataHandler = new DataHandler(selectedFile);
       dataHandler.loadDataset();
       dataSet = dataHandler.getDataset();

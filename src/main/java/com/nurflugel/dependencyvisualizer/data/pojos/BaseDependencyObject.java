@@ -3,6 +3,7 @@ package com.nurflugel.dependencyvisualizer.data.pojos;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import java.util.HashSet;
 import java.util.Set;
 import static org.apache.commons.lang3.StringUtils.replace;
@@ -11,6 +12,7 @@ import static org.apache.commons.lang3.StringUtils.replace;
 @Data
 @EqualsAndHashCode(of = "name")
 @NoArgsConstructor
+@ToString(of = "displayName")
 public class BaseDependencyObject implements Comparable
 {
   // ------------------------------ FIELDS ------------------------------

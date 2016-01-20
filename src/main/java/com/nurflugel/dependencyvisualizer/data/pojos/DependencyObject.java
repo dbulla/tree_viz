@@ -20,4 +20,10 @@ public class DependencyObject extends BaseDependencyObject
   {
     super(name, notes, ranking);
   }
+
+  @Override
+  public String toString()
+  {
+    return displayName;
+  }
 }

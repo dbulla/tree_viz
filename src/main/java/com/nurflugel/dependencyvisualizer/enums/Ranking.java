@@ -94,4 +94,9 @@ public class Ranking implements Comparable
   {
     types.clear();
   }
+
+  public static void addRanking(Ranking ranking)
+  {
+    types.add(ranking);
+  }
 }

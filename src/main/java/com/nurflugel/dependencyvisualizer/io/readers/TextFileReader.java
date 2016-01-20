@@ -44,16 +44,10 @@ public class TextFileReader extends DataFileReader
 
     try
     {
-      lines = FileUtils.readLines(sourceDataFile);
-
-      // else if (line.startsWith("&"))
-      // {
-      // isFamilyTree = parseFamilyHistory(line);
-      // dataSet.setFamilyTree(isFamilyTree);
-      // }
+      lines        = FileUtils.readLines(sourceDataFile);
       isFamilyTree = lines.stream()
                           .filter(l -> l.startsWith("&"))
-                          .filter(this::parseFamilyHistory)
+                          .filter(this::isFamilyHistory)
                           .findFirst().isPresent();
       dataSet = isFamilyTree ? new FamilyTreeDataSet()
                              : new DependencyDataSet();
@@ -77,11 +71,6 @@ public class TextFileReader extends DataFileReader
           else if (line.startsWith("#"))
           {
             currentRanking = getObjectType(line);
-          }
-          else if (line.startsWith("&"))
-          {
-            isFamilyTree = parseFamilyHistory(line);
-            dataSet.setFamilyTree(isFamilyTree);
           }
           else if (isDependencies)
           {
@@ -109,12 +98,14 @@ public class TextFileReader extends DataFileReader
     return dataSet;
   }
 
-  private boolean parseFamilyHistory(String line)
+  /** Determine if this is a family history or not. */
+  private boolean isFamilyHistory(String line)
   {
-    String[] nibbles = line.trim().split("=");
-    boolean  b       = Boolean.parseBoolean(nibbles[1]);
+    String[] nibbles  = line.trim().split("=");
+    boolean  isFamily = Boolean.parseBoolean(nibbles[0]);
+    boolean  isTrue   = Boolean.parseBoolean(nibbles[1]);
 
-    return b;
+    return isFamily && isTrue;
   }
 
   /**  */

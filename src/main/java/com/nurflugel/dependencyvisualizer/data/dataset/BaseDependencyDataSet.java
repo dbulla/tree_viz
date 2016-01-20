@@ -61,17 +61,10 @@ public abstract class BaseDependencyDataSet
     return baseDependencyObject;
   }
 
-  /** Go through the dependencies - some may be empty, just placeholders, while some might not. Remove dupes, streamline. */
+  /** Deserialization doesn't populate the list of ranking types, so we have to rectify it here. */
   public void rectify()
   {
-    // getObjectsMap().entrySet().forEach(entry ->
-    // {
-    // String               name                 = entry.getKey();
-    // BaseDependencyObject baseDependencyObject = entry.getValue();
-    //
-    // System.out.println("name = " + name);
-    // System.out.println("dependencyObject = " + baseDependencyObject);
-    // });
+    rankings.forEach(Ranking::addRanking);
   }
 
   public void generateRankingsMap()

@@ -33,8 +33,7 @@ public class JsonFileReader extends DataFileReader
   protected BaseDependencyDataSet parseLines()
   {
     GsonBuilder gsonBuilder = new GsonBuilder();
-    Gson        gson        = gsonBuilder
-                                .create();
+    Gson        gson        = gsonBuilder.create();
 
     // determine if it's a family tree BEFORE determining which type of data set
     List<String> lines;

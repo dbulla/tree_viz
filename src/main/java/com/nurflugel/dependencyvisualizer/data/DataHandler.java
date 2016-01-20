@@ -1,10 +1,13 @@
-package com.nurflugel.dependencyvisualizer;
+package com.nurflugel.dependencyvisualizer.data;
 
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
-import com.nurflugel.dependencyvisualizer.readers.DataFileReader;
-import com.nurflugel.dependencyvisualizer.writers.DataFileWriter;
-import com.nurflugel.dependencyvisualizer.writers.DotFileWriter;
+import com.nurflugel.dependencyvisualizer.io.DataFileFactory;
+import com.nurflugel.dependencyvisualizer.io.readers.DataFileReader;
+import com.nurflugel.dependencyvisualizer.io.writers.DataFileWriter;
+import com.nurflugel.dependencyvisualizer.io.writers.DotFileWriter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +18,15 @@ import java.util.*;
 @SuppressWarnings({ "ProhibitedExceptionThrown", "ProhibitedExceptionDeclared" })
 public class DataHandler
 {
-  private static final Logger     logger             = LoggerFactory.getLogger(DataHandler.class);
-  private File                    dotFile;
-  private List<DirectionalFilter> directionalFilters = new ArrayList<>();
-  private List<Ranking>           typesFilters       = new ArrayList<>();
-  private Set<DependencyObject>   keyObjects         = new TreeSet<>();
-  private boolean                 isRanking          = true;
-  private DataFileReader          dataFileReader;
-  private DataFileWriter          dataFileWriter;
-
-  // private boolean                 isFamilyTree;
-  private DependencyDataSet dataset;
+  private static final Logger       logger             = LoggerFactory.getLogger(DataHandler.class);
+  private File                      dotFile;
+  private List<DirectionalFilter>   directionalFilters = new ArrayList<>();
+  private List<Ranking>             typesFilters       = new ArrayList<>();
+  private Set<BaseDependencyObject> keyObjects         = new TreeSet<>();
+  private boolean                   isRanking          = true;
+  private DataFileReader            dataFileReader;
+  private DataFileWriter            dataFileWriter;
+  private BaseDependencyDataSet     dataset;
 
   public DataHandler(File sourceDataFile)
   {
@@ -48,12 +49,12 @@ public class DataHandler
   // -------------------------- OTHER METHODS --------------------------
   public File doIt()
   {
-    Collection<DependencyObject> filteredObjects = filterObjects();
-    DotFileWriter                writer          = new DotFileWriter(dotFile, isRanking);
+    Collection<BaseDependencyObject> filteredObjects = filterObjects();
+    DotFileWriter                    writer          = new DotFileWriter(dotFile, isRanking);
 
     try
     {
-      writer.writeObjectsToDotFile(filteredObjects, directionalFilters);
+      writer.writeObjectsToDotFile(filteredObjects);
     }
     catch (Exception e)
     {
@@ -64,7 +65,7 @@ public class DataHandler
   }
 
   /** Filter the objects based on criteria from the UI- - Specific objects - filter up or down - show/don't show tiers (no NSC, etc). */
-  private Collection<DependencyObject> filterObjects()
+  private Collection<BaseDependencyObject> filterObjects()
   {
     ObjectFilterer filter = new ObjectFilterer(directionalFilters, typesFilters);
 
@@ -72,15 +73,15 @@ public class DataHandler
   }
 
   /** See if the given object is found. if not, throw an excpetion. */
-  public DependencyObject findObjectByName(String name) throws Exception
+  public BaseDependencyObject findObjectByName(String name) throws Exception
   {
-    String           cleanName        = DependencyObject.replaceAllBadChars(name);
-    DependencyObject dependencyObject = dataset.getObjects()
-                                               .filter(o -> StringUtils.equals(o.getName(), cleanName))
-                                               .findFirst()
-                                               .orElseThrow(() -> new Exception("Object not found by name: " + name));
+    String               cleanName            = BaseDependencyObject.replaceAllBadChars(name);
+    BaseDependencyObject baseDependencyObject = dataset.getObjects()
+                                                       .filter(o -> StringUtils.equals(o.getName(), cleanName))
+                                                       .findFirst()
+                                                       .orElseThrow(() -> new Exception("Object not found by name: " + name));
 
-    return dependencyObject;
+    return baseDependencyObject;
   }
 
   public void loadDataset()
@@ -105,7 +106,7 @@ public class DataHandler
     this.isRanking = isRanking;
   }
 
-  public void setKeyObjectsToFilterOn(List<DependencyObject> keyObjects)
+  public void setKeyObjectsToFilterOn(List<BaseDependencyObject> keyObjects)
   {
     this.keyObjects = new TreeSet<>(keyObjects);
   }
@@ -120,7 +121,7 @@ public class DataHandler
     dataFileWriter.saveToFile(this);
   }
 
-  public DependencyDataSet getDataset()
+  public BaseDependencyDataSet getDataset()
   {
     return dataset;
   }

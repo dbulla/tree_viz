@@ -1,7 +1,9 @@
-package com.nurflugel.dependencyvisualizer.readers;
+package com.nurflugel.dependencyvisualizer.io.readers;
 
-import com.nurflugel.dependencyvisualizer.DependencyDataSet;
-import com.nurflugel.dependencyvisualizer.DependencyObject;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet;
+import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.enums.Color;
 import com.nurflugel.dependencyvisualizer.enums.FileType;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
@@ -14,8 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import static com.nurflugel.dependencyvisualizer.Constants.*;
 
@@ -35,14 +35,22 @@ public class TextFileReader extends DataFileReader
 
   @Override
   @SuppressWarnings({ "ConstantConditions" })
-  protected DependencyDataSet parseLines()
+  protected BaseDependencyDataSet parseLines()
   {
-    DependencyDataSet dataSet = new DependencyDataSet(false, new HashMap<>(), new ArrayList<>());
-    List<String>      lines;
+    // DependencyDataSet dataSet = new DependencyDataSet(new HashMap<>(), new ArrayList<>());
+    List<String>          lines;
+    boolean               isFamilyTree;
+    BaseDependencyDataSet dataSet = new DependencyDataSet();
 
     try
     {
-      lines = FileUtils.readLines(sourceDataFile);
+      lines        = FileUtils.readLines(sourceDataFile);
+      isFamilyTree = lines.stream()
+                          .filter(l -> l.startsWith("&"))
+                          .filter(this::isFamilyHistory)
+                          .findFirst().isPresent();
+      dataSet = isFamilyTree ? new FamilyTreeDataSet()
+                             : new DependencyDataSet();
 
       Ranking currentRanking = null;
       boolean isDependencies = false;
@@ -56,8 +64,6 @@ public class TextFileReader extends DataFileReader
 
         if (!line.startsWith("//") && (!StringUtils.isEmpty(line)))
         {
-          boolean isFamilyTree;
-
           if (line.startsWith("#dependencies"))
           {
             isDependencies = true;
@@ -65,11 +71,6 @@ public class TextFileReader extends DataFileReader
           else if (line.startsWith("#"))
           {
             currentRanking = getObjectType(line);
-          }
-          else if (line.startsWith("&"))
-          {
-            isFamilyTree = parseFamilyHistory(line);
-            dataSet.setFamilyTree(isFamilyTree);
           }
           else if (isDependencies)
           {
@@ -97,12 +98,14 @@ public class TextFileReader extends DataFileReader
     return dataSet;
   }
 
-  private boolean parseFamilyHistory(String line)
+  /** Determine if this is a family history or not. */
+  private boolean isFamilyHistory(String line)
   {
-    String[] nibbles = line.trim().split("=");
-    boolean  b       = Boolean.parseBoolean(nibbles[1]);
+    String[] nibbles  = line.trim().split("=");
+    boolean  isFamily = Boolean.parseBoolean(nibbles[0]);
+    boolean  isTrue   = Boolean.parseBoolean(nibbles[1]);
 
-    return b;
+    return isFamily && isTrue;
   }
 
   /**  */
@@ -135,7 +138,7 @@ public class TextFileReader extends DataFileReader
     return Ranking.valueOf(name, color, shape);
   }
 
-  private void parseDependency(String line, DependencyDataSet dataSet) throws Exception
+  private void parseDependency(String line, BaseDependencyDataSet dataSet) throws Exception
   {
     try
     {
@@ -144,8 +147,8 @@ public class TextFileReader extends DataFileReader
 
       for (int i = 0; i < (chunks.length - 1); i++)
       {
-        DependencyObject main       = dataSet.getLoaderObjectByName(chunks[i]);
-        DependencyObject dependency = dataSet.getLoaderObjectByName(chunks[i + 1]);
+        BaseDependencyObject main       = dataSet.getLoaderObjectByName(chunks[i]);
+        BaseDependencyObject dependency = dataSet.getLoaderObjectByName(chunks[i + 1]);
 
         main.addDependency(dependency.getName());
       }

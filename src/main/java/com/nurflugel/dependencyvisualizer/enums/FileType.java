@@ -1,11 +1,11 @@
 package com.nurflugel.dependencyvisualizer.enums;
 
-import com.nurflugel.dependencyvisualizer.readers.DataFileReader;
-import com.nurflugel.dependencyvisualizer.readers.JsonFileReader;
-import com.nurflugel.dependencyvisualizer.readers.TextFileReader;
-import com.nurflugel.dependencyvisualizer.writers.DataFileWriter;
-import com.nurflugel.dependencyvisualizer.writers.JsonFileWriter;
-import com.nurflugel.dependencyvisualizer.writers.TextFileWriter;
+import com.nurflugel.dependencyvisualizer.io.readers.DataFileReader;
+import com.nurflugel.dependencyvisualizer.io.readers.JsonFileReader;
+import com.nurflugel.dependencyvisualizer.io.readers.TextFileReader;
+import com.nurflugel.dependencyvisualizer.io.writers.DataFileWriter;
+import com.nurflugel.dependencyvisualizer.io.writers.JsonFileWriter;
+import com.nurflugel.dependencyvisualizer.io.writers.TextFileWriter;
 import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.util.stream.Stream;

@@ -1,9 +1,8 @@
-package com.nurflugel.dependencyvisualizer.writers;
+package com.nurflugel.dependencyvisualizer.io.writers;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.nurflugel.dependencyvisualizer.DataHandler;
-import com.nurflugel.dependencyvisualizer.DependencyDataSet;
+import com.nurflugel.dependencyvisualizer.data.DataHandler;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
 import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.FileWriter;
@@ -22,21 +21,29 @@ public class JsonFileWriter extends DataFileWriter
   @Override
   public void saveToFile(DataHandler dataHandler)
   {
-    DependencyDataSet dataSet = dataHandler.getDataset();
+    BaseDependencyDataSet dataSet = dataHandler.getDataset();
 
     dataSet.generateRankingsMap();
 
-    String fileName = sourceDataFile.getAbsolutePath();
-    String baseName = FilenameUtils.getBaseName(fileName);
+    String fileName  = sourceDataFile.getAbsolutePath();
+    String baseName  = FilenameUtils.getBaseName(fileName);
 
     fileName = baseName + fileType.getExtension();
 
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    // GsonBuilder gson = new GsonBuilder();
+    // gson.registerTypeAdapter(A.class, new ATypeAdapter());
+    // String json = gson.create().toJson(list);
+    GsonBuilder gson = new GsonBuilder().setPrettyPrinting();
+
+    // gson.registerTypeAdapter(DependencyObject.class, new DependencyObjectAdapter());
+    // gson.registerTypeAdapter(Person.class, new PersonAdapter());
+    String json = gson.create().toJson(dataSet);
+    // Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     // convert java object to JSON format,
     // and returned as JSON formatted string
-    String json = gson.toJson(dataSet);
-    File   file = new File(sourceDataFile.getParent(), fileName);
+    // String json = gson.toJson(dataSet);
+    File file = new File(sourceDataFile.getParent(), fileName);
 
     try(FileWriter writer = new FileWriter(file))
     {

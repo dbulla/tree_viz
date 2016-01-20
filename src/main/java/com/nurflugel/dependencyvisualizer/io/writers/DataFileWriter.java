@@ -1,6 +1,6 @@
-package com.nurflugel.dependencyvisualizer.writers;
+package com.nurflugel.dependencyvisualizer.io.writers;
 
-import com.nurflugel.dependencyvisualizer.DataHandler;
+import com.nurflugel.dependencyvisualizer.data.DataHandler;
 import com.nurflugel.dependencyvisualizer.enums.FileType;
 import java.io.File;
 

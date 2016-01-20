@@ -1,0 +1,121 @@
+{
+  "objectsMap": {
+    "Helen_Johnson": {
+      "spouses": [
+        "Charles_Delevan_Elliot"
+      ],
+      "name": "Helen_Johnson",
+      "displayName": "Helen Johnson",
+      "notes": [],
+      "ranking": "Grandparents",
+      "dependencies": []
+    },
+    "elisabeth_elliot": {
+      "spouses": [
+        "donn_bullard"
+      ],
+      "name": "elisabeth_elliot",
+      "displayName": "Elisabeth Elliot",
+      "notes": [],
+      "ranking": "Parents",
+      "dependencies": [
+        "Helen_Johnson",
+        "Charles_Delevan_Elliot"
+      ]
+    },
+    "douglas_bullard": {
+      "spouses": [],
+      "name": "douglas_bullard",
+      "displayName": "Douglas Gary Bullard",
+      "notes": [
+        "b. September 9, 1959 St. Paul, Minnesota"
+      ],
+      "ranking": "Contemporaries",
+      "dependencies": [
+        "elisabeth_elliot",
+        "donn_bullard"
+      ]
+    },
+    "Charles_Delevan_Elliot": {
+      "spouses": [
+        "Helen_Johnson"
+      ],
+      "name": "Charles_Delevan_Elliot",
+      "displayName": "Charles Delevan Elliot",
+      "notes": [],
+      "ranking": "Grandparents",
+      "dependencies": []
+    },
+    "bruce_bullard": {
+      "spouses": [],
+      "name": "bruce_bullard",
+      "displayName": "Bruce Elliot Bullard",
+      "notes": [
+        "b. November 30, 1957 St. Paul, Minnesota"
+      ],
+      "ranking": "Contemporaries",
+      "dependencies": [
+        "elisabeth_elliot",
+        "donn_bullard"
+      ]
+    },
+    "Ruth_Nemetz": {
+      "spouses": ["Wylie_Aubrey_Bullard"],
+      "name": "Ruth_Nemetz",
+      "displayName": "Ruth Nemetz",
+      "notes": [
+        "m. Wylie 1921"
+      ],
+      "ranking": "Grandparents",
+      "dependencies": []
+    },
+    "Wylie_Aubrey_Bullard": {
+      "spouses": ["Ruth_Nemetz"],
+      "name": "Wylie_Aubrey_Bullard",
+      "displayName": "Wylie Aubrey Bullard",
+      "notes": [
+        "b. on December 31, 1899 Whitt, Parker County, Texas",
+        "d. November 17 1982 Dallas, Dallas County, Texas"
+      ],
+      "ranking": "Grandparents",
+      "dependencies": []
+    },
+    "donn_bullard": {
+      "spouses": [
+        "elisabeth_elliot"
+      ],
+      "name": "donn_bullard",
+      "displayName": "Donn Wiley Bullard",
+      "notes": [
+        "b. Dec 4, 1925",
+        "d. Nov 3, 1995"
+      ],
+      "ranking": "Parents",
+      "dependencies": [
+        "Ruth_Nemetz",
+        "Wylie_Aubrey_Bullard"
+      ]
+    }
+  },
+  "isFamilyTree": true,
+  "rankings": [
+    {
+      "name": "Grandparents",
+      "color": "black",
+      "shape": "rectangle",
+      "rank": 0
+    },
+    {
+      "name": "Contemporaries",
+      "color": "black",
+      "shape": "rectangle",
+      "rank": 1
+    },
+    {
+      "name": "Parents",
+      "color": "black",
+      "shape": "rectangle",
+      "rank": 2
+    }
+  ]
+}

@@ -1,34 +1,35 @@
-package com.nurflugel.dependencyvisualizer;
+package com.nurflugel.dependencyvisualizer.data.pojos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import java.util.HashSet;
 import java.util.Set;
 import static org.apache.commons.lang3.StringUtils.replace;
 
-/** Representation of an object. */
+/** Created by douglas_bullard on 1/18/16. */
 @Data
 @EqualsAndHashCode(of = "name")
 @NoArgsConstructor
-public class DependencyObject implements Comparable
+@ToString(of = "displayName")
+public class BaseDependencyObject implements Comparable
 {
   // ------------------------------ FIELDS ------------------------------
-  private String      name;
-  private String      displayName;
-  private String[]    notes        = new String[0];
-  private String      ranking;
-  private Set<String> dependencies = new HashSet<>();  // todo make this the unique names as a key, not the entire dependency object!
+  protected String    name;
+  protected String    displayName;
+  protected String[]  notes        = new String[0];
+  protected String    ranking;
+  private Set<String> dependencies = new HashSet<>();
 
-  // --------------------------- CONSTRUCTORS ---------------------------
-  public DependencyObject(String name, String ranking)
+  public BaseDependencyObject(String name, String ranking)
   {
     this.name    = replaceAllBadChars(name);
     displayName  = name;
     this.ranking = ranking;
   }
 
-  public DependencyObject(String name, String[] notes, String ranking)
+  public BaseDependencyObject(String name, String[] notes, String ranking)
   {
     this.name    = replaceAllBadChars(name);
     this.notes   = notes;
@@ -59,9 +60,9 @@ public class DependencyObject implements Comparable
   @Override
   public int compareTo(Object o)
   {
-    if (o instanceof DependencyObject)
+    if (o instanceof BaseDependencyObject)
     {
-      DependencyObject theOther = (DependencyObject) o;
+      BaseDependencyObject theOther = (BaseDependencyObject) o;
 
       return name.compareTo(theOther.getName());
     }

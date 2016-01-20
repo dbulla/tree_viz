@@ -1,9 +1,9 @@
-package com.nurflugel.dependencyvisualizer;
+package com.nurflugel.dependencyvisualizer.io;
 
 import com.nurflugel.dependencyvisualizer.enums.FileType;
-import com.nurflugel.dependencyvisualizer.readers.DataFileReader;
-import com.nurflugel.dependencyvisualizer.writers.DataFileWriter;
-import com.nurflugel.dependencyvisualizer.writers.JsonFileWriter;
+import com.nurflugel.dependencyvisualizer.io.readers.DataFileReader;
+import com.nurflugel.dependencyvisualizer.io.writers.DataFileWriter;
+import com.nurflugel.dependencyvisualizer.io.writers.JsonFileWriter;
 import java.io.File;
 import static com.nurflugel.dependencyvisualizer.enums.FileType.findByExtension;
 import static org.apache.commons.io.FilenameUtils.getExtension;

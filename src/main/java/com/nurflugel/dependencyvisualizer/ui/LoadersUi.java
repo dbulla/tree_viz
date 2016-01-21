@@ -99,6 +99,7 @@ public class LoadersUi extends JFrame
     contentPane.add(mainPanel);
     makeGraphButton.setEnabled(false);
     retrieveSettings();
+    setTitle("Dibble! 1.0!!");
     pack();
     center();
     setVisible(true);

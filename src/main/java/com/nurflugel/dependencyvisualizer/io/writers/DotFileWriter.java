@@ -71,8 +71,13 @@ public class DotFileWriter
   {
     writeToComment(out, "Header");
 
-    String header = "digraph G {\n" + "node [shape=box,fontname=\"Arial\",fontsize=\"10\"];\n" + "edge [fontname=\"Arial\",fontsize=\"8\"];\n"
-                      + "ranksep=.75;\n" + "rankdir=BT;\n" + "concentrate=false;\n\n";
+    // + "ranksep=.75;\n"
+    String header = "digraph G {\n"
+                      + "node [shape=box,fontname=\"Arial\",fontsize=\"10\"];\n"  //
+                      + "edge [fontname=\"Arial\",fontsize=\"8\"];\n"             //
+                      + "ranksep=1.5;\n"                                          //
+                      + "rankdir=BT;\n"                                           //
+                      + "concentrate=false;\n\n";
 
     writeToOutput(out, header);
   }

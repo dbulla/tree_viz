@@ -53,6 +53,11 @@ public class DataEditorUI extends NurflugelDialog
   private JTextField            deathDateField;
   private JPanel                slaveWrapper;
   private JPanel                masterPanel;
+  private JLabel                displayNameLabel;
+  private JLabel                birthDateLabel;
+  private JLabel                deathDateLabel;
+  private JLabel                notesLabel;
+  private JLabel                spousesLabel;
 
   DataEditorUI(BaseDependencyDataSet dataSet)
   {
@@ -73,6 +78,7 @@ public class DataEditorUI extends NurflugelDialog
     setModal(true);
     getRootPane().setDefaultButton(newButton);
     populateDropdowns();
+    activateScreens(false);
 
     // existingDataCombobox.setVisible(false);
     // exitingDataDropdownLabel.setVisible(false);
@@ -137,13 +143,13 @@ public class DataEditorUI extends NurflugelDialog
                                           buildSpousesPanel();  // todo person as arg?
                                           validate();
                                         });
-    parentsList.addListSelectionListener(e ->
-                                         {
-                                           Person person = (Person) existingDataCombobox.getSelectedItem();
-
-                                           buildParentsPanel(person);
-                                           validate();
-                                         });
+    // parentsList.addListSelectionListener(e ->
+    // {
+    // Person person = (Person) existingDataCombobox.getSelectedItem();
+    //
+    // buildParentsPanel(person);
+    // validate();
+    // });
   }
 
   private void editRankings()
@@ -307,10 +313,26 @@ public class DataEditorUI extends NurflugelDialog
       }
 
       buildParentsPanel(item);
+      activateScreens(true);
       pack();
       setHeightToHalfScreen();
       validate();
     }                                           // end if
+  }
+
+  private void activateScreens(boolean value)
+  {
+    Stream.of(((JComponent) parentsList),  //
+              birthDateField,       //
+              deathDateField,       //
+              notesText,            //
+              ((JComponent) spouseList),  //
+              saveEditedButton,     //
+              deleteButton,         //
+              rankingsPanel,        //
+              displayNameLabel,     //
+              parentsLabel, birthDateLabel, deathDateLabel, notesLabel, spousesLabel)
+          .forEach(c -> c.setEnabled(value));
   }
 
   private Collection<BaseDependencyObject> getObjectsFromNames(Collection<String> names)
@@ -394,8 +416,9 @@ public class DataEditorUI extends NurflugelDialog
 
     baseDependencyObjects.stream()
                          .map(BaseDependencyObject::getDisplayName)
-                         .map(JLabel::new)
+                         .peek(d -> System.out.println("d = " + d))
                          .sorted()
+                         .map(JLabel::new)
                          .forEach(parentLabel -> parentsPanel.add(parentLabel));
   }
 

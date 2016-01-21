@@ -1,15 +1,29 @@
 {
   "objectsMap": {
-    "Sarah_Rachel_Carter": {
+    "Rachel_Sarah_Carter": {
       "spouses": [],
-      "name": "Sarah_Rachel_Carter",
-      "displayName": "Sarah Rachel Carter",
+      "name": "Rachel_Sarah_Carter",
+      "displayName": "Rachel Sarah Carter",
       "notes": [
         "b. Greenwood December 27, 1855",
         "d. Mineral Wells, Palo Pinto County Texas May 7, 1914.  ",
         "Full-blooded Cree Indian.  Her father\u0027s entire family",
         "was banished from their tribe.",
         "She was adopted my Christian missionaries."
+      ],
+      "ranking": "Great Grandparents",
+      "dependencies": [
+        "John_Carter",
+        "Sarah_Lewis"
+      ]
+    },
+    "Rachel_Sarah_Carter": {
+      "spouses": [],
+      "name": "Rachel_Sarah_Carter",
+      "displayName": "Rachel Sarah Carter",
+      "notes": [
+        "b. Greenwood December 27, 1855",
+        "d. Mineral Wells, Palo Pinto County Texas May 7, 1914.  "
       ],
       "ranking": "Great Grandparents",
       "dependencies": [
@@ -188,7 +202,7 @@
       ],
       "ranking": "Grandparents",
       "dependencies": [
-        "Sarah_Rachel_Carter",
+        "Rachel_Sarah_Carter",
         "Wiley_Petit_Bullard"
       ]
     },
@@ -226,7 +240,12 @@
       "spouses": [],
       "name": "Sarah_Lewis",
       "displayName": "Sarah Lewis",
-      "notes": [],
+      "notes": [
+        "Either 1/4 Cherokee or",
+        "Full-blooded Cree Indian.  Her father\u0027s entire family",
+                "was banished from their tribe.",
+                "She was adopted my Christian missionaries."
+      ],
       "ranking": "Great-Great Grandparents",
       "dependencies": []
     },
@@ -316,7 +335,7 @@
       ],
       "ranking": "Grandparents",
       "dependencies": [
-        "Sarah_Rachel_Carter",
+        "Rachel_Sarah_Carter",
         "Wiley_Petit_Bullard"
       ]
     },
@@ -470,7 +489,7 @@
       ],
       "ranking": "Grandparents",
       "dependencies": [
-        "Sarah_Rachel_Carter",
+        "Rachel_Sarah_Carter",
         "Wiley_Petit_Bullard"
       ]
     },
@@ -514,7 +533,7 @@
       ],
       "ranking": "Grandparents",
       "dependencies": [
-        "Sarah_Rachel_Carter",
+        "Rachel_Sarah_Carter",
         "Wiley_Petit_Bullard"
       ]
     },
@@ -799,7 +818,7 @@
       "dependencies": []
     },
     "Ruby_Bullard": {
-      "spouses": [],
+      "spouses": ["Jasper_Porter_Stevenson"],
       "name": "Ruby_Bullard",
       "displayName": "Ruby Bullard",
       "notes": [],
@@ -891,15 +910,12 @@
       ]
     },
     "Jasper_Porter_Stevenson": {
-      "spouses": [],
+      "spouses": ["Ruby_Bullard"],
       "name": "Jasper_Porter_Stevenson",
       "displayName": "Jasper Porter Stevenson`b. 1899`d. 1925",
       "notes": [],
       "ranking": "Parents",
-      "dependencies": [
-        "Jasper_Porter_Stevenson",
-        "Ruby_Bullard"
-      ]
+      "dependencies": []
     },
     "Roberta_Byars": {
       "spouses": [],

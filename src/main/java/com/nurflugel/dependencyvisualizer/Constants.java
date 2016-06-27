@@ -1,8 +1,7 @@
 package com.nurflugel.dependencyvisualizer;
 
 /** Created by IntelliJ IDEA. User: douglasbullard Date: Jan 7, 2008 Time: 4:29:07 PM To change this template use File | Settings | File Templates. */
-public class Constants
-{
+public class Constants {
   public static final String ROOT               = "root";
   public static final String DEPENDENCY_OBJECTS = "dependencyObjects";
   public static final String TRUE               = "true";

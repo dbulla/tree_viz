@@ -22,28 +22,22 @@ import static org.testng.AssertJUnit.assertEquals;
 
 /**  */
 @SuppressWarnings({ "ProhibitedExceptionDeclared" })
-public class ReaderWriterTest
-{
+public class ReaderWriterTest {
   public static final Logger logger = LoggerFactory.getLogger(ReaderWriterTest.class);
   public static final String ITEM_D = "Item d";
   // -------------------------- OTHER METHODS --------------------------
 
   /**  */
-  protected void doTestComparisons(File sourceDataFile, File expectedDotFile) throws IOException
-  {
+  protected void doTestComparisons(File sourceDataFile, File expectedDotFile) throws IOException {
     File     resultFile     = new File(StringUtils.replace(sourceDataFile.getAbsolutePath(), ".txt", ".dot"));
     String[] testOutput     = getOutput(resultFile);
     String[] expectedOutput = getOutput(expectedDotFile);
 
-    if (logger.isDebugEnabled())
-    {
-      logger.debug("Comparing " + expectedDotFile + " and " + resultFile);
-    }
+    if (logger.isDebugEnabled()) { logger.debug("Comparing " + expectedDotFile + " and " + resultFile); }
 
     assertEquals(resultFile + " and " + expectedDotFile + " should have the same number of lines", expectedOutput.length, testOutput.length);
 
-    for (int i = 0; i < expectedOutput.length; i++)
-    {
+    for (int i = 0; i < expectedOutput.length; i++) {
       assertEquals("Test output at line " + i + " should be equal to expected output", expectedOutput[i], testOutput[i]);
     }
   }
@@ -55,16 +49,14 @@ public class ReaderWriterTest
    *
    * @return  A string array, where each element represents one line of the.dot tex file.
    */
-  String[] getOutput(File dotFile) throws IOException
-  {
+  String[] getOutput(File dotFile) throws IOException {
     List<String> strings = FileUtils.readLines(dotFile);
 
     return strings.toArray(new String[strings.size()]);
   }
 
   @Test
-  public void testAutosys() throws IOException
-  {
+  public void testAutosys() throws IOException {
     File        sourceDataFile  = new File("build/resources/test/data/Autosys dependencies.txt");
     File        expectedDotFile = new File("build/resources/test/data/Autosys dependencies_saved.dot");
     DataHandler dataHandler     = new DataHandler(sourceDataFile);
@@ -75,8 +67,7 @@ public class ReaderWriterTest
   }
 
   @Test
-  public void testNoFilters() throws IOException
-  {
+  public void testNoFilters() throws IOException {
     File                       sourceDataFile     = new File("build/resources/test/data/test dependencies.txt");
     File                       expectedDotFile    = new File("build/resources/test/data/test dependencies_saved.dot");
     List<DirectionalFilter>    directionalFilters = new ArrayList<>();
@@ -91,8 +82,7 @@ public class ReaderWriterTest
   }
 
   @Test
-  public void testUpFilters() throws Exception
-  {
+  public void testUpFilters() throws Exception {
     File destFile = new File("build/resources/test/data/test filters up.txt");
 
     copyFile(new File("build/resources/test/data/test dependencies.txt"), destFile);
@@ -115,8 +105,7 @@ public class ReaderWriterTest
   }
 
   @Test
-  public void testUpFiltersOnCdm() throws IOException
-  {
+  public void testUpFiltersOnCdm() throws IOException {
     File destFile = new File("build/resources/test/data/test filters up cdm.txt");
 
     copyFile(new File("build/resources/test/data/Autosys dependencies.txt"), destFile);
@@ -139,8 +128,7 @@ public class ReaderWriterTest
   }
 
   @Test
-  public void testDownFilters() throws Exception
-  {
+  public void testDownFilters() throws Exception {
     File destFile = new File("build/resources/test/data/test filters down.txt");
 
     copyFile(new File("build/resources/test/data/test dependencies.txt"), destFile);
@@ -163,8 +151,7 @@ public class ReaderWriterTest
   }
 
   @Test
-  public void testUpAndDownFilters() throws Exception
-  {
+  public void testUpAndDownFilters() throws Exception {
     File destFile = new File("build/resources/test/data/test filters up and down.txt");
 
     copyFile(new File("build/resources/test/data/test dependencies.txt"), destFile);

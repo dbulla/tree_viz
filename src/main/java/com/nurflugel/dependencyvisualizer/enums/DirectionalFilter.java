@@ -1,8 +1,7 @@
 package com.nurflugel.dependencyvisualizer.enums;
 
 /**  */
-public enum DirectionalFilter
-{
+public enum DirectionalFilter {
   Up,
   Down
 }

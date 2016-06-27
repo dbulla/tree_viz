@@ -8,8 +8,7 @@
 package com.nurflugel.dependencyvisualizer.enums;
 
 /** Copyright 2005, Nurflugel.com. */
-public enum OutputFormat
-{
+public enum OutputFormat {
   // ------------------------------ FIELDS ------------------------------
   Svg              ("SVG", "svg", ".svg"),
   Png              ("PNG", "png", ".png"),
@@ -23,8 +22,7 @@ public enum OutputFormat
 
   // --------------------------- CONSTRUCTORS ---------------------------
   /**  */
-  OutputFormat(String displayLabel, String type, String extension)
-  {
+  OutputFormat(String displayLabel, String type, String extension) {
     this.displayLabel = displayLabel;
     this.type         = type;
     this.extension    = extension;
@@ -32,20 +30,11 @@ public enum OutputFormat
   // -------------------------- OTHER METHODS --------------------------
 
   /**  */
-  public String displayLabel()
-  {
-    return displayLabel;
-  }
+  public String displayLabel() { return displayLabel; }
 
   /**  */
-  public String extension()
-  {
-    return extension;
-  }
+  public String extension() { return extension; }
 
   /**  */
-  public String type()
-  {
-    return type;
-  }
+  public String type() { return type; }
 }

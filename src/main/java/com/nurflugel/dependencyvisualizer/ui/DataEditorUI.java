@@ -23,8 +23,7 @@ import static java.util.stream.Collectors.toList;
 import static javax.swing.BoxLayout.Y_AXIS;
 
 /**  */
-public class DataEditorUI extends NurflugelDialog
-{
+public class DataEditorUI extends NurflugelDialog {
   /** Use serialVersionUID for interoperability. */
   private static final long serialVersionUID     = -7448882163052553989L;
   private JButton           exitButton;
@@ -59,8 +58,7 @@ public class DataEditorUI extends NurflugelDialog
   private JLabel                notesLabel;
   private JLabel                spousesLabel;
 
-  DataEditorUI(BaseDependencyDataSet dataSet)
-  {
+  DataEditorUI(BaseDependencyDataSet dataSet) {
     this.dataSet = dataSet;
     buildDialog();
     addListeners();
@@ -72,8 +70,7 @@ public class DataEditorUI extends NurflugelDialog
     setVisible(true);
   }
 
-  private void buildDialog()
-  {
+  private void buildDialog() {
     setContentPane(mainPanel);
     setModal(true);
     getRootPane().setDefaultButton(newButton);
@@ -95,31 +92,27 @@ public class DataEditorUI extends NurflugelDialog
   }
 
   @SuppressWarnings("unchecked")
-  private void populateDropdowns()
-  {
+  private void populateDropdowns() {
     Stream<? extends BaseDependencyObject> objects         = dataSet.getObjects();
     List<BaseDependencyObject>             dropdownObjects = getDropdownListWithEmptyTopItem(objects);
 
     existingDataCombobox.setModel(new DefaultComboBoxModel(dropdownObjects.toArray(new BaseDependencyObject[dropdownObjects.size()])));
   }
 
-  private List<BaseDependencyObject> getDropdownListWithEmptyTopItem(Stream<? extends BaseDependencyObject> objects)
-  {
+  private List<BaseDependencyObject> getDropdownListWithEmptyTopItem(Stream<? extends BaseDependencyObject> objects) {
     return Stream.concat(singletonList(new DependencyObject("", "")).stream(), objects)
                  .collect(toList());
   }
 
   /** Build up the radio button list from the types. */
-  private void buildRanksPanel()
-  {
+  private void buildRanksPanel() {
     List<Ranking> shapeAttributeses = Ranking.values();
     ButtonGroup   buttonGroup       = new ButtonGroup();
 
     Collections.sort(shapeAttributeses);
     rankingsPanel.removeAll();
 
-    for (Ranking type : shapeAttributeses)
-    {
+    for (Ranking type : shapeAttributeses) {
       JRadioButton button = new JRadioButton(type.getName());
 
       buttonGroup.add(button);
@@ -128,16 +121,14 @@ public class DataEditorUI extends NurflugelDialog
   }
 
   @Override
-  protected void addListeners()
-  {
+  protected void addListeners() {
     exitButton.addActionListener(actionEvent -> setVisible(false));
     editExistingButton.addActionListener(actionEvent -> editExistingDataPoint());
     saveEditedButton.addActionListener(actionEvent -> saveEditedData());
     newButton.addActionListener(actionEvent -> addNewDataPoint());
     addEditRankingsButton.addActionListener(actionEvent -> editRankings());
     existingDataCombobox.addItemListener(this::existingDataSelected);
-    spouseList.addListSelectionListener(e ->
-                                        {
+    spouseList.addListSelectionListener(e -> {
                                           Person person = (Person) existingDataCombobox.getSelectedItem();
 
                                           buildSpousesPanel();  // todo person as arg?
@@ -152,13 +143,11 @@ public class DataEditorUI extends NurflugelDialog
     // });
   }
 
-  private void editRankings()
-  {
+  private void editRankings() {
     // todo another dialog to let you add/edit types
   }
 
-  private void editExistingDataPoint()
-  {
+  private void editExistingDataPoint() {
     existingDataCombobox.setVisible(true);
     displayNameField.setEditable(true);
     exitingDataDropdownLabel.setVisible(true);
@@ -167,8 +156,7 @@ public class DataEditorUI extends NurflugelDialog
     parentsLabel.setVisible(true);
   }
 
-  private void saveEditedData()
-  {
+  private void saveEditedData() {
     // todo set dependencies to parents selected for existing data
     BaseDependencyObject currentDatapoint = getCurrentDatapoint();
 
@@ -185,52 +173,40 @@ public class DataEditorUI extends NurflugelDialog
     parentsLabel.setVisible(false);
   }
 
-  private void setSpouses(BaseDependencyObject currentDatapoint)
-  {
-    if (currentDatapoint instanceof Person)
-    {
+  private void setSpouses(BaseDependencyObject currentDatapoint) {
+    if (currentDatapoint instanceof Person) {
       Person person = (Person) currentDatapoint;
 
       person.removeAllSpouses();
 
       Object[] selectedValues = spouseList.getSelectedValues();
 
-      for (Object value : selectedValues)
-      {
+      for (Object value : selectedValues) {
         person.addSpouse((Person) value);
       }
     }
   }
 
-  private BaseDependencyObject getCurrentDatapoint()
-  {
-    return (BaseDependencyObject) existingDataCombobox.getSelectedItem();
-  }
+  private BaseDependencyObject getCurrentDatapoint() { return (BaseDependencyObject) existingDataCombobox.getSelectedItem(); }
 
-  private void setParents(BaseDependencyObject currentDatapoint)
-  {
+  private void setParents(BaseDependencyObject currentDatapoint) {
     currentDatapoint.removeAllDependencies();
 
     Object[] selectedValues = parentsList.getSelectedValues();
 
-    for (Object value : selectedValues)
-    {
+    for (Object value : selectedValues) {
       currentDatapoint.addDependency(((BaseDependencyObject) value).getName());
     }
   }
 
-  private void setRanking(BaseDependencyObject currentDatapoint)
-  {
-    try
-    {
+  private void setRanking(BaseDependencyObject currentDatapoint) {
+    try {
       Component[] components = rankingsPanel.getComponents();
 
-      for (Component component : components)
-      {
+      for (Component component : components) {
         JRadioButton radioButton = (JRadioButton) component;
 
-        if (radioButton.isSelected())
-        {
+        if (radioButton.isSelected()) {
           String  text    = radioButton.getText();
           Ranking ranking = Ranking.valueOf(text);
 
@@ -246,8 +222,7 @@ public class DataEditorUI extends NurflugelDialog
     }
   }
 
-  private void addNewDataPoint()
-  {
+  private void addNewDataPoint() {
     existingDataCombobox.setVisible(false);
     exitingDataDropdownLabel.setVisible(false);
     saveEditedButton.setVisible(true);
@@ -264,21 +239,19 @@ public class DataEditorUI extends NurflugelDialog
   }
 
   /** Edit the existing datapoint in the dialog. */
-  private void existingDataSelected(ItemEvent itemEvent)
-  {
+  private void existingDataSelected(ItemEvent itemEvent) {
     parentsList.clearSelection();
 
     Object object = itemEvent.getItem();
 
-    if (object instanceof BaseDependencyObject)
-    {
+    if (object instanceof BaseDependencyObject) {
       BaseDependencyObject item = (BaseDependencyObject) object;
 
       // filter out item from list
       List<BaseDependencyObject> filteredObjects = dataSet.getObjects()
                                                           .filter(o -> !item.equals(o))
                                                           .collect(toList());
-      BaseDependencyObject[] listData = filteredObjects.toArray(new BaseDependencyObject[filteredObjects.size()]);
+      BaseDependencyObject[]     listData        = filteredObjects.toArray(new BaseDependencyObject[filteredObjects.size()]);
 
       parentsList.setListData(listData);
       spouseList.setListData(listData);
@@ -292,19 +265,14 @@ public class DataEditorUI extends NurflugelDialog
       setParentsSelected(objectsFromNames);
       setRankingButtons(item);
 
-      if (item.getNotes().length > 0)
-      {
+      if (item.getNotes().length > 0) {
         notesText.setText(item.getNotes()[0]);  // todo fix this!
       }
-      else
-      {
-        notesText.setText("");
-      }
+      else { notesText.setText(""); }
 
       spousesPanel.removeAll();
 
-      if (item instanceof Person)
-      {
+      if (item instanceof Person) {
         Person person = (Person) item;
 
         birthDateField.setText(person.getBirthDate());
@@ -320,8 +288,7 @@ public class DataEditorUI extends NurflugelDialog
     }                                           // end if
   }
 
-  private void activateScreens(boolean value)
-  {
+  private void activateScreens(boolean value) {
     Stream.of(((JComponent) parentsList),  //
               birthDateField,       //
               deathDateField,       //
@@ -335,8 +302,7 @@ public class DataEditorUI extends NurflugelDialog
           .forEach(c -> c.setEnabled(value));
   }
 
-  private Collection<BaseDependencyObject> getObjectsFromNames(Collection<String> names)
-  {
+  private Collection<BaseDependencyObject> getObjectsFromNames(Collection<String> names) {
     List<BaseDependencyObject> objects = names.stream()
                                               .filter(n -> dataSet.containsKey(n))
                                               .map(n -> dataSet.get(n))
@@ -346,14 +312,12 @@ public class DataEditorUI extends NurflugelDialog
     return objects;
   }
 
-  private void buildSpousesPanel()
-  {
+  private void buildSpousesPanel() {
     spousesPanel.removeAll();
 
     Object[] spouses = spouseList.getSelectedValues();
 
-    for (Object object : spouses)
-    {
+    for (Object object : spouses) {
       Person spouse = (Person) object;
       JLabel label  = new JLabel(spouse.getDisplayName());
 
@@ -363,8 +327,7 @@ public class DataEditorUI extends NurflugelDialog
     validate();
   }
 
-  private void setParentsSelected(Collection<BaseDependencyObject> dependencies)
-  {
+  private void setParentsSelected(Collection<BaseDependencyObject> dependencies) {
     List<BaseDependencyObject> listedObjects = dataSet.getObjects()
                                                       .collect(toList());
 
@@ -372,10 +335,9 @@ public class DataEditorUI extends NurflugelDialog
     List<Integer> indicies = dependencies.stream()
                                          .map(listedObjects::indexOf)
                                          .collect(toList());
-    int[] indexes = new int[indicies.size()];
+    int[]         indexes  = new int[indicies.size()];
 
-    for (int i = indexes.length - 1; i >= 0; i--)
-    {
+    for (int i = indexes.length - 1; i >= 0; i--) {
       indexes[i] = indicies.get(i);
       parentsList.ensureIndexIsVisible(indexes[i]);
     }
@@ -383,32 +345,27 @@ public class DataEditorUI extends NurflugelDialog
     parentsList.setSelectedIndices(indexes);
   }
 
-  private void setRankingButtons(BaseDependencyObject item)
-  {
+  private void setRankingButtons(BaseDependencyObject item) {
     String      rankTitle = item.getRanking();
     Component[] buttons   = rankingsPanel.getComponents();
 
-    for (Component component : buttons)
-    {
+    for (Component component : buttons) {
       JRadioButton radioButton = (JRadioButton) component;
       String       text        = radioButton.getText();
 
-      try
-      {
+      try {
         Ranking buttonRanking = Ranking.valueOf(text);
 
         radioButton.setSelected(buttonRanking.equals(Ranking.valueOf(rankTitle)));
       }
-      catch (Exception e)
-      {
+      catch (Exception e) {
         e.printStackTrace();
       }
     }
   }
 
   /** Build up the parent list from the dependencies. */
-  private void buildParentsPanel(BaseDependencyObject currentDatapoint)
-  {
+  private void buildParentsPanel(BaseDependencyObject currentDatapoint) {
     parentsPanel.removeAll();
 
     Collection<String>               parents               = currentDatapoint.getDependencies();
@@ -434,8 +391,7 @@ public class DataEditorUI extends NurflugelDialog
    *
    * @noinspection  ALL
    */
-  private void $$$setupUI$$$()
-  {
+  private void $$$setupUI$$$() {
     mainPanel = new JPanel();
     mainPanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
 
@@ -459,55 +415,47 @@ public class DataEditorUI extends NurflugelDialog
     newButton.setText("New Datapoint");
     panel2.add(newButton,
                new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                                   null, null, null, 0, false));
+                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     editExistingButton = new JButton();
     editExistingButton.setLabel("Edit Existing Datapoint");
     editExistingButton.setText("Edit Existing Datapoint");
     panel2.add(editExistingButton,
                new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                                   null, null, null, 0, false));
+                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     exitButton = new JButton();
     exitButton.setLabel("Back to main app");
     exitButton.setText("Back to main app");
     panel2.add(exitButton,
                new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                                   null, null, null, 0, false));
+                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     saveEditedButton = new JButton();
     saveEditedButton.setLabel("Save Datapoint");
     saveEditedButton.setText("Save Datapoint");
     panel2.add(saveEditedButton,
                new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                                   null, null, null, 0, false));
+                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     deleteButton = new JButton();
     deleteButton.setLabel("Delete Datapoint");
     deleteButton.setText("Delete Datapoint");
     panel2.add(deleteButton,
                new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                                   null, null, null, 0, false));
+                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     addEditRankingsButton = new JButton();
     addEditRankingsButton.setLabel("Edit/Add Rankings");
     addEditRankingsButton.setText("Edit/Add Rankings");
     panel2.add(addEditRankingsButton,
                new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                                   null, null, null, 0, false));
+                                   GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
     final Spacer spacer1 = new Spacer();
 
     panel1.add(spacer1,
-               new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW,
-                                   null, null, null, 0, false));
+               new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
 
     final Spacer spacer2 = new Spacer();
 
     panel1.add(spacer2,
-               new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW,
-                                   null, null, null, 0, false));
+               new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     rankingsPanel = new JPanel();
     panel1.add(rankingsPanel,
                new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
@@ -540,47 +488,47 @@ public class DataEditorUI extends NurflugelDialog
 
     label1.setText("Display name:");
     panel3.add(label1,
-               new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+               new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
+                                   null, null, null, 0, false));
     parentsLabel = new JLabel();
     parentsLabel.setHorizontalAlignment(4);
     parentsLabel.setHorizontalTextPosition(4);
     parentsLabel.setText("Parents:");
     parentsLabel.setVerticalAlignment(1);
     panel3.add(parentsLabel,
-               new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+               new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
+                                   null, null, null, 0, false));
 
     final JLabel label2 = new JLabel();
 
     label2.setText("Notes:");
     panel3.add(label2,
-               new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+               new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
+                                   null, null, null, 0, false));
     notesText = new JTextArea();
     panel3.add(notesText,
-               new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW,
-                                   GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(150, 50), null, 0, false));
+               new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_GROW,
+                                   null, new Dimension(150, 50), null, 0, false));
     displayNameField = new JTextField();
     displayNameField.setEditable(false);
     panel3.add(displayNameField,
-               new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+               new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED,
+                                   null, new Dimension(150, -1), null, 0, false));
     exitingDataDropdownLabel = new JLabel();
     exitingDataDropdownLabel.setHorizontalAlignment(4);
     exitingDataDropdownLabel.setText("Item to edit:");
     exitingDataDropdownLabel.setVisible(true);
     panel3.add(exitingDataDropdownLabel,
-               new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+               new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
+                                   null, null, null, 0, false));
     existingDataCombobox = new JComboBox();
     existingDataCombobox.setInheritsPopupMenu(false);
     existingDataCombobox.setLightWeightPopupEnabled(true);
     existingDataCombobox.setMaximumRowCount(30);
     existingDataCombobox.setVisible(true);
     panel3.add(existingDataCombobox,
-               new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+               new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
+                                   null, null, null, 0, false));
     parentsScrollPane = new JScrollPane();
     panel3.add(parentsScrollPane,
                new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
@@ -602,35 +550,32 @@ public class DataEditorUI extends NurflugelDialog
 
     label3.setText("Spouse(s):");
     panel3.add(label3,
-               new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+               new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
+                                   null, null, null, 0, false));
 
     final JLabel label4 = new JLabel();
 
     label4.setText("Birth date:");
     panel3.add(label4,
-               new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+               new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null,
+                                   null, null, 0, false));
 
     final JLabel label5 = new JLabel();
 
     label5.setText("Death date:");
     panel3.add(label5,
-               new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+               new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null,
+                                   null, null, 0, false));
     birthDateField = new JTextField();
     panel3.add(birthDateField,
-               new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+               new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED,
+                                   null, new Dimension(150, -1), null, 0, false));
     deathDateField = new JTextField();
     panel3.add(deathDateField,
-               new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW,
-                                   GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+               new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED,
+                                   null, new Dimension(150, -1), null, 0, false));
   }
 
   /** @noinspection  ALL */
-  public JComponent $$$getRootComponent$$$()
-  {
-    return mainPanel;
-  }
+  public JComponent $$$getRootComponent$$$() { return mainPanel; }
 }

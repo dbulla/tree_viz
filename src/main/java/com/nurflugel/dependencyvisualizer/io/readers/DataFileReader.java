@@ -15,20 +15,15 @@ import java.io.File;
 /** Created by IntelliJ IDEA. User: douglasbullard Date: Jan 4, 2008 Time: 5:24:16 PM To change this template use File | Settings | File Templates. */
 @Data
 @NoArgsConstructor
-public abstract class DataFileReader
-{
+public abstract class DataFileReader {
   protected File     sourceDataFile;
   protected FileType fileType;
   private Logger     logger = LoggerFactory.getLogger(DataFileReader.class);
 
-  protected DataFileReader(File sourceDataFile)
-  {
-    this.sourceDataFile = sourceDataFile;
-  }
+  protected DataFileReader(File sourceDataFile) { this.sourceDataFile = sourceDataFile; }
 
   /** Parse the individual line. */
-  protected void parseObjectDeclaration(String line, Ranking ranking, BaseDependencyDataSet dataSet)
-  {
+  protected void parseObjectDeclaration(String line, Ranking ranking, BaseDependencyDataSet dataSet) {
     String               lineText = line.trim();
     String[]             strings  = lineText.split("\\|");
     BaseDependencyObject object;
@@ -37,13 +32,9 @@ public abstract class DataFileReader
     object = dataSet.isFamilyTree() ? new Person(name, ranking.getName())
                                     : new DependencyObject(name, ranking.getName());
 
-    if (strings.length > 1)
-    {
-      object.setDisplayName(strings[1].trim());
-    }
+    if (strings.length > 1) { object.setDisplayName(strings[1].trim()); }
 
-    if (strings.length == 3)
-    {
+    if (strings.length == 3) {
       String[] notes = strings[2].split("`");
 
       object.setNotes(notes);
@@ -53,8 +44,7 @@ public abstract class DataFileReader
   }
 
   // -------------------------- OTHER METHODS --------------------------
-  public BaseDependencyDataSet readObjectsFromFile()
-  {
+  public BaseDependencyDataSet readObjectsFromFile() {
     BaseDependencyDataSet dataSet = parseLines();
 
     dataSet.generateRankingsMap();

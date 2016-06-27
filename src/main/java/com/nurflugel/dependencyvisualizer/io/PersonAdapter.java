@@ -9,8 +9,7 @@ import java.lang.reflect.Type;
 public class PersonAdapter                // implements JsonSerializer<Person>, JsonDeserializer<Person>
 {
   // @Override
-  public JsonElement serialize(Person src, Type typeOfSrc, JsonSerializationContext context)
-  {
+  public JsonElement serialize(Person src, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject result = new JsonObject();
 
     result.add("type", new JsonPrimitive(src.getClass().getSimpleName()));
@@ -20,20 +19,15 @@ public class PersonAdapter                // implements JsonSerializer<Person>, 
   }
 
   // @Override
-  public Person deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
-  {
+  public Person deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     JsonObject  jsonObject = json.getAsJsonObject();
     JsonElement element    = jsonObject.get("type");
 
-    if (element != null)
-    {
-      element = jsonObject.get("properties");
-    }
+    if (element != null) { element = jsonObject.get("properties"); }
 
     String className = element.getAsString();
 
-    try
-    {
+    try {
       String theClassName = "com.nurflugel.dependencyvisualizer.data.pojos." + className;
 
       System.out.println("theClassName = " + theClassName);
@@ -42,8 +36,7 @@ public class PersonAdapter                // implements JsonSerializer<Person>, 
 
       return context.deserialize(element, classInstance);
     }
-    catch (ClassNotFoundException cnfe)
-    {
+    catch (ClassNotFoundException cnfe) {
       throw new JsonParseException("Unknown element type: " + className, cnfe);
     }
   }

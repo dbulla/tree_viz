@@ -18,7 +18,7 @@ import java.util.*;
 
 /**  */
 @SuppressWarnings({ "ProhibitedExceptionThrown", "ProhibitedExceptionDeclared" })
-public class DataHandler{
+public class DataHandler {
   private static final Logger           LOGGER             = LoggerFactory.getLogger(DataHandler.class);
   private File                          dotFile;
   private List<DirectionalFilter>       directionalFilters = new ArrayList<>();
@@ -31,15 +31,15 @@ public class DataHandler{
   @Getter
   private BaseDependencyDataSet         dataset;
 
-  public DataHandler(File sourceDataFile){
+  public DataHandler(File sourceDataFile) {
     DataFileFactory dataFileFactory = new DataFileFactory(sourceDataFile);
     String          dotPath         = dataFileFactory.getDotPath();
 
-    try{
+    try {
       dataFileReader = dataFileFactory.getReader();
       dataFileWriter = dataFileFactory.getWriter();
     }
-    catch (InstantiationException | IllegalAccessException e){
+    catch (InstantiationException | IllegalAccessException e) {
       e.printStackTrace();
     }
 
@@ -47,14 +47,14 @@ public class DataHandler{
   }
 
   // -------------------------- OTHER METHODS --------------------------
-  public File doIt(){
+  public File doIt() {
     Collection<BaseDependencyObject> filteredObjects = filterObjects();
     DotFileWriter                    writer          = new DotFileWriter(dotFile, isRanking);
 
-    try{
+    try {
       writer.writeObjectsToDotFile(filteredObjects);
     }
-    catch (Exception e){
+    catch (Exception e) {
       LOGGER.error("Error writing file", e);
     }
 
@@ -62,14 +62,14 @@ public class DataHandler{
   }
 
   /** Filter the objects based on criteria from the UI- - Specific objects - filter up or down - show/don't show tiers (no NSC, etc). */
-  private Collection<BaseDependencyObject> filterObjects(){
+  private Collection<BaseDependencyObject> filterObjects() {
     ObjectFilterer filter = new ObjectFilterer(directionalFilters, typesFilters);
 
     return filter.filter(dataset, keyObjects);
   }
 
   /** See if the given object is found. if not, throw an excpetion. */
-  public BaseDependencyObject findObjectByName(String name) throws Exception{
+  public BaseDependencyObject findObjectByName(String name) throws Exception {
     String               cleanName            = BaseDependencyObject.replaceAllBadChars(name);
     BaseDependencyObject baseDependencyObject = dataset.getObjects()
                                                        .filter(o -> StringUtils.equals(o.getName(), cleanName))
@@ -81,7 +81,7 @@ public class DataHandler{
 
   public void loadDataset() { dataset = dataFileReader.readObjectsFromFile(); }
 
-  public void initialize(){
+  public void initialize() {
     directionalFilters = new ArrayList<>();
     typesFilters       = new ArrayList<>();
     keyObjects         = new TreeSet<>();

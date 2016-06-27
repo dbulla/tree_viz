@@ -18,8 +18,7 @@ import java.util.Hashtable;
  * @author   Jeff Dinkins
  * @version  1.10 02/06/02
  */
-public class ExampleFileFilter extends FileFilter
-{
+public class ExampleFileFilter extends FileFilter {
   private static String                        TYPE_UNKNOWN               = "Type Unknown";
   private static String                        HIDDEN_FILE                = "Hidden File";
   private Hashtable<String, ExampleFileFilter> filters                    = null;
@@ -32,10 +31,7 @@ public class ExampleFileFilter extends FileFilter
    *
    * @see  #addExtension
    */
-  public ExampleFileFilter()
-  {
-    filters = new Hashtable<String, ExampleFileFilter>();
-  }
+  public ExampleFileFilter() { filters = new Hashtable<String, ExampleFileFilter>(); }
 
   /**
    * Creates a file filter from the given string array. Example: new ExampleFileFilter(String {"gif", "jpg" });
@@ -44,20 +40,14 @@ public class ExampleFileFilter extends FileFilter
    *
    * @see  #addExtension
    */
-  public ExampleFileFilter(String[] filters)
-  {
-    this(filters, null);
-  }
+  public ExampleFileFilter(String[] filters) { this(filters, null); }
 
   /**
    * Creates a file filter that accepts files with the given extension. Example: new ExampleFileFilter("jpg");
    *
    * @see  #addExtension
    */
-  public ExampleFileFilter(String extension)
-  {
-    this(extension, null);
-  }
+  public ExampleFileFilter(String extension) { this(extension, null); }
 
   /**
    * Creates a file filter from the given string array and description. Example: new ExampleFileFilter(String {"gif", "jpg" }, "Gif and JPG Images");
@@ -66,20 +56,15 @@ public class ExampleFileFilter extends FileFilter
    *
    * @see  #addExtension
    */
-  public ExampleFileFilter(String[] filters, String description)
-  {
+  public ExampleFileFilter(String[] filters, String description) {
     this();
 
-    for (String filter : filters)
-    {
+    for (String filter : filters) {
       // valueOf filters one by one
       addExtension(filter);
     }
 
-    if (description != null)
-    {
-      setDescription(description);
-    }
+    if (description != null) { setDescription(description); }
   }
 
   /**
@@ -89,19 +74,12 @@ public class ExampleFileFilter extends FileFilter
    *
    * @see  #addExtension
    */
-  public ExampleFileFilter(String extension, String description)
-  {
+  public ExampleFileFilter(String extension, String description) {
     this();
 
-    if (extension != null)
-    {
-      addExtension(extension);
-    }
+    if (extension != null) { addExtension(extension); }
 
-    if (description != null)
-    {
-      setDescription(description);
-    }
+    if (description != null) { setDescription(description); }
   }
 
   /**
@@ -113,12 +91,8 @@ public class ExampleFileFilter extends FileFilter
    *
    * <p>Note that the "." before the extension is not needed and will be ignored.</p>
    */
-  public void addExtension(String extension)
-  {
-    if (filters == null)
-    {
-      filters = new Hashtable<String, ExampleFileFilter>(5);
-    }
+  public void addExtension(String extension) {
+    if (filters == null) { filters = new Hashtable<String, ExampleFileFilter>(5); }
 
     filters.put(extension.toLowerCase(), this);
     fullDescription = null;
@@ -131,8 +105,7 @@ public class ExampleFileFilter extends FileFilter
    * @see  #setExtensionListInDescription
    * @see  #isExtensionListInDescription
    */
-  public void setDescription(String description)
-  {
+  public void setDescription(String description) {
     this.description = description;
     fullDescription  = null;
   }
@@ -146,21 +119,14 @@ public class ExampleFileFilter extends FileFilter
    * @see  #getExtension
    * @see  FileFilter#accept(File)
    */
-  public boolean accept(File f)
-  {
-    if (f != null)
-    {
-      if (f.isDirectory())
-      {
-        return true;
-      }
+  @Override
+  public boolean accept(File f) {
+    if (f != null) {
+      if (f.isDirectory()) { return true; }
 
       String extension = getExtension(f);
 
-      if ((extension != null) && (filters.get(getExtension(f)) != null))
-      {
-        return true;
-      }
+      if ((extension != null) && (filters.get(getExtension(f)) != null)) { return true; }
     }
 
     return false;
@@ -172,17 +138,12 @@ public class ExampleFileFilter extends FileFilter
    * @see  #getExtension
    * @see  FileFilter#accept
    */
-  public String getExtension(File f)
-  {
-    if (f != null)
-    {
+  public String getExtension(File f) {
+    if (f != null) {
       String filename = f.getName();
       int    i        = filename.lastIndexOf('.');
 
-      if ((i > 0) && (i < (filename.length() - 1)))
-      {
-        return filename.substring(i + 1).toLowerCase();
-      }
+      if ((i > 0) && (i < (filename.length() - 1))) { return filename.substring(i + 1).toLowerCase(); }
     }
 
     return null;
@@ -196,34 +157,27 @@ public class ExampleFileFilter extends FileFilter
    * @see  #isExtensionListInDescription
    * @see  FileFilter#getDescription
    */
-  public String getDescription()
-  {
-    if (fullDescription == null)
-    {
-      if ((description == null) || isExtensionListInDescription())
-      {
+  @Override
+  public String getDescription() {
+    if (fullDescription == null) {
+      if ((description == null) || isExtensionListInDescription()) {
         fullDescription = (description == null) ? "("
                                                 : (description + " (");
 
         // build the description from the extension list
         Enumeration<String> extensions = filters.keys();
 
-        if (extensions != null)
-        {
+        if (extensions != null) {
           fullDescription += ("." + extensions.nextElement());
 
-          while (extensions.hasMoreElements())
-          {
+          while (extensions.hasMoreElements()) {
             fullDescription += (", " + extensions.nextElement());
           }
         }
 
         fullDescription += ")";
       }
-      else
-      {
-        fullDescription = description;
-      }
+      else { fullDescription = description; }
     }
 
     return fullDescription;
@@ -238,10 +192,7 @@ public class ExampleFileFilter extends FileFilter
    * @see  #setDescription
    * @see  #setExtensionListInDescription
    */
-  public boolean isExtensionListInDescription()
-  {
-    return useExtensionsInDescription;
-  }
+  public boolean isExtensionListInDescription() { return useExtensionsInDescription; }
 
   /**
    * Determines whether the extension list (.jpg, .gif, etc) should show up in the human readable description.
@@ -252,8 +203,7 @@ public class ExampleFileFilter extends FileFilter
    * @see  #setDescription
    * @see  #isExtensionListInDescription
    */
-  public void setExtensionListInDescription(boolean b)
-  {
+  public void setExtensionListInDescription(boolean b) {
     useExtensionsInDescription = b;
     fullDescription            = null;
   }

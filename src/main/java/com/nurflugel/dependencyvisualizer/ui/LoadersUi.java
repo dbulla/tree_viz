@@ -44,7 +44,7 @@ import static javax.swing.JFileChooser.APPROVE_OPTION;
                     "CallToSystemExit",
                     "ResultOfObjectAllocationIgnored"
                   })
-public class LoadersUi extends JFrame{
+public class LoadersUi extends JFrame {
   /** Use serialVersionUID for interoperability. */
   private static final long     serialVersionUID     = 7606199355832921065L;
   protected static final String LAST_DIR             = "LAST_DIR";
@@ -85,12 +85,12 @@ public class LoadersUi extends JFrame{
   private static final String   WINDOWS              = "windows";
 
   @SuppressWarnings({ "OverridableMethodCallInConstructor" })
-  public LoadersUi(){
+  public LoadersUi() {
     initializeComponents();
     addListeners();
   }
 
-  private void initializeComponents(){
+  private void initializeComponents() {
     Container contentPane = getContentPane();
 
     contentPane.add(mainPanel);
@@ -102,7 +102,7 @@ public class LoadersUi extends JFrame{
     setVisible(true);
   }
 
-  private void retrieveSettings(){
+  private void retrieveSettings() {
     preferences       = Preferences.userNodeForPackage(LoadersUi.class);
     dotExecutablePath = preferences.get(DOT_EXECUTABLE, "");
     rankingCheckBox.setSelected(parseBoolean(preferences.get(USE_RANKING, "true")));
@@ -113,7 +113,7 @@ public class LoadersUi extends JFrame{
 
   /**  */
   @SuppressWarnings({ "NumericCastThatLosesPrecision" })
-  private void center(){
+  private void center() {
     Toolkit   defaultToolkit = Toolkit.getDefaultToolkit();
     Dimension screenSize     = defaultToolkit.getScreenSize();
     int       x              = (int) ((screenSize.getWidth() - getWidth()) / 2);
@@ -123,14 +123,14 @@ public class LoadersUi extends JFrame{
     loadersUi.setBounds(x, y, getWidth(), getHeight());
   }
 
-  private void addListeners(){
+  private void addListeners() {
     familyTreeCheckBox.addActionListener(e -> dataSet.setFamilyTree(familyTreeCheckBox.isSelected()));
     quitButton.addActionListener(actionEvent -> doQuitAction());
-    makeGraphButton.addActionListener(actionEvent ->{
-                                        try{
+    makeGraphButton.addActionListener(actionEvent -> {
+                                        try {
                                           makeGraph();
                                         }
-                                        catch (IOException | InterruptedException e){
+                                        catch (IOException | InterruptedException e) {
                                           logger.error("Error", e);
                                         }
                                       });
@@ -138,16 +138,16 @@ public class LoadersUi extends JFrame{
     loadDatafileButton.addActionListener(actionEvent -> loadDatafile());
     editDataButton.addActionListener(actionEvent -> new DataEditorUI(dataSet));
     saveDataFileButton.addActionListener(e -> dataHandler.saveDataset());
-    addWindowListener(new WindowAdapter(){
+    addWindowListener(new WindowAdapter() {
         @Override
-        public void windowClosing(WindowEvent e){
+        public void windowClosing(WindowEvent e) {
           super.windowClosing(e);
           doQuitAction();
         }
       });
   }
 
-  private void makeGraph() throws IOException, InterruptedException{
+  private void makeGraph() throws IOException, InterruptedException {
     dataHandler.initialize();
     dataHandler.setDirectionalFilters(getDirectionalFilters());
     dataHandler.setRanking(rankingCheckBox.isSelected());
@@ -161,7 +161,7 @@ public class LoadersUi extends JFrame{
     showImage(dotFile.getAbsolutePath());
   }
 
-  private List<DirectionalFilter> getDirectionalFilters(){
+  private List<DirectionalFilter> getDirectionalFilters() {
     List<DirectionalFilter> filters = new ArrayList<>();
 
     if (filterUpCheckBox.isSelected() && filterDownCheckBox.isSelected()) { return filters; }
@@ -174,14 +174,14 @@ public class LoadersUi extends JFrame{
   }
 
   @SuppressWarnings({ "CastConflictsWithInstanceof" })
-  private List<BaseDependencyObject> getKeyObjects(){
+  private List<BaseDependencyObject> getKeyObjects() {
     List<BaseDependencyObject> keyObjects = new ArrayList<>();
 
-    for (Component component : filtersPanel.getComponents()){
-      if (component instanceof JPanel){
+    for (Component component : filtersPanel.getComponents()) {
+      if (component instanceof JPanel) {
         Component[] panelComponents = ((Container) component).getComponents();
 
-        for (Component panelComponent : panelComponents){
+        for (Component panelComponent : panelComponents) {
           if (panelComponent instanceof JComboBox) { getValueFromDropdown(keyObjects, (JComboBox) panelComponent); }
         }
       }
@@ -190,20 +190,20 @@ public class LoadersUi extends JFrame{
     return keyObjects;
   }
 
-  private void getValueFromDropdown(List<BaseDependencyObject> keyObjects, JComboBox comboBox){
+  private void getValueFromDropdown(List<BaseDependencyObject> keyObjects, JComboBox comboBox) {
     BaseDependencyObject selectedItem = (BaseDependencyObject) comboBox.getSelectedItem();
 
     if ((selectedItem != null) && !selectedItem.getName().isEmpty()) { keyObjects.add(selectedItem); }
   }
 
-  private String convertDataFile(File dotFile) throws IOException, InterruptedException{
+  private String convertDataFile(File dotFile) throws IOException, InterruptedException {
     String outputFileName = getOutputFileName(dotFile, getOutputFormat().extension());
     File   outputFile     = new File(dotFile.getParent(), outputFileName);
     File   parentFile     = outputFile.getParentFile();
     String dotFilePath    = dotFile.getAbsolutePath();
     String outputFilePath = outputFile.getAbsolutePath();
 
-    if (outputFile.exists()){
+    if (outputFile.exists()) {
       if (logger.isDebugEnabled()) { logger.debug("Deleting existing version of " + outputFilePath); }
 
       outputFile.delete();  // delete the file before generating it if it exists
@@ -214,9 +214,9 @@ public class LoadersUi extends JFrame{
     String outputFormat = getOutputFormat().type();
     long   start        = new Date().getTime();
 
-    if (isWindows()){
-      String quote = isWindows() ? "\""
-                                 : "";
+    if (isWindows()) {
+      String quote   = isWindows() ? "\""
+                                   : "";
       String dot     = quote + dotExecutablePath + quote;
       String output  = " -o" + quote + outputFilePath + quote;
       String command = dot + " -T" + outputFormat + ' ' + quote + dotFilePath + quote + output;
@@ -227,7 +227,7 @@ public class LoadersUi extends JFrame{
 
       runtime.exec(command).waitFor();
     }
-    else{
+    else {
       String[] command = { dotExecutablePath, "-T" + outputFormat, dotFilePath, "-o" + outputFilePath };
 
       if (logger.isDebugEnabled()) { logger.debug("Command to run: " + concatenate(command) + ", parent file is " + parentFile.getPath()); }
@@ -245,7 +245,7 @@ public class LoadersUi extends JFrame{
   }
 
   /** Takes someting like build.dot and returns build.Png. */
-  private String getOutputFileName(File dotFile, String outputExtension){
+  private String getOutputFileName(File dotFile, String outputExtension) {
     String results = dotFile.getName();
     int    index   = results.indexOf(".dot");
 
@@ -258,10 +258,10 @@ public class LoadersUi extends JFrame{
   private boolean isWindows() { return os.toLowerCase().startsWith(WINDOWS); }
 
   /**  */
-  private String concatenate(String[] command){
+  private String concatenate(String[] command) {
     StringBuilder stringBuffer = new StringBuilder();
 
-    for (String s : command){
+    for (String s : command) {
       stringBuffer.append(' ');
       stringBuffer.append(s);
     }
@@ -269,16 +269,16 @@ public class LoadersUi extends JFrame{
     return stringBuffer.toString();
   }
 
-  private void showImage(String outputFilePath){
-    try{
+  private void showImage(String outputFilePath) {
+    try {
       List<String> commandList = new ArrayList<>();
 
-      if (isWindows()){
+      if (isWindows()) {
         commandList.add("cmd.exe");
         commandList.add("/c");
         commandList.add(outputFilePath);
       }
-      else if (isOsX()){
+      else if (isOsX()) {
         // commandList.add(PREVIEW_LOCATION);
         commandList.add("open");
 
@@ -295,7 +295,7 @@ public class LoadersUi extends JFrame{
       Process     process     = new ProcessBuilder(commandList).start();
       InputStream errorStream = process.getErrorStream();
     }
-    catch (Exception e){
+    catch (Exception e) {
       logger.error("Error", e);
     }
   }
@@ -304,10 +304,10 @@ public class LoadersUi extends JFrame{
   private boolean isOsX() { return os.toLowerCase().startsWith("mac os"); }
 
   /**  */
-  private void findDotExecutablePath(){
+  private void findDotExecutablePath() {
     dotExecutablePath = preferences.get(DOT_EXECUTABLE, "");
 
-    if ((dotExecutablePath == null) || dotExecutablePath.isEmpty()){
+    if ((dotExecutablePath == null) || dotExecutablePath.isEmpty()) {
       if (os.startsWith(MAC_OS)) { dotExecutablePath = OSX_DOT_LOCATION; }
       else  // if (os.toLowerCase().startsWith("windows"))
       { dotExecutablePath = WINDOWS_DOT_LOCATION; }
@@ -317,18 +317,18 @@ public class LoadersUi extends JFrame{
     NoDotDialog dialog            = new NoDotDialog(dotExecutablePath);
     File        dotExecutableFile = dialog.getFile();
 
-    if (dotExecutableFile != null){
+    if (dotExecutableFile != null) {
       dotExecutablePath = dotExecutableFile.getAbsolutePath();
       preferences.put(DOT_EXECUTABLE, dotExecutablePath);
     }
-    else{
+    else {
       JOptionPane.showMessageDialog(this, "Sorry, this program can't run without the GraphViz installation.\n"
                                       + "  Please install that and try again");
       doQuitAction();
     }
   }
 
-  private void loadDatafile(){
+  private void loadDatafile() {
     // load data
     setCursor(busyCursor);
 
@@ -348,7 +348,7 @@ public class LoadersUi extends JFrame{
 
     int returnVal = fileChooser.showOpenDialog(this);
 
-    if (returnVal == APPROVE_OPTION){
+    if (returnVal == APPROVE_OPTION) {
       File selectedFile = fileChooser.getSelectedFile();
 
       preferences.put(LAST_DIR, selectedFile.getParent());
@@ -369,13 +369,13 @@ public class LoadersUi extends JFrame{
     setCursor(normalCursor);
   }
 
-  private void populateDropdowns(){
+  private void populateDropdowns() {
     List<Ranking> shapeAttributeses = Ranking.values();
 
     filtersPanel.removeAll();
     filtersPanel.setLayout(new GridLayout((shapeAttributeses.size() / 2) + 1, 2));
 
-    for (Ranking type : shapeAttributeses){
+    for (Ranking type : shapeAttributeses) {
       BaseDependencyObject[] filteredObjects = getObjectsForType(type);
       JComboBox              comboBox        = new JComboBox(filteredObjects);
       JPanel                 borderPanel     = new JPanel();
@@ -387,42 +387,42 @@ public class LoadersUi extends JFrame{
     }
   }
 
-  private BaseDependencyObject[] getObjectsForType(Ranking type){
+  private BaseDependencyObject[] getObjectsForType(Ranking type) {
     List<BaseDependencyObject> filteredObjects = new ArrayList<>();
 
     filteredObjects.add(new DependencyObject("", type.getName()));
     filteredObjects.addAll(dataSet.getObjects()
-                             .filter(dependencyObject -> dependencyObject.getRanking().equals(type.getName()))
-                             .collect(toList()));
+                                  .filter(dependencyObject -> dependencyObject.getRanking().equals(type.getName()))
+                                  .collect(toList()));
 
     return filteredObjects.toArray(new BaseDependencyObject[filteredObjects.size()]);
   }
 
-  private void doQuitAction(){
+  private void doQuitAction() {
     saveSettings();
     System.exit(0);
   }
 
-  private void saveSettings(){
+  private void saveSettings() {
     preferences.putBoolean(USE_RANKING, rankingCheckBox.isSelected());
     preferences.putBoolean(FILTER_UP, filterUpCheckBox.isSelected());
     preferences.putBoolean(FILTER_DOWN, filterDownCheckBox.isSelected());
     preferences.putBoolean(FAMILY_TREE, familyTreeCheckBox.isSelected());
   }
 
-  private OutputFormat getOutputFormat(){
+  private OutputFormat getOutputFormat() {
     if (isOsX()) { return Dot; }
 
     return Dot;
   }
 
-  private void populateDropdown(JComboBox comboBox, Ranking type){
+  private void populateDropdown(JComboBox comboBox, Ranking type) {
     List<BaseDependencyObject> dropdownList = new ArrayList<>();
 
     dropdownList.add(new DependencyObject("", type.getName()));
     dropdownList.addAll(dataSet.getObjects()
-                          .filter(object -> object.getRanking().equals(type.getName()))
-                          .collect(toList()));
+                               .filter(object -> object.getRanking().equals(type.getName()))
+                               .collect(toList()));
 
     BaseDependencyObject[] loaderObjects = dropdownList.toArray(new BaseDependencyObject[dropdownList.size()]);
 
@@ -431,10 +431,10 @@ public class LoadersUi extends JFrame{
   }
 
   /**  */
-  private void setDefaultDotLocation(){
+  private void setDefaultDotLocation() {
     dotExecutablePath = preferences.get(DOT_EXECUTABLE, "");
 
-    if ((dotExecutablePath == null) || dotExecutablePath.isEmpty()){
+    if ((dotExecutablePath == null) || dotExecutablePath.isEmpty()) {
       if (os.startsWith(MAC_OS)) { dotExecutablePath = OSX_DOT_LOCATION; }
       else  // if (os.toLowerCase().startsWith("windows"))
       { dotExecutablePath = WINDOWS_DOT_LOCATION; }
@@ -458,7 +458,7 @@ public class LoadersUi extends JFrame{
    *
    * @noinspection  ALL
    */
-  private void $$$setupUI$$$(){
+  private void $$$setupUI$$$() {
     mainPanel = new JPanel();
     mainPanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
     filtersPanel = new JPanel();

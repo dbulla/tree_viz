@@ -8,12 +8,8 @@ import lombok.EqualsAndHashCode;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode
-public class RankingName
-{
+public class RankingName {
   private String name;
 
-  public Ranking getRanking(String title) throws Exception
-  {
-    return Ranking.valueOf(title);
-  }
+  public Ranking getRanking(String title) throws Exception { return Ranking.valueOf(title); }
 }

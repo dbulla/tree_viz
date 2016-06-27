@@ -13,7 +13,7 @@ import static org.apache.commons.lang3.StringUtils.replace;
 @EqualsAndHashCode(of = "name")
 @NoArgsConstructor
 @ToString(of = "displayName")
-public class BaseDependencyObject implements Comparable{
+public class BaseDependencyObject implements Comparable {
   // ------------------------------ FIELDS ------------------------------
   protected String    name;
   protected String    displayName;
@@ -21,13 +21,13 @@ public class BaseDependencyObject implements Comparable{
   protected String    ranking;
   private Set<String> dependencies = new HashSet<>();
 
-  public BaseDependencyObject(String name, String ranking){
+  public BaseDependencyObject(String name, String ranking) {
     this.name    = replaceAllBadChars(name);
     displayName  = name;
     this.ranking = ranking;
   }
 
-  public BaseDependencyObject(String name, String[] notes, String ranking){
+  public BaseDependencyObject(String name, String[] notes, String ranking) {
     this.name    = replaceAllBadChars(name);
     this.notes   = notes;
     this.ranking = ranking;
@@ -38,7 +38,7 @@ public class BaseDependencyObject implements Comparable{
    *
    * <p>todo - something better with regular expressions - anything except text and numbers in one expression</p>
    */
-  public static String replaceAllBadChars(String text){
+  public static String replaceAllBadChars(String text) {
     String newValue = text.trim();
 
     newValue = replace(newValue, "-", "_");
@@ -54,8 +54,8 @@ public class BaseDependencyObject implements Comparable{
 
   // --------------------- Interface Comparable ---------------------
   @Override
-  public int compareTo(Object o){
-    if (o instanceof BaseDependencyObject){
+  public int compareTo(Object o) {
+    if (o instanceof BaseDependencyObject) {
       BaseDependencyObject theOther = (BaseDependencyObject) o;
 
       return name.compareTo(theOther.getName());

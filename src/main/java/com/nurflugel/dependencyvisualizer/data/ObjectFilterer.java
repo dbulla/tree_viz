@@ -12,11 +12,11 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 /**  */
-public class ObjectFilterer{
+public class ObjectFilterer {
   private List<DirectionalFilter> directionalFilters = new ArrayList<>();
   private List<Ranking>           typesToFilter      = new ArrayList<>();
 
-  public ObjectFilterer(List<DirectionalFilter> directionalFilters, List<Ranking> typesToFilter){
+  public ObjectFilterer(List<DirectionalFilter> directionalFilters, List<Ranking> typesToFilter) {
     this.directionalFilters.addAll(directionalFilters);
     this.typesToFilter.addAll(typesToFilter);
   }
@@ -30,7 +30,7 @@ public class ObjectFilterer{
    *
    * @return  the filtered array of typesToFilter
    */
-  public Collection<BaseDependencyObject> filter(BaseDependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects){
+  public Collection<BaseDependencyObject> filter(BaseDependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects) {
     Set<BaseDependencyObject> objectsToFilter = dataSet.getObjects()
                                                        .collect(toSet());
 
@@ -40,12 +40,12 @@ public class ObjectFilterer{
     Set<BaseDependencyObject> filteredObjects = new TreeSet<>();
 
     // handle empty case - fix this in the UI, dammit!
-    if (directionalFilters.isEmpty()){
+    if (directionalFilters.isEmpty()) {
       directionalFilters.add(Down);
       directionalFilters.add(Up);
     }
-    else{
-      for (DirectionalFilter directionalFilter : directionalFilters){
+    else {
+      for (DirectionalFilter directionalFilter : directionalFilters) {
         Set<BaseDependencyObject> loaderObjects = filterObjectsByDirection(dataSet, keyObjects, 0, directionalFilter);
 
         filteredObjects.addAll(loaderObjects);
@@ -60,10 +60,10 @@ public class ObjectFilterer{
    * it exits. If so, it calls itself again.
    */
   private Set<BaseDependencyObject> filterObjectsByDirection(BaseDependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects, int initialSize,
-                                                             DirectionalFilter directionalFilter){
+                                                             DirectionalFilter directionalFilter) {
     Set<BaseDependencyObject> filteredObjects = new HashSet<>();
 
-    if (directionalFilter.equals(Up)){
+    if (directionalFilter.equals(Up)) {
       Set<BaseDependencyObject> objects = filterUp(dataSet, keyObjects);
 
       filteredObjects.addAll(objects);
@@ -81,24 +81,24 @@ public class ObjectFilterer{
   }
 
   /** Filter from this object on up. */
-  private Set<BaseDependencyObject> filterUp(BaseDependencyDataSet dataSet, Collection<BaseDependencyObject> keyObjects){
+  private Set<BaseDependencyObject> filterUp(BaseDependencyDataSet dataSet, Collection<BaseDependencyObject> keyObjects) {
     Set<BaseDependencyObject> filteredObjects = new TreeSet<>();
 
-    if (directionalFilters.contains(Up)){
+    if (directionalFilters.contains(Up)) {
       // Is this object in the list of key objects we're interested in?
       // Add the object itself if it has a higher ranking.
       // now, valueOf all dependencies of this object that have a higher ranking, too
       dataSet.getObjects()
              .filter(keyObjects::contains)
-             .forEach(mainObject ->{
+             .forEach(mainObject -> {
                         // Add the object itself if it has a higher ranking.
                         filteredObjects.add(mainObject);
 
                         // now, valueOf all dependencies of this object that have a higher ranking, too
                         Collection<String>         dependencies          = mainObject.getDependencies();
                         List<BaseDependencyObject> baseDependencyObjects = dependencies.stream()
-                                                                             .map(dataSet::get)
-                                                                             .collect(toList());
+                                                                                       .map(dataSet::get)
+                                                                                       .collect(toList());
 
                         filteredObjects.addAll(baseDependencyObjects);
                         });
@@ -112,7 +112,7 @@ public class ObjectFilterer{
    *
    * <p>Go through each of the objects, and see if any of the key objects call them as references. If so, add them to the list.</p>
    */
-  private Set<BaseDependencyObject> filterDown(BaseDependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects){
+  private Set<BaseDependencyObject> filterDown(BaseDependencyDataSet dataSet, Set<BaseDependencyObject> keyObjects) {
     Set<BaseDependencyObject> filteredObjects = new TreeSet<>();
     Set<String>               keyNames        = keyObjects.stream()
                                                           .map(BaseDependencyObject::getName)
@@ -122,12 +122,12 @@ public class ObjectFilterer{
 
     filteredObjects.addAll(keyObjects);
 
-    if (!keyNames.isEmpty()){  //
+    if (!keyNames.isEmpty()) {  //
       dataSet.getObjects()
 
              // todo can filter and collect
              // for this object, are any of the keyNames in it's list of dependencies?
-             .forEach(mainObject ->{  //
+             .forEach(mainObject -> {  //
 
                         Set<String>          dependencies = mainObject.getDependencies();
                         Sets.SetView<String> intersection = Sets.intersection(keyNames, dependencies);

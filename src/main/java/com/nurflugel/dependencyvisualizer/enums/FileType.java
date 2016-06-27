@@ -11,8 +11,7 @@ import java.io.File;
 import java.util.stream.Stream;
 
 /** What type of text file is this? */
-public enum FileType
-{
+public enum FileType {
   JSON(".json", JsonFileReader.class, JsonFileWriter.class),
   TXT (".txt", TextFileReader.class, TextFileWriter.class);
 
@@ -20,20 +19,15 @@ public enum FileType
   private Class<? extends DataFileReader> fileReaderClass;
   private Class<? extends DataFileWriter> fileWriterClass;
 
-  FileType(String extension, Class<? extends DataFileReader> fileReaderClass, Class<? extends DataFileWriter> fileWriterClass)
-  {
+  FileType(String extension, Class<? extends DataFileReader> fileReaderClass, Class<? extends DataFileWriter> fileWriterClass) {
     this.extension       = extension;
     this.fileReaderClass = fileReaderClass;
     this.fileWriterClass = fileWriterClass;
   }
 
-  public String getExtension()
-  {
-    return extension;
-  }
+  public String getExtension() { return extension; }
 
-  public static FileType findByExtension(String text)
-  {
+  public static FileType findByExtension(String text) {
     String fullText = '.' + text;
 
     return Stream.of(values())
@@ -41,13 +35,9 @@ public enum FileType
                  .findAny().orElseThrow(RuntimeException::new);
   }
 
-  public String getDotPath(String absolutePath)
-  {
-    return StringUtils.replace(absolutePath, extension, ".dot");
-  }
+  public String getDotPath(String absolutePath) { return StringUtils.replace(absolutePath, extension, ".dot"); }
 
-  public DataFileReader getDataFileReader(File sourceDataFile) throws IllegalAccessException, InstantiationException
-  {
+  public DataFileReader getDataFileReader(File sourceDataFile) throws IllegalAccessException, InstantiationException {
     DataFileReader reader = fileReaderClass.newInstance();
 
     reader.setSourceDataFile(sourceDataFile);
@@ -55,8 +45,7 @@ public enum FileType
     return reader;
   }
 
-  public DataFileWriter getDataFileWriter(File sourceDataFile) throws IllegalAccessException, InstantiationException
-  {
+  public DataFileWriter getDataFileWriter(File sourceDataFile) throws IllegalAccessException, InstantiationException {
     DataFileWriter reader = fileWriterClass.newInstance();
 
     return reader;

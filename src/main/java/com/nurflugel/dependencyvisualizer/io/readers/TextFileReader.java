@@ -22,45 +22,45 @@ import static com.nurflugel.dependencyvisualizer.Constants.*;
 /**  */
 @Data
 @NoArgsConstructor
-public class TextFileReader extends DataFileReader{
+public class TextFileReader extends DataFileReader {
   private static final Logger logger = LoggerFactory.getLogger(TextFileReader.class);
   // private boolean isFamilyTree;
 
-  TextFileReader(File sourceDataFile){
+  TextFileReader(File sourceDataFile) {
     super(sourceDataFile);
     fileType = FileType.TXT;
   }
 
   @Override
   @SuppressWarnings({ "ConstantConditions" })
-  protected BaseDependencyDataSet parseLines(){
+  protected BaseDependencyDataSet parseLines() {
     List<String>          lines;
     boolean               isFamilyTree;
     BaseDependencyDataSet dataSet = new DependencyDataSet();
 
-    try{
+    try {
       lines        = FileUtils.readLines(sourceDataFile);
       isFamilyTree = lines.stream()
                           .filter(l -> l.startsWith("&"))
                           .filter(this::isFamilyHistory)
                           .findFirst().isPresent();
-      dataSet = isFamilyTree ? new FamilyTreeDataSet()
-                             : new DependencyDataSet();
+      dataSet      = isFamilyTree ? new FamilyTreeDataSet()
+                                  : new DependencyDataSet();
 
       Ranking currentRanking = null;
       boolean isDependencies = false;
 
-      for (String line : lines){
+      for (String line : lines) {
         if (logger.isDebugEnabled()) { logger.debug(line); }
 
-        if (!line.startsWith("//") && (!StringUtils.isEmpty(line))){
+        if (!line.startsWith("//") && (!StringUtils.isEmpty(line))) {
           if (line.startsWith("#dependencies")) { isDependencies = true; }
           else if (line.startsWith("#")) { currentRanking = getObjectType(line); }
-          else if (isDependencies){
-            try{
+          else if (isDependencies) {
+            try {
               parseDependency(line, dataSet);
             }
-            catch (Exception e){
+            catch (Exception e) {
               e.printStackTrace();
             }
           }
@@ -68,7 +68,7 @@ public class TextFileReader extends DataFileReader{
         }
       }
     }
-    catch (IOException e){
+    catch (IOException e) {
       e.printStackTrace();
     }
 
@@ -76,7 +76,7 @@ public class TextFileReader extends DataFileReader{
   }
 
   /** Determine if this is a family history or not. */
-  private boolean isFamilyHistory(String line){
+  private boolean isFamilyHistory(String line) {
     String[] nibbles  = line.trim().split("=");
     boolean  isFamily = Boolean.parseBoolean(nibbles[0]);
     boolean  isTrue   = Boolean.parseBoolean(nibbles[1]);
@@ -85,14 +85,14 @@ public class TextFileReader extends DataFileReader{
   }
 
   /**  */
-  private Ranking getObjectType(String line){
+  private Ranking getObjectType(String line) {
     String   strippedLine = line.substring(line.indexOf("#") + 1).trim();
     String[] chunks       = strippedLine.split(",");
     Shape    shape        = null;
     Color    color        = null;
     String   name         = null;
 
-    for (String chunk : chunks){
+    for (String chunk : chunks) {
       String[] nibbles = chunk.trim().split("=");
 
       if (nibbles[0].trim().equalsIgnoreCase(NAME)) { name = nibbles[1].trim(); }
@@ -103,19 +103,19 @@ public class TextFileReader extends DataFileReader{
     return Ranking.valueOf(name, color, shape);
   }
 
-  private void parseDependency(String line, BaseDependencyDataSet dataSet) throws Exception{
-    try{
+  private void parseDependency(String line, BaseDependencyDataSet dataSet) throws Exception {
+    try {
       String   lineToParse = line.trim();
       String[] chunks      = lineToParse.substring(0, lineToParse.length()).split("->");
 
-      for (int i = 0; i < (chunks.length - 1); i++){
+      for (int i = 0; i < (chunks.length - 1); i++) {
         BaseDependencyObject main       = dataSet.getLoaderObjectByName(chunks[i]);
         BaseDependencyObject dependency = dataSet.getLoaderObjectByName(chunks[i + 1]);
 
         main.addDependency(dependency.getName());
       }
     }
-    catch (Exception e){
+    catch (Exception e) {
       logger.error("Error parsing dependency line: " + line, e);
       throw e;
     }

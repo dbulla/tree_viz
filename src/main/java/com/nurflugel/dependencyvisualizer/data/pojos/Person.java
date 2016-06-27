@@ -10,35 +10,19 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class Person extends BaseDependencyObject
-{
+public class Person extends BaseDependencyObject {
   private Set<String> spouses   = new HashSet<>();
   private String      birthDate;
   private String      deathDate;
 
-  public Person(String name, String type)
-  {
-    super(name, type);
-  }
+  public Person(String name, String type) { super(name, type); }
 
-  public Person(String name, String[] notes, String type)
-  {
-    super(name, notes, type);
-  }
+  public Person(String name, String[] notes, String type) { super(name, notes, type); }
 
-  public void addSpouse(Person spouse)
-  {
-    spouses.add(spouse.getName());
-  }
+  public void addSpouse(Person spouse) { spouses.add(spouse.getName()); }
 
   @Override
-  public String toString()
-  {
-    return getDisplayName();
-  }
+  public String toString() { return getDisplayName(); }
 
-  public void removeAllSpouses()
-  {
-    spouses.clear();
-  }
+  public void removeAllSpouses() { spouses.clear(); }
 }

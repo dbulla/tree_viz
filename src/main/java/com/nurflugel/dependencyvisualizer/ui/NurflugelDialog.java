@@ -8,13 +8,11 @@ import java.awt.*;
 
 /**  */
 @SuppressWarnings({ "AbstractClassExtendsConcreteClass" })
-public abstract class NurflugelDialog extends JDialog
-{
+public abstract class NurflugelDialog extends JDialog {
   protected abstract void addListeners();
 
   /**  */
-  void center()
-  {
+  void center() {
     Toolkit   defaultToolkit = Toolkit.getDefaultToolkit();
     Dimension screenSize     = defaultToolkit.getScreenSize();
     int       x              = (int) ((screenSize.getWidth() - getWidth()) / 2);
@@ -23,8 +21,7 @@ public abstract class NurflugelDialog extends JDialog
     setBounds(x, y, getWidth(), getHeight());
   }
 
-  void setHeightToScreen()
-  {
+  void setHeightToScreen() {
     Toolkit   defaultToolkit = Toolkit.getDefaultToolkit();
     Dimension screenSize     = defaultToolkit.getScreenSize();
     int       width          = (int) getSize().getWidth();
@@ -33,8 +30,7 @@ public abstract class NurflugelDialog extends JDialog
     setSize(width, height);
   }
 
-  void setHeightToHalfScreen()
-  {
+  void setHeightToHalfScreen() {
     Toolkit   defaultToolkit = Toolkit.getDefaultToolkit();
     Dimension screenSize     = defaultToolkit.getScreenSize();
     int       width          = (int) getSize().getWidth();

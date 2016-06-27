@@ -10,7 +10,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @ToString(callSuper = true)
-public class DependencyObject extends BaseDependencyObject{
+public class DependencyObject extends BaseDependencyObject {
   // --------------------------- CONSTRUCTORS ---------------------------
   public DependencyObject(String name, String ranking) { super(name, ranking); }
 }

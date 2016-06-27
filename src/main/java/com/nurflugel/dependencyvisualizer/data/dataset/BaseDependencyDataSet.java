@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 /** Created by douglas_bullard on 1/18/16. */
-public abstract class BaseDependencyDataSet{
+public abstract class BaseDependencyDataSet {
   private static Logger           logger       = LoggerFactory.getLogger(DependencyDataSet.class);
   @Getter
   @Setter
@@ -23,7 +23,7 @@ public abstract class BaseDependencyDataSet{
   public abstract Stream<BaseDependencyObject> getObjects();
 
   // public abstract Map<String,DependencyObject> getObjectsMap() ;
-  public Collection<Ranking> getRankings(){
+  public Collection<Ranking> getRankings() {
     List<Ranking> collect = getObjects()
                               .map(BaseDependencyObject::getRanking)
                                         .distinct()
@@ -35,13 +35,13 @@ public abstract class BaseDependencyDataSet{
 
   public void add(BaseDependencyObject newObject) { put(newObject.getName(), newObject); }
 
-  public BaseDependencyObject getLoaderObjectByName(String name){
+  public BaseDependencyObject getLoaderObjectByName(String name) {
     String               trimmedName          = BaseDependencyObject.replaceAllBadChars(name.trim());
     boolean              exists               = containsKey(trimmedName);
     BaseDependencyObject baseDependencyObject;
 
     if (exists) { baseDependencyObject = get(trimmedName); }
-    else{
+    else {
       baseDependencyObject = new DependencyObject(trimmedName, Ranking.first().getName());
 
       if (logger.isDebugEnabled()) { logger.debug("Adding unregistered object: " + trimmedName + " as object of type " + baseDependencyObject.getRanking()); }

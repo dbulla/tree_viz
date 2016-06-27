@@ -20,30 +20,24 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class JsonFileReader extends DataFileReader
-{
+public class JsonFileReader extends DataFileReader {
   static final Logger logger = LoggerFactory.getLogger(JsonFileReader.class);
 
-  JsonFileReader(File sourceDataFile)
-  {
-    super(sourceDataFile);
-  }
+  JsonFileReader(File sourceDataFile) { super(sourceDataFile); }
 
+  @Override
   @SuppressWarnings({ "ConstantConditions" })
-  protected BaseDependencyDataSet parseLines()
-  {
+  protected BaseDependencyDataSet parseLines() {
     GsonBuilder gsonBuilder = new GsonBuilder();
     Gson        gson        = gsonBuilder.create();
 
     // determine if it's a family tree BEFORE determining which type of data set
     List<String> lines;
 
-    try
-    {
+    try {
       lines = FileUtils.readLines(sourceDataFile);
     }
-    catch (IOException e)
-    {
+    catch (IOException e) {
       e.printStackTrace();
       lines = new ArrayList<>();
     }
@@ -51,14 +45,14 @@ public class JsonFileReader extends DataFileReader
     boolean isFamilyTree = lines.stream()
                                 .filter(l -> l.contains("isFamilyTree"))
                                 .filter(l -> l.contains("true"))
-                                .findFirst().isPresent();
+                                .findFirst()
+                                .isPresent();
 
-    try(BufferedReader br = new BufferedReader(new FileReader(sourceDataFile)))
-    {
+    try(BufferedReader br = new BufferedReader(new FileReader(sourceDataFile))) {
       // convert the json string back to object
       BaseDependencyDataSet dataSet;
-      Type theClazz = isFamilyTree ? FamilyTreeDataSet.class
-                                   : DependencyDataSet.class;
+      Type                  theClazz = isFamilyTree ? FamilyTreeDataSet.class
+                                                    : DependencyDataSet.class;
 
       dataSet = gson.fromJson(br, theClazz);
       dataSet.rectify();
@@ -66,8 +60,7 @@ public class JsonFileReader extends DataFileReader
 
       return dataSet;
     }
-    catch (IOException e)
-    {
+    catch (IOException e) {
       throw new RuntimeException(e);
     }
   }

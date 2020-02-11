@@ -13,12 +13,27 @@ public abstract class NurflugelDialog extends JDialog {
 
   /**  */
   void center() {
+    
+    String alpha="abcedfg";
+    String dibble="adfafd";
+    boolean allMatch    = dibble.chars().allMatch(d -> alpha.indexOf(d) >= 0);
+
     Toolkit   defaultToolkit = Toolkit.getDefaultToolkit();
     Dimension screenSize     = defaultToolkit.getScreenSize();
     int       x              = (int) ((screenSize.getWidth() - getWidth()) / 2);
     int       y              = (int) ((screenSize.getHeight() - getHeight()) / 2);
 
     setBounds(x, y, getWidth(), getHeight());
+  }
+ /**  */
+  boolean center2() {
+    
+    Character ch=new Character(((char) 5));
+    
+    String alpha="abcedfg";
+    String text="adfafd";
+    boolean allMatch    = alpha.chars().allMatch(d -> text.indexOf(d) >= 0);
+return allMatch;
   }
 
   void setHeightToScreen() {

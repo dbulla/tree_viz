@@ -23,7 +23,7 @@ import static com.nurflugel.dependencyvisualizer.Constants.*;
 @Data
 @NoArgsConstructor
 public class TextFileReader extends DataFileReader {
-  private static final Logger logger = LoggerFactory.getLogger(TextFileReader.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(TextFileReader.class);
   // private boolean isFamilyTree;
 
   TextFileReader(File sourceDataFile) {
@@ -51,19 +51,12 @@ public class TextFileReader extends DataFileReader {
       boolean isDependencies = false;
 
       for (String line : lines) {
-        if (logger.isDebugEnabled()) { logger.debug(line); }
+        if (LOGGER.isDebugEnabled()) { LOGGER.debug(line); }
 
         if (!line.startsWith("//") && (!StringUtils.isEmpty(line))) {
           if (line.startsWith("#dependencies")) { isDependencies = true; }
           else if (line.startsWith("#")) { currentRanking = getObjectType(line); }
-          else if (isDependencies) {
-            try {
-              parseDependency(line, dataSet);
-            }
-            catch (Exception e) {
-              e.printStackTrace();
-            }
-          }
+          else if (isDependencies) { parseDependency(dataSet, line); }
           else { parseObjectDeclaration(line, currentRanking, dataSet); }
         }
       }
@@ -73,6 +66,15 @@ public class TextFileReader extends DataFileReader {
     }
 
     return dataSet;
+  }
+
+  private void parseDependency(BaseDependencyDataSet dataSet, String line) {
+    try {
+      parseDependency(line, dataSet);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   /** Determine if this is a family history or not. */
@@ -86,7 +88,7 @@ public class TextFileReader extends DataFileReader {
 
   /**  */
   private Ranking getObjectType(String line) {
-    String   strippedLine = line.substring(line.indexOf("#") + 1).trim();
+    String   strippedLine = line.substring(line.indexOf('#') + 1).trim();
     String[] chunks       = strippedLine.split(",");
     Shape    shape        = null;
     Color    color        = null;
@@ -116,7 +118,7 @@ public class TextFileReader extends DataFileReader {
       }
     }
     catch (Exception e) {
-      logger.error("Error parsing dependency line: " + line, e);
+      LOGGER.error("Error parsing dependency line: " + line, e);
       throw e;
     }
   }

@@ -76,7 +76,6 @@ public class LoadersUi extends JFrame {
   private JButton               saveDataFileButton;
   private JButton               clearDropdownsButton;
 
-  // private Set<DependencyObject> objects              = new TreeSet<>();
   private BaseDependencyDataSet dataSet;
   private static final String   WINDOWS_DOT_LOCATION = "\"C:\\Program Files\\ATT\\Graphviz\\bin\\dot.exe\"";
   private static final String   OSX_DOT_LOCATION     = "/Applications/Graphviz.app/Contents/MacOS/dot";
@@ -84,8 +83,7 @@ public class LoadersUi extends JFrame {
   private static final String   PREVIEW_LOCATION     = "/Applications/Preview.app/Contents/MacOS/Preview";
   private static final String   WINDOWS              = "windows";
 
-  @SuppressWarnings({ "OverridableMethodCallInConstructor" })
-  public LoadersUi() {
+  private LoadersUi() {
     initializeComponents();
     addListeners();
   }
@@ -173,7 +171,6 @@ public class LoadersUi extends JFrame {
     return filters;
   }
 
-  @SuppressWarnings({ "CastConflictsWithInstanceof" })
   private List<BaseDependencyObject> getKeyObjects() {
     List<BaseDependencyObject> keyObjects = new ArrayList<>();
 
@@ -441,7 +438,7 @@ public class LoadersUi extends JFrame {
     }
   }
 
-  /** Get the dot executable path if it already exists in Preferences, or is intalled. If not easily findable, as the user where the hell he put it. */
+  /** Get the dot executable path if it already exists in Preferences, or is installed. If not easily findable, as the user where the hell he put it. */
   public String getDotExecutablePath() { return dotExecutablePath; }
 
   public static void main(String[] args) { LoadersUi ui = new LoadersUi(); }

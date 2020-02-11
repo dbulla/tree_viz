@@ -299,6 +299,7 @@ public class DataEditorUI extends NurflugelDialog {
               rankingsPanel,        //
               displayNameLabel,     //
               parentsLabel, birthDateLabel, deathDateLabel, notesLabel, spousesLabel)
+          .filter(it-> it!=null)
           .forEach(c -> c.setEnabled(value));
   }
 

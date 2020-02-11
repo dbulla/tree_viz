@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class JsonFileReader extends DataFileReader {
-  static final Logger logger = LoggerFactory.getLogger(JsonFileReader.class);
+  static final Logger LOGGER = LoggerFactory.getLogger(JsonFileReader.class);
 
   JsonFileReader(File sourceDataFile) { super(sourceDataFile); }
 

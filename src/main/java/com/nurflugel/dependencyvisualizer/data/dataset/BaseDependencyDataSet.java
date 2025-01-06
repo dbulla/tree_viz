@@ -7,14 +7,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
+
 import static java.util.stream.Collectors.toList;
 
 /** Created by douglas_bullard on 1/18/16. */
 public abstract class BaseDependencyDataSet {
-  private static Logger           logger       = LoggerFactory.getLogger(DependencyDataSet.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DependencyDataSet.class);
   @Getter
   @Setter
   private boolean                 isFamilyTree;
@@ -44,7 +46,7 @@ public abstract class BaseDependencyDataSet {
     else {
       baseDependencyObject = new DependencyObject(trimmedName, Ranking.first().getName());
 
-      if (logger.isDebugEnabled()) { logger.debug("Adding unregistered object: " + trimmedName + " as object of type " + baseDependencyObject.getRanking()); }
+      if (LOGGER.isDebugEnabled()) { LOGGER.debug("Adding unregistered object: " + trimmedName + " as object of type " + baseDependencyObject.getRanking()); }
 
       put(trimmedName, baseDependencyObject);
     }

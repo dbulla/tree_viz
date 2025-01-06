@@ -5,7 +5,6 @@ package com.nurflugel.dependencyvisualizer.ui;
 
 import javax.swing.*;
 import java.awt.*;
-
 /**  */
 @SuppressWarnings({ "AbstractClassExtendsConcreteClass" })
 public abstract class NurflugelDialog extends JDialog {

@@ -11,6 +11,7 @@ import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
 import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject;
 import com.nurflugel.dependencyvisualizer.data.pojos.Person;
 import com.nurflugel.dependencyvisualizer.enums.Ranking;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -18,19 +19,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
-import static java.util.Collections.singletonList;
+
 import static java.util.stream.Collectors.toList;
 import static javax.swing.BoxLayout.Y_AXIS;
 
 /**  */
 public class DataEditorUI extends NurflugelDialog {
   /** Use serialVersionUID for interoperability. */
-  private static final long serialVersionUID     = -7448882163052553989L;
-  private JButton           exitButton;
-  private JButton           editExistingButton;
-  private JButton           newButton;
-  private JComboBox         existingDataCombobox;
-  private JTextArea         notesText;
+  private static final long      serialVersionUID     = -7448882163052553989L;
+  private              JButton   exitButton;
+  private              JButton   editExistingButton;
+  private              JButton   newButton;
+  private              JComboBox existingDataCombobox;
+  private              JTextArea notesText;
   private JList             parentsList;
   private JTextField        displayNameField;
 
@@ -100,7 +101,7 @@ public class DataEditorUI extends NurflugelDialog {
   }
 
   private List<BaseDependencyObject> getDropdownListWithEmptyTopItem(Stream<? extends BaseDependencyObject> objects) {
-    return Stream.concat(singletonList(new DependencyObject("", "")).stream(), objects)
+    return Stream.concat(Stream.of(new DependencyObject("", "")), objects)
                  .collect(toList());
   }
 
@@ -394,11 +395,11 @@ public class DataEditorUI extends NurflugelDialog {
    */
   private void $$$setupUI$$$() {
     mainPanel = new JPanel();
-    mainPanel.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+    mainPanel.setLayout(new GridLayoutManager(1, 2, new java.awt.Insets(0, 0, 0, 0), -1, -1));
 
     final JPanel panel1 = new JPanel();
 
-    panel1.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
+    panel1.setLayout(new GridLayoutManager(6, 1, new java.awt.Insets(0, 0, 0, 0), -1, -1));
     mainPanel.add(panel1,
                   new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
                                       GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
@@ -406,7 +407,7 @@ public class DataEditorUI extends NurflugelDialog {
 
     final JPanel panel2 = new JPanel();
 
-    panel2.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
+    panel2.setLayout(new GridLayoutManager(6, 1, new java.awt.Insets(0, 0, 0, 0), -1, -1));
     panel1.add(panel2,
                new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
                                    GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
@@ -470,7 +471,7 @@ public class DataEditorUI extends NurflugelDialog {
                                    GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
     parentsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Parents"));
     spousesPanel = new JPanel();
-    spousesPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+    spousesPanel.setLayout(new GridLayoutManager(1, 1, new java.awt.Insets(0, 0, 0, 0), -1, -1));
     panel1.add(spousesPanel,
                new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
                                    GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
@@ -479,7 +480,7 @@ public class DataEditorUI extends NurflugelDialog {
 
     final JPanel panel3 = new JPanel();
 
-    panel3.setLayout(new GridLayoutManager(7, 2, new Insets(0, 0, 0, 0), -1, -1));
+    panel3.setLayout(new GridLayoutManager(7, 2, new java.awt.Insets(0, 0, 0, 0), -1, -1));
     mainPanel.add(panel3,
                   new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
                                       GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
@@ -509,12 +510,12 @@ public class DataEditorUI extends NurflugelDialog {
     notesText = new JTextArea();
     panel3.add(notesText,
                new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_GROW,
-                                   null, new Dimension(150, 50), null, 0, false));
+                                   null, new java.awt.Dimension(150, 50), null, 0, false));
     displayNameField = new JTextField();
     displayNameField.setEditable(false);
     panel3.add(displayNameField,
                new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                                   null, new Dimension(150, -1), null, 0, false));
+                                   null, new java.awt.Dimension(150, -1), null, 0, false));
     exitingDataDropdownLabel = new JLabel();
     exitingDataDropdownLabel.setHorizontalAlignment(4);
     exitingDataDropdownLabel.setText("Item to edit:");
@@ -570,11 +571,11 @@ public class DataEditorUI extends NurflugelDialog {
     birthDateField = new JTextField();
     panel3.add(birthDateField,
                new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                                   null, new Dimension(150, -1), null, 0, false));
+                                   null, new java.awt.Dimension(150, -1), null, 0, false));
     deathDateField = new JTextField();
     panel3.add(deathDateField,
                new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                                   null, new Dimension(150, -1), null, 0, false));
+                                   null, new java.awt.Dimension(150, -1), null, 0, false));
   }
 
   /** @noinspection  ALL */

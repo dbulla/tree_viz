@@ -6,7 +6,9 @@ import com.nurflugel.dependencyvisualizer.io.readers.TextFileReader;
 import com.nurflugel.dependencyvisualizer.io.writers.DataFileWriter;
 import com.nurflugel.dependencyvisualizer.io.writers.JsonFileWriter;
 import com.nurflugel.dependencyvisualizer.io.writers.TextFileWriter;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.util.stream.Stream;
 
@@ -15,9 +17,10 @@ public enum FileType {
   JSON(".json", JsonFileReader.class, JsonFileWriter.class),
   TXT (".txt", TextFileReader.class, TextFileWriter.class);
 
-  private String                          extension;
-  private Class<? extends DataFileReader> fileReaderClass;
-  private Class<? extends DataFileWriter> fileWriterClass;
+  @Getter
+  private final String                          extension;
+  private final Class<? extends DataFileReader> fileReaderClass;
+  private final Class<? extends DataFileWriter> fileWriterClass;
 
   FileType(String extension, Class<? extends DataFileReader> fileReaderClass, Class<? extends DataFileWriter> fileWriterClass) {
     this.extension       = extension;
@@ -25,9 +28,7 @@ public enum FileType {
     this.fileWriterClass = fileWriterClass;
   }
 
-  public String getExtension() { return extension; }
-
-  public static FileType findByExtension(String text) {
+    public static FileType findByExtension(String text) {
     String fullText = '.' + text;
 
     return Stream.of(values())

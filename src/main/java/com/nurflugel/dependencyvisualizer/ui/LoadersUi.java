@@ -13,6 +13,7 @@ import com.nurflugel.dependencyvisualizer.enums.Ranking;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.prefs.Preferences;
+
 import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Down;
 import static com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.Up;
 import static com.nurflugel.dependencyvisualizer.enums.OutputFormat.Dot;
@@ -33,7 +35,6 @@ import static com.nurflugel.dependencyvisualizer.enums.Ranking.clearRankings;
 import static java.lang.Boolean.parseBoolean;
 import static java.util.stream.Collectors.toList;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
-
 /**  */
 @SuppressWarnings({
                     "UNUSED_SYMBOL",

@@ -1,14 +1,13 @@
 package com.nurflugel.dependencyvisualizer.ui;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+
+import static javax.swing.JFileChooser.APPROVE_OPTION;
 
 /**  */
 @SuppressWarnings({ "InstanceVariableUsedBeforeInitialized", "InstanceVariableMayNotBeInitialized" })
@@ -60,7 +59,7 @@ public class NoDotDialog extends NurflugelDialog {
     JFileChooser fileChooser = new JFileChooser();
     int          result      = fileChooser.showOpenDialog(this);
 
-    if (result == JFileChooser.APPROVE_OPTION) { file = fileChooser.getSelectedFile(); }
+    if (result == APPROVE_OPTION) { file = fileChooser.getSelectedFile(); }
 
     dispose();
   }

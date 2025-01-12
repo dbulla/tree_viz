@@ -1,139 +1,136 @@
 /*
  * Copyright (c) 2006, Your Corporation. All Rights Reserved.
  */
-package com.nurflugel.dependencyvisualizer.ui;
+package com.nurflugel.dependencyvisualizer.ui
 
-import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet;
-import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject;
-import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject;
-import com.nurflugel.dependencyvisualizer.data.pojos.Person;
-import com.nurflugel.dependencyvisualizer.enums.Ranking;
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
+import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet
+import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
+import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject
+import com.nurflugel.dependencyvisualizer.data.pojos.Person
+import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.valueOf
+import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.values
+import java.awt.BorderLayout
+import java.awt.BorderLayout.CENTER
+import java.awt.BorderLayout.NORTH
+import java.awt.Component
+import java.awt.GridBagConstraints
+import java.awt.GridBagConstraints.HORIZONTAL
+import java.awt.GridBagLayout
+import java.awt.event.ItemEvent
+import java.util.*
+import javax.swing.*
+import javax.swing.BorderFactory.createEtchedBorder
+import javax.swing.BorderFactory.createTitledBorder
+import javax.swing.BoxLayout.Y_AXIS
+import javax.swing.SwingConstants.RIGHT
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
-import static javax.swing.BoxLayout.Y_AXIS;
 
 /**
  *
  */
-public class DataEditorUI extends NurflugelDialog {
-    private JButton exitButton;
-    private JButton editExistingButton;
-    private JButton newButton;
-    private JComboBox<Person> existingDataCombobox;
-    private JTextArea notesText;
-    private JList<Person> parentsList;
-    private JTextField displayNameField;
+class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataSet) : NurflugelDialog() {
+    private lateinit var exitButton: JButton
+    private lateinit var editExistingButton: JButton
+    private lateinit var newDatapointButton: JButton
+    private lateinit var existingDataCombobox: JComboBox<BaseDependencyObject>
+    private lateinit var notesText: JTextArea
+    private lateinit var parentsList: JList<Person>
+    private lateinit var displayNameField: JTextField
 
-    private BaseDependencyDataSet dataSet;
-    private JPanel mainPanel;
-    private JLabel exitingDataDropdownLabel;
-    private JPanel rankingsPanel;
-    private JButton saveEditedButton;
-    private JButton deleteButton;
-    private JPanel parentsPanel;
-    private JScrollPane parentsScrollPane;
-    private JLabel parentsLabel;
-    private JButton addEditRankingsButton;
-    private JList<Person> spouseList;
-    private JPanel spousesPanel;
-    private JTextField birthDateField;
-    private JTextField deathDateField;
-    private JPanel slaveWrapper;
-    private JPanel masterPanel;
-    private JLabel displayNameLabel;
-    private JLabel birthDateLabel;
-    private JLabel deathDateLabel;
-    private JLabel notesLabel;
-    private JLabel spousesLabel;
+    private lateinit var mainPanel: JPanel
+    private lateinit var itemToEditDropdownLabel: JLabel
+    private lateinit var rankingsPanel: JPanel
+    private lateinit var saveEditedButton: JButton
+    private lateinit var deleteButton: JButton
+    private lateinit var parentsPanel: JPanel
+    private lateinit var parentsScrollPane: JScrollPane
+    private lateinit var spousesScrollPane: JScrollPane
+    private lateinit var parentsLabel: JLabel
+    private lateinit var addEditRankingsButton: JButton
+    private lateinit var spouseList: JList<Person>
+    private lateinit var spousesPanel: JPanel
+    private lateinit var birthDateField: JTextField
+    private lateinit var deathDateField: JTextField
 
-    DataEditorUI(BaseDependencyDataSet dataSet) {
-        this.dataSet = dataSet;
-        buildDialog();
-        addListeners();
-        pack();
+    //    private lateinit val slaveWrapper: JPanel
+    //    private lateinit val masterPanel: JPanel
+    private lateinit var displayNameLabel: JLabel
+    private lateinit var birthDateLabel: JLabel
+    private lateinit var deathDateLabel: JLabel
+    private lateinit var notesLabel: JLabel
+    private lateinit var spousesFieldLabel: JLabel
 
-        // setSize(600, 20);
-        setHeightToHalfScreen();
-        center();
-        setVisible(true);
+    init {
+        setupUI()
+        buildDialog()
+        addListeners()
+        pack()
+
+        setSize(600, 800);
+        //        setHeightToHalfScreen()
+        center()
+        isVisible = true
     }
 
-    private void buildDialog() {
-        setContentPane(mainPanel);
-        setModal(true);
-        getRootPane().setDefaultButton(newButton);
-        populateDropdowns();
-        activateScreens(false);
+    private fun buildDialog() {
+        contentPane = mainPanel
+        isModal = true
+        getRootPane().defaultButton = newDatapointButton
+        populateDropdowns()
+        activateScreens(false)
 
         // existingDataCombobox.setVisible(false);
         // exitingDataDropdownLabel.setVisible(false);
         // parentsLabel.setVisible(false);
         // parentsScrollPane.setVisible(false);
-        BoxLayout rankingsLayout = new BoxLayout(rankingsPanel, Y_AXIS);
-        BoxLayout parentsLayout = new BoxLayout(parentsPanel, Y_AXIS);
-        BoxLayout spousesLayout = new BoxLayout(spousesPanel, Y_AXIS);
-
-        rankingsPanel.setLayout(rankingsLayout);
-        parentsPanel.setLayout(parentsLayout);
-        spousesPanel.setLayout(spousesLayout);
-        buildRanksPanel();
+        rankingsPanel.layout = BoxLayout(rankingsPanel, Y_AXIS)
+        parentsPanel.layout = BoxLayout(parentsPanel, Y_AXIS)
+        spousesPanel.layout = BoxLayout(spousesPanel, Y_AXIS)
+        buildRanksPanel()
     }
 
-    @SuppressWarnings("unchecked")
-    private void populateDropdowns() {
-        List<? extends BaseDependencyObject> objects = dataSet.getObjects();
-        List<BaseDependencyObject> dropdownObjects = getDropdownListWithEmptyTopItem(objects);
+    private fun populateDropdowns() {
+        val objects: List<BaseDependencyObject> = dataSet.getObjects()
+        val dropdownObjects = getDropdownListWithEmptyTopItem(objects)
 
-        existingDataCombobox.setModel(new DefaultComboBoxModel(dropdownObjects.toArray()));
+        existingDataCombobox.setModel(DefaultComboBoxModel(dropdownObjects.toTypedArray<BaseDependencyObject>()))
     }
 
-    private List<BaseDependencyObject> getDropdownListWithEmptyTopItem(List<? extends BaseDependencyObject> objects) {
-        DependencyObject dependencyObject = new DependencyObject("", "");
-        return Stream.concat(Stream.of(dependencyObject), objects.stream().map(o -> (BaseDependencyObject) o)).toList();
-
+    // I want the dropdown to have a "blank" top item.
+    private fun getDropdownListWithEmptyTopItem(objects: List<BaseDependencyObject>): List<BaseDependencyObject> {
+        val dependencyObject = DependencyObject("", "")
+        return listOf(dependencyObject) + objects
     }
 
-    /**
-     * Build up the radio button list from the types.
-     */
-    private void buildRanksPanel() {
-        List<Ranking> shapeAttributes = Ranking.Companion.values();
-        ButtonGroup buttonGroup = new ButtonGroup();
+    /** Build up the radio button list from the types. */
+    private fun buildRanksPanel() {
+        val shapeAttributes = values()
+        val buttonGroup = ButtonGroup()
 
-        Collections.sort(shapeAttributes);
-        rankingsPanel.removeAll();
+        rankingsPanel.removeAll()
 
-        for (Ranking type : shapeAttributes) {
-            JRadioButton button = new JRadioButton(type.getName());
+        shapeAttributes
+            .sorted()
+            .forEach { (name) ->
+                val button = JRadioButton(name)
+                buttonGroup.add(button)
+                rankingsPanel.add(button)
+            }
+    }
 
-            buttonGroup.add(button);
-            rankingsPanel.add(button);
+    override fun addListeners() {
+        exitButton.addActionListener { isVisible = false }
+        editExistingButton.addActionListener { editExistingDataPoint() }
+        saveEditedButton.addActionListener { saveEditedData() }
+        newDatapointButton.addActionListener { addNewDataPoint() }
+        addEditRankingsButton.addActionListener { editRankings() }
+        existingDataCombobox.addItemListener { itemEvent: ItemEvent -> this.existingDataSelected(itemEvent) }
+        spouseList.addListSelectionListener {
+            val person = existingDataCombobox.selectedItem as Person
+            buildSpousesPanel() // todo person as arg?
+            validate()
         }
-    }
-
-    @Override
-    protected void addListeners() {
-        exitButton.addActionListener(actionEvent -> setVisible(false));
-        editExistingButton.addActionListener(actionEvent -> editExistingDataPoint());
-        saveEditedButton.addActionListener(actionEvent -> saveEditedData());
-        newButton.addActionListener(actionEvent -> addNewDataPoint());
-        addEditRankingsButton.addActionListener(actionEvent -> editRankings());
-        existingDataCombobox.addItemListener(this::existingDataSelected);
-        spouseList.addListSelectionListener(e -> {
-            Person person = (Person) existingDataCombobox.getSelectedItem();
-
-            buildSpousesPanel();  // todo person as arg?
-            validate();
-        });
         // parentsList.addListSelectionListener(e ->
         // {
         // Person person = (Person) existingDataCombobox.getSelectedItem();
@@ -143,216 +140,215 @@ public class DataEditorUI extends NurflugelDialog {
         // });
     }
 
-    private void editRankings() {
+    private fun editRankings() {
         // todo another dialog to let you add/edit types
     }
 
-    private void editExistingDataPoint() {
-        existingDataCombobox.setVisible(true);
-        displayNameField.setEditable(true);
-        exitingDataDropdownLabel.setVisible(true);
-        saveEditedButton.setVisible(true);
-        parentsScrollPane.setVisible(true);
-        parentsLabel.setVisible(true);
+    private fun editExistingDataPoint() {
+        existingDataCombobox.isVisible = true
+        displayNameField.isEditable = true
+        itemToEditDropdownLabel.isVisible = true
+        saveEditedButton.isVisible = true
+        parentsScrollPane.isVisible = true
+        parentsLabel.isVisible = true
     }
 
-    private void saveEditedData() {
+    private fun saveEditedData() {
         // todo set dependencies to parents selected for existing data
-        BaseDependencyObject currentDatapoint = getCurrentDatapoint();
+        val currentDatapoint = currentDatapoint
 
-        setParents(currentDatapoint);
-        setRanking(currentDatapoint);
-        setSpouses(currentDatapoint);
+        setParents(currentDatapoint!!) // todo what if null??
+        setRanking(currentDatapoint)
+        setSpouses(currentDatapoint)
 
         // if new data, add to collection? - no, do that with new data button
-        displayNameField.setEditable(false);
-        existingDataCombobox.setVisible(false);
-        exitingDataDropdownLabel.setVisible(false);
-        saveEditedButton.setVisible(false);
-        parentsScrollPane.setVisible(false);
-        parentsLabel.setVisible(false);
+        displayNameField.isEditable = false
+        existingDataCombobox.isVisible = false
+        itemToEditDropdownLabel.isVisible = false
+        saveEditedButton.isVisible = false
+        parentsScrollPane.isVisible = false
+        parentsLabel.isVisible = false
     }
 
-    private void setSpouses(BaseDependencyObject currentDatapoint) {
-        if (currentDatapoint instanceof Person person) {
+    private fun setSpouses(currentDatapoint: BaseDependencyObject?) {
+        if (currentDatapoint is Person) {
+            currentDatapoint.removeAllSpouses()
 
-            person.removeAllSpouses();
-
-            spouseList.getSelectedValuesList()
-                    .stream()
-                    .map(value -> (Person) value)
-                    .forEach(person::addSpouse);
+            spouseList.selectedValuesList
+                .map { value: Person -> value }
+                .forEach { spouse: Person -> currentDatapoint.addSpouse(spouse) }
         }
     }
 
-    private BaseDependencyObject getCurrentDatapoint() {
-        return (BaseDependencyObject) existingDataCombobox.getSelectedItem();
+    private val currentDatapoint: BaseDependencyObject
+        get() = existingDataCombobox.selectedItem as BaseDependencyObject
+
+    private fun setParents(currentDatapoint: BaseDependencyObject) {
+        currentDatapoint.removeAllDependencies()
+
+        parentsList.selectedValuesList
+            .map { value: Person -> value.name }
+            .forEach { dependency: String -> currentDatapoint.addDependency(dependency) }
     }
 
-    private void setParents(BaseDependencyObject currentDatapoint) {
-        currentDatapoint.removeAllDependencies();
-
-        parentsList.getSelectedValuesList().stream()
-                .map(value -> value.name)
-                .forEach(currentDatapoint::addDependency);
-    }
-
-    private void setRanking(BaseDependencyObject currentDatapoint) {
+    private fun setRanking(currentDatapoint: BaseDependencyObject) {
         try {
-            Component[] components = rankingsPanel.getComponents();
+            val components = rankingsPanel.components
 
-            for (Component component : components) {
-                JRadioButton radioButton = (JRadioButton) component;
+            for (component in components) {
+                val radioButton = component as JRadioButton
 
-                if (radioButton.isSelected()) {
-                    String text = radioButton.getText();
-                    Ranking ranking = Ranking.Companion.valueOf(text);
+                if (radioButton.isSelected) {
+                    val text = radioButton.text
+                    val ranking = valueOf(text)
 
-                    currentDatapoint.ranking = ranking.getName();
+                    currentDatapoint.ranking = ranking.name
 
-                    break;
+                    break
                 }
             }
-        } catch (Exception e)  // noinspection CallToPrintStackTrace
-        {
-            e.printStackTrace();
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
-    private void addNewDataPoint() {
-        existingDataCombobox.setVisible(false);
-        exitingDataDropdownLabel.setVisible(false);
-        saveEditedButton.setVisible(true);
-        displayNameField.setEditable(true);
-        parentsScrollPane.setVisible(true);
-        parentsLabel.setVisible(true);
+    private fun addNewDataPoint() {
+        existingDataCombobox.isVisible = false
+        itemToEditDropdownLabel.isVisible = false
+        saveEditedButton.isVisible = true
+        displayNameField.isEditable = true
+        parentsScrollPane.isVisible = true
+        parentsLabel.isVisible = true
 
         // get rank from radio button list types
         // OR
         // be able to add new types
-        BaseDependencyObject newObject = new DependencyObject(null, null); // todo populate values!!!
+        val newObject: BaseDependencyObject = DependencyObject("null", "null") // todo populate values!!!
 
-        dataSet.add(newObject);
+        dataSet.add(newObject)
     }
 
     /**
      * Edit the existing datapoint in the dialog.
      */
-    private void existingDataSelected(ItemEvent itemEvent) {
-        parentsList.clearSelection();
+    private fun existingDataSelected(itemEvent: ItemEvent) {
+        parentsList.clearSelection()
 
-        if (itemEvent.getItem() instanceof BaseDependencyObject item) {
+        if (itemEvent.item is BaseDependencyObject) {
 
+            val item = itemEvent.item as BaseDependencyObject
             // filter out item from list
-            Person[] personList = dataSet.getObjects().stream()
-                    .filter(o -> !item.equals(o))
-                    .map(o -> (Person) o)
-                    .toList().toArray(Person[]::new);
 
-            parentsList.setListData(personList);
-            spouseList.setListData(personList);
+            val personList: Array<Person?> = dataSet.getObjects()
+                .filter { o: BaseDependencyObject -> item != o }
+                .map { o: BaseDependencyObject? -> o as Person? }
+                .toTypedArray()
 
-            Collection<String> dependencies = item.getDependencies();
+            parentsList.setListData(personList)
+            spouseList.setListData(personList)
 
-            displayNameField.setText(item.displayName);
+            val dependencies: Collection<String> = item.dependencies
 
-            Collection<BaseDependencyObject> objectsFromNames = getObjectsFromNames(dependencies);
+            displayNameField.text = item.displayName
 
-            setParentsSelected(objectsFromNames);
-            setRankingButtons(item);
+            val objectsFromNames = getObjectsFromNames(dependencies)
 
-            if (item.getNotes().isEmpty()) {
-                notesText.setText("");
-            } else {
-                notesText.setText(item.getNotes().get(0));  // todo fix this!
+            setParentsSelected(objectsFromNames)
+            setRankingButtons(item)
+
+            when {
+                item.notes.isEmpty() -> notesText.text = ""
+                else                 -> {
+                    notesText.text = item.notes[0] // todo fix this!
+                }
             }
 
-            spousesPanel.removeAll();
+            spousesPanel.removeAll()
 
-            if (item instanceof Person person) {
-
-                birthDateField.setText(person.getBirthDate());
-                deathDateField.setText(person.getDeathDate());
-                buildSpousesPanel();
+            if (item is Person) {
+                birthDateField.text = item.birthDate
+                deathDateField.text = item.deathDate
+                buildSpousesPanel()
             }
 
-            buildParentsPanel(item);
-            activateScreens(true);
-            pack();
-            setHeightToHalfScreen();
-            validate();
-        }                                           // end if
+            buildParentsPanel(item)
+            activateScreens(true)
+            pack()
+            setHeightToHalfScreen()
+            validate()
+        } // end if
     }
 
-    private void activateScreens(boolean value) {
-        Stream.of(((JComponent) parentsList),  //
-                        birthDateField,       //
-                        deathDateField,       //
-                        notesText,            //
-                        ((JComponent) spouseList),  //
-                        saveEditedButton,     //
-                        deleteButton,         //
-                        rankingsPanel,        //
-                        displayNameLabel,     //
-                        parentsLabel, birthDateLabel, deathDateLabel, notesLabel, spousesLabel)
-                .filter(Objects::nonNull)
-                .forEach(c -> c.setEnabled(value));
+    private fun activateScreens(value: Boolean) {
+        listOf(
+            parentsList,  //
+            birthDateField,  //
+            deathDateField,  //
+            notesText,  //
+            spouseList,  //
+            saveEditedButton,  //
+            deleteButton,  //
+            rankingsPanel,  //
+            displayNameLabel,  //
+            parentsLabel,  //
+            birthDateLabel,  //
+            deathDateLabel,  //
+            notesLabel,  //
+            spousesFieldLabel
+        )
+            .filter(Objects::nonNull)
+            .forEach { c: JComponent -> c.isEnabled = value }
     }
 
-    private Collection<BaseDependencyObject> getObjectsFromNames(Collection<String> names) {
-        List<BaseDependencyObject> objects = names.stream()
-                .filter(n -> dataSet.containsKey(n))
-                .map(n -> dataSet.get(n))
-                .sorted()
-                .collect(toList());
+    private fun getObjectsFromNames(names: Collection<String>): Collection<BaseDependencyObject> {
+        val objects = names
+            .filter(dataSet::containsKey)
+            .map(dataSet::get)
+            .sorted()
 
-        return objects;
+        return objects
     }
 
-    private void buildSpousesPanel() {
-        spousesPanel.removeAll();
+    private fun buildSpousesPanel() {
+        spousesPanel.removeAll()
 
-        List<Person> spouses = spouseList.getSelectedValuesList();
-
-        spouses.stream()
-                .map(spouse -> new JLabel(spouse.displayName))
-                .forEach(label -> spousesPanel.add(label));
-
-        validate();
+        spouseList.selectedValuesList
+            .map { spouse: Person -> JLabel(spouse.displayName) }
+            .forEach(spousesPanel::add)
+        validate()
     }
 
-    private void setParentsSelected(Collection<BaseDependencyObject> dependencies) {
-        List<BaseDependencyObject> listedObjects = dataSet.getObjects().stream()
-                .toList();
+    private fun setParentsSelected(dependencies: Collection<BaseDependencyObject>) {
+        val listedObjects = dataSet.getObjects()
 
         // Now we have to make an array of the indexes for the dropdown.
-        List<Integer> indices = dependencies.stream()
-                .map(listedObjects::indexOf)
-                .toList();
-        int[] indexes = new int[indices.size()];
+        val indices = dependencies
+            .map(listedObjects::indexOf)
 
-        for (int i = indexes.length - 1; i >= 0; i--) {
-            indexes[i] = indices.get(i);
-            parentsList.ensureIndexIsVisible(indexes[i]);
+        val indexes = IntArray(indices.size)
+
+        indexes.indices.reversed().forEach { i ->
+            indexes[i] = indices[i]
+            parentsList.ensureIndexIsVisible(indexes[i])
         }
 
-        parentsList.setSelectedIndices(indexes);
+        parentsList.selectedIndices = indexes
     }
 
-    private void setRankingButtons(BaseDependencyObject item) {
-        String rankTitle = item.ranking;
-        Component[] buttons = rankingsPanel.getComponents();
+    private fun setRankingButtons(item: BaseDependencyObject) {
+        val rankTitle = item.ranking
+        val buttons = rankingsPanel.components
 
-        for (Component component : buttons) {
-            JRadioButton radioButton = (JRadioButton) component;
-            String text = radioButton.getText();
+        for (component in buttons) {
+            val radioButton = component as JRadioButton
+            val text = radioButton.text
 
             try {
-                Ranking buttonRanking = Ranking.Companion.valueOf(text);
+                val buttonRanking = valueOf(text)
 
-                radioButton.setSelected(buttonRanking.equals(Ranking.Companion.valueOf(rankTitle)));
-            } catch (Exception e) {
-                e.printStackTrace();
+                radioButton.isSelected = buttonRanking == valueOf(rankTitle)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
@@ -360,221 +356,157 @@ public class DataEditorUI extends NurflugelDialog {
     /**
      * Build up the parent list from the dependencies.
      */
-    private void buildParentsPanel(BaseDependencyObject currentDatapoint) {
-        parentsPanel.removeAll();
+    private fun buildParentsPanel(currentDatapoint: BaseDependencyObject) {
+        parentsPanel.removeAll()
 
-        Collection<String> parents = currentDatapoint.getDependencies();
-        Collection<BaseDependencyObject> baseDependencyObjects = getObjectsFromNames(parents);
+        val parents: Collection<String> = currentDatapoint.dependencies
+        val baseDependencyObjects = getObjectsFromNames(parents)
 
-        baseDependencyObjects.stream()
-                .map(BaseDependencyObject::getDisplayName)
-                .peek(d -> System.out.println("d = " + d))
-                .sorted()
-                .map(JLabel::new)
-                .forEach(parentLabel -> parentsPanel.add(parentLabel));
+        baseDependencyObjects
+            .map(BaseDependencyObject::displayName)
+            .sorted()
+            .map(::JLabel)
+            .forEach(parentsPanel::add)
     }
 
-    {
-        // GUI initializer generated by IntelliJ IDEA GUI Designer
-        // >>> IMPORTANT!! <<<
-        // DO NOT EDIT OR ADD ANY CODE HERE!
-        $$$setupUI$$$();
+    private fun setupUI() {
+        mainPanel = JPanel(BorderLayout())
+        val topPanel = JPanel(BorderLayout())
+        birthDateLabel = createLabel("Birth date:", RIGHT, RIGHT)
+        displayNameLabel = createLabel("Display name:", RIGHT, RIGHT)
+        parentsLabel = createLabel("Parents:", RIGHT, RIGHT)
+        notesLabel = createLabel("Notes:", RIGHT, RIGHT)
+        itemToEditDropdownLabel = createLabel("Item to edit:", RIGHT, RIGHT)
+        spousesFieldLabel = createLabel("Spouse(s):", RIGHT, RIGHT)
+        deathDateLabel = createLabel("Death date:", RIGHT, RIGHT)
+
+
+        val attributesPanel = JPanel()
+        attributesPanel.border = createTitledBorder(createEtchedBorder(), "Attributes")
+        val buttonPanel = JPanel()
+        newDatapointButton = JButton("New Datapoint")
+        editExistingButton = JButton("Edit Existing Datapoint")
+        exitButton = JButton("Back to main app")
+        saveEditedButton = JButton("Save Datapoint")
+        deleteButton = JButton("Delete Datapoint")
+        addEditRankingsButton = JButton("Edit/Add Rankings")
+
+        buttonPanel.layout = GridBagLayout()
+        rankingsPanel = JPanel()
+        rankingsPanel.border = createTitledBorder(createEtchedBorder(), "Ranking")
+
+        parentsPanel = JPanel()
+        parentsPanel.border = createTitledBorder(createEtchedBorder(), "Parents")
+
+        spousesPanel = JPanel()
+        spousesPanel.border = createTitledBorder(createEtchedBorder(), "Spouses")
+
+        parentsLabel.horizontalAlignment = 4
+        parentsLabel.horizontalTextPosition = 4
+        parentsLabel.verticalAlignment = 1
+
+        notesText = JTextArea()
+        displayNameField = JTextField()
+        displayNameField.isEditable = false
+        itemToEditDropdownLabel.horizontalAlignment = 4
+        itemToEditDropdownLabel.isVisible = true
+        existingDataCombobox = JComboBox<BaseDependencyObject>()
+        existingDataCombobox.setInheritsPopupMenu(false)
+        existingDataCombobox.setLightWeightPopupEnabled(true)
+        existingDataCombobox.setMaximumRowCount(30)
+        existingDataCombobox.isVisible = true
+        parentsScrollPane = JScrollPane()
+        parentsList = JList<Person>()
+        parentsScrollPane.setViewportView(parentsList)
+        spouseList = JList<Person>()
+        spousesScrollPane = JScrollPane()
+        spousesScrollPane.setViewportView(spouseList)
+
+        parentsPanel.add(parentsScrollPane, CENTER)
+        spousesPanel.add(spousesScrollPane, CENTER)
+
+        birthDateField = JTextField()
+        deathDateField = JTextField()
+
+        topPanel.add(itemToEditDropdownLabel, BorderLayout.WEST)
+        topPanel.add(existingDataCombobox, CENTER)
+        mainPanel.add(topPanel, NORTH)
+        mainPanel.add(attributesPanel, CENTER)
+
+        val constraints = GridBagConstraints()
+        constraints.fill = HORIZONTAL
+        constraints.weightx = 1.0
+        constraints.gridx = 0
+
+        buttonPanel.add(newDatapointButton, constraints)
+        buttonPanel.add(addEditRankingsButton, constraints)
+        buttonPanel.add(editExistingButton, constraints)
+        buttonPanel.add(saveEditedButton, constraints)
+        buttonPanel.add(deleteButton, constraints)
+        buttonPanel.add(exitButton, constraints)
+
+        attributesPanel.layout = GridBagLayout()
+
+        addGridBagComponent(attributesPanel, displayNameLabel, constraints, 0, 0, 1, 1, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, displayNameField, constraints, 1, 0, 1, 1, HORIZONTAL, 0, 0.5)
+
+        addGridBagComponent(attributesPanel, parentsLabel, constraints, 0, 1, 1, 1, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, parentsScrollPane, constraints, 1, 1, 1, 4, HORIZONTAL, 0, 0.5)
+
+        addGridBagComponent(attributesPanel, rankingsPanel, constraints, 2, 0, 1, 3, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, parentsPanel, constraints, 2, 2, 1, 3, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, spousesPanel, constraints, 2, 5, 1, 3, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, buttonPanel, constraints, 2, 9, 1, 6, HORIZONTAL, 0, 0.5)
+
+        addGridBagComponent(attributesPanel, birthDateLabel, constraints, 0, 5, 1, 1, HORIZONTAL, 10, 0.5)
+        addGridBagComponent(attributesPanel, birthDateField, constraints, 1, 5, 1, 1, HORIZONTAL, 10, 0.5)
+
+        addGridBagComponent(attributesPanel, deathDateLabel, constraints, 0, 6, 1, 1, HORIZONTAL, 10, 0.5)
+        addGridBagComponent(attributesPanel, deathDateField, constraints, 1, 6, 1, 1, HORIZONTAL, 10, 0.5)
+
+        addGridBagComponent(attributesPanel, notesLabel, constraints, 0, 7, 1, 1, HORIZONTAL, 10, 0.5)
+        addGridBagComponent(attributesPanel, notesText, constraints, 1, 7, 1, 3, HORIZONTAL, 10, 0.5)
+
+        addGridBagComponent(attributesPanel, spousesFieldLabel, constraints, 0, 11, 1, 1, HORIZONTAL, 10, 0.5)
+        addGridBagComponent(attributesPanel, spousesScrollPane, constraints, 1, 11, 1, 4, HORIZONTAL, 10, 0.5)
     }
 
-    /**
-     * Method generated by IntelliJ IDEA GUI Designer >>> IMPORTANT!! <<< DO NOT edit this method OR call it in your code!
-     *
-     * @noinspection ALL
-     */
-    private void $$$setupUI$$$() {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(1, 2, new java.awt.Insets(0, 0, 0, 0), -1, -1));
-
-        final JPanel panel1 = new JPanel();
-
-        panel1.setLayout(new GridLayoutManager(6, 1, new java.awt.Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.add(panel1,
-                new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-
-        final JPanel panel2 = new JPanel();
-
-        panel2.setLayout(new GridLayoutManager(6, 1, new java.awt.Insets(0, 0, 0, 0), -1, -1));
-        panel1.add(panel2,
-                new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        newButton = new JButton();
-        newButton.setLabel("New Datapoint");
-        newButton.setText("New Datapoint");
-        panel2.add(newButton,
-                new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        editExistingButton = new JButton();
-        editExistingButton.setLabel("Edit Existing Datapoint");
-        editExistingButton.setText("Edit Existing Datapoint");
-        panel2.add(editExistingButton,
-                new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        exitButton = new JButton();
-        exitButton.setLabel("Back to main app");
-        exitButton.setText("Back to main app");
-        panel2.add(exitButton,
-                new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        saveEditedButton = new JButton();
-        saveEditedButton.setLabel("Save Datapoint");
-        saveEditedButton.setText("Save Datapoint");
-        panel2.add(saveEditedButton,
-                new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        deleteButton = new JButton();
-        deleteButton.setLabel("Delete Datapoint");
-        deleteButton.setText("Delete Datapoint");
-        panel2.add(deleteButton,
-                new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        addEditRankingsButton = new JButton();
-        addEditRankingsButton.setLabel("Edit/Add Rankings");
-        addEditRankingsButton.setText("Edit/Add Rankings");
-        panel2.add(addEditRankingsButton,
-                new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-
-        final Spacer spacer1 = new Spacer();
-
-        panel1.add(spacer1,
-                new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-
-        final Spacer spacer2 = new Spacer();
-
-        panel1.add(spacer2,
-                new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        rankingsPanel = new JPanel();
-        panel1.add(rankingsPanel,
-                new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        rankingsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Ranking"));
-        parentsPanel = new JPanel();
-        panel1.add(parentsPanel,
-                new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        parentsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Parents"));
-        spousesPanel = new JPanel();
-        spousesPanel.setLayout(new GridLayoutManager(1, 1, new java.awt.Insets(0, 0, 0, 0), -1, -1));
-        panel1.add(spousesPanel,
-                new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        spousesPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Spouses"));
-
-        final JPanel panel3 = new JPanel();
-
-        panel3.setLayout(new GridLayoutManager(7, 2, new java.awt.Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.add(panel3,
-                new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-
-        final JLabel label1 = new JLabel();
-
-        label1.setText("Display name:");
-        panel3.add(label1,
-                new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
-                        null, null, null, 0, false));
-        parentsLabel = new JLabel();
-        parentsLabel.setHorizontalAlignment(4);
-        parentsLabel.setHorizontalTextPosition(4);
-        parentsLabel.setText("Parents:");
-        parentsLabel.setVerticalAlignment(1);
-        panel3.add(parentsLabel,
-                new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
-                        null, null, null, 0, false));
-
-        final JLabel label2 = new JLabel();
-
-        label2.setText("Notes:");
-        panel3.add(label2,
-                new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
-                        null, null, null, 0, false));
-        notesText = new JTextArea();
-        panel3.add(notesText,
-                new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_GROW,
-                        null, new java.awt.Dimension(150, 50), null, 0, false));
-        displayNameField = new JTextField();
-        displayNameField.setEditable(false);
-        panel3.add(displayNameField,
-                new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                        null, new java.awt.Dimension(150, -1), null, 0, false));
-        exitingDataDropdownLabel = new JLabel();
-        exitingDataDropdownLabel.setHorizontalAlignment(4);
-        exitingDataDropdownLabel.setText("Item to edit:");
-        exitingDataDropdownLabel.setVisible(true);
-        panel3.add(exitingDataDropdownLabel,
-                new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
-                        null, null, null, 0, false));
-        existingDataCombobox = new JComboBox();
-        existingDataCombobox.setInheritsPopupMenu(false);
-        existingDataCombobox.setLightWeightPopupEnabled(true);
-        existingDataCombobox.setMaximumRowCount(30);
-        existingDataCombobox.setVisible(true);
-        panel3.add(existingDataCombobox,
-                new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                        null, null, null, 0, false));
-        parentsScrollPane = new JScrollPane();
-        panel3.add(parentsScrollPane,
-                new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        parentsList = new JList();
-        parentsScrollPane.setViewportView(parentsList);
-
-        final JScrollPane scrollPane1 = new JScrollPane();
-
-        panel3.add(scrollPane1,
-                new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW,
-                        GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        spouseList = new JList();
-        scrollPane1.setViewportView(spouseList);
-
-        final JLabel label3 = new JLabel();
-
-        label3.setText("Spouse(s):");
-        panel3.add(label3,
-                new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED,
-                        null, null, null, 0, false));
-
-        final JLabel label4 = new JLabel();
-
-        label4.setText("Birth date:");
-        panel3.add(label4,
-                new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null,
-                        null, null, 0, false));
-
-        final JLabel label5 = new JLabel();
-
-        label5.setText("Death date:");
-        panel3.add(label5,
-                new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null,
-                        null, null, 0, false));
-        birthDateField = new JTextField();
-        panel3.add(birthDateField,
-                new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                        null, new java.awt.Dimension(150, -1), null, 0, false));
-        deathDateField = new JTextField();
-        panel3.add(deathDateField,
-                new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED,
-                        null, new java.awt.Dimension(150, -1), null, 0, false));
+    @Suppress("SameParameterValue")
+    private fun createLabel(text: String, horizontalAlignment: Int, horizontalTextPosition: Int): JLabel {
+        val label = JLabel(text)
+        label.horizontalAlignment = horizontalAlignment
+        label.horizontalTextPosition = horizontalTextPosition
+        return label
     }
 
-    /**
-     * @noinspection ALL
-     */
-    public JComponent $$$getRootComponent$$$() {
-        return mainPanel;
+    @Suppress("SameParameterValue")
+    private fun addGridBagComponent(
+        panel: JPanel,
+        component: Component,
+        constraints: GridBagConstraints,
+        gridX: Int,
+        gridY: Int,
+        gridWidth: Int,
+        gridHeight: Int,
+        fill: Int,
+        ipadY: Int,
+        weightX: Double,
+    ) {
+        constraints.fill = fill
+        constraints.gridx = gridX
+        constraints.gridy = gridY
+        constraints.weightx = weightX
+        constraints.gridwidth = gridWidth
+        constraints.gridheight = gridHeight
+        constraints.ipady = ipadY
+        panel.add(component, constraints)
+    }
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            val fakeData = DependencyDataSet()
+            val ui = DataEditorUI(fakeData)
+        }
     }
 }

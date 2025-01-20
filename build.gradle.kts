@@ -47,12 +47,8 @@ dependencies {
     implementation("com.thoughtworks.xstream:xstream:1.4.21")
     implementation("commons-io:commons-io:2.18.0")
     implementation("org.apache.commons:commons-lang3:3.17.0")
-//    implementation("org.projectlombok:lombok:1.18.36")
-    /*
-      compileOnly 'org.projectlombok:lombok:1.18.8'
-      annotationProcessor 'org.projectlombok:lombok:1.18.8'
-         */
 
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
 
     // Use the Kotlin test library.
     //    testImplementation("org.jetbrains.kotlin:kotlin-test")
@@ -65,6 +61,9 @@ dependencies {
     //                testImplementation ("io.kotest:kotest-property:$KOTEST_VERSION")
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
 application {
     // Define the main class for the application.
     mainClass.set("com.nurflugel.dependencyvisualizer.ui.LoadersUi")

@@ -15,14 +15,12 @@ enum class Shape {
 
         /** Get the next shape in the enum.  */
         fun previous(shape: Shape): Shape {
-            val ordinal = shape.ordinal
-            var previousIndex = ordinal - 1
+            val previousIndex = shape.ordinal - 1
 
-            if (previousIndex < 0) {
-                previousIndex = entries.size - 1
+            return when {
+                previousIndex < 0 -> entries.last()
+                else              -> entries[previousIndex]
             }
-
-            return entries[previousIndex]
         }
 
 //        fun first(): Shape {

@@ -1,22 +1,31 @@
 package com.nurflugel.dependencyvisualizer.io.readers
 
+import com.nurflugel.dependencyvisualizer.Constants
 import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
+import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet
+import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.Person
+import com.nurflugel.dependencyvisualizer.enums.Color
 import com.nurflugel.dependencyvisualizer.enums.FileType
 import com.nurflugel.dependencyvisualizer.enums.Ranking
+import com.nurflugel.dependencyvisualizer.enums.Shape
+import org.apache.commons.io.FileUtils
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.io.IOException
+import java.util.*
 
 /**
  * Created by IntelliJ IDEA. User: douglasbullard Date: Jan 4, 2008 Time: 5:24:16 PM To change this template use File | Settings | File Templates.
  */
 abstract class DataFileReader {
     lateinit var sourceDataFile: File
-    var fileType: FileType? = null
-    var logger: Logger = LoggerFactory.getLogger(DataFileReader::class.java)
+    lateinit var fileType: FileType
+//    var logger: Logger = LoggerFactory.getLogger(DataFileReader::class.java)
 
     protected constructor(sourceDataFile: File) {
         this.sourceDataFile = sourceDataFile
@@ -27,9 +36,12 @@ abstract class DataFileReader {
     /**
      * Parse the individual line.
      */
-    protected fun parseObjectDeclaration(line: String, ranking: Ranking, dataSet: BaseDependencyDataSet) {
+    private fun parseObjectDeclaration(line: String, ranking: Ranking, dataSet: BaseDependencyDataSet) {
         val lineText = line.trim { it <= ' ' }
-        val strings = lineText.split("\\|".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val strings = lineText
+            .split("""\|""".toRegex())
+            .dropLastWhile { it.isEmpty() }
+            .toTypedArray()
         val dependencyObject: BaseDependencyObject
         val name = strings[0]
 
@@ -43,7 +55,10 @@ abstract class DataFileReader {
         }
 
         if (strings.size == 3) {
-            val notes = strings[2].split("`".toRegex()).dropLastWhile { it.isEmpty() }.toMutableList()
+            val notes = strings[2]
+                .split("`".toRegex())
+                .dropLastWhile { it.isEmpty() }
+                .toMutableList()
 
             dependencyObject.notes = notes
         }
@@ -60,44 +75,99 @@ abstract class DataFileReader {
         return dataSet
     }
 
-    protected abstract fun parseLines(): BaseDependencyDataSet
+    protected open fun parseLines(): BaseDependencyDataSet {
+        val lines: MutableList<String>
+        val isFamilyTree: Boolean
+        var dataSet: BaseDependencyDataSet = DependencyDataSet()
 
-    override fun equals(o: Any?): Boolean {
-        if (o === this) return true
-        if (o !is DataFileReader) return false
-        val other = o
-        if (!other.canEqual(this as Any)) return false
-        val `this$sourceDataFile`: Any? = this.sourceDataFile
-        val `other$sourceDataFile`: Any? = other.sourceDataFile
-        if (if (`this$sourceDataFile` == null) `other$sourceDataFile` != null else (`this$sourceDataFile` != `other$sourceDataFile`)) return false
-        val `this$fileType`: Any? = this.fileType
-        val `other$fileType`: Any? = other.fileType
-        if (if (`this$fileType` == null) `other$fileType` != null else (`this$fileType` != `other$fileType`)) return false
-        val `this$logger`: Any = this.logger
-        val `other$logger`: Any = other.logger
-        return `this$logger` == `other$logger`
+        try {
+            lines = FileUtils.readLines(sourceDataFile)
+            isFamilyTree = lines
+                .filter { it.startsWith("&") }
+                .any { this.isFamilyHistory(it) }
+            dataSet = when {
+                isFamilyTree -> FamilyTreeDataSet()
+                else         -> DependencyDataSet()
+            }
+
+            lateinit var currentRanking: Ranking
+            var isDependencies = false
+
+            for (line in lines) {
+                if (LOGGER.isDebugEnabled) {
+                    LOGGER.debug(line)
+                }
+
+                if (!line.startsWith("//") && (!StringUtils.isEmpty(line))) {
+                    when {
+                        line.startsWith("#dependencies") -> isDependencies = true
+                        line.startsWith("#")             -> currentRanking = getObjectType(line)
+                        isDependencies                   -> parseDependency(dataSet, line)
+                        else                             -> parseObjectDeclaration(line, currentRanking, dataSet)
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return dataSet
     }
 
-    protected open fun canEqual(other: Any?): Boolean {
-        return other is DataFileReader
+    private fun parseDependency(dataSet: BaseDependencyDataSet, line: String) {
+        try {
+            val lineToParse = line.trim { it <= ' ' }
+            val chunks = lineToParse
+                .substring(0, lineToParse.length)  // wtf???
+                .split("->".toRegex())
+                .dropLastWhile { it.isEmpty() }
+                .toTypedArray()
+
+            for (i in 0..<(chunks.size - 1)) {
+                val main = dataSet.getLoaderObjectByName(chunks[i])
+                val dependency = dataSet.getLoaderObjectByName(chunks[i + 1])
+
+                main.addDependency(dependency.name)
+            }
+        } catch (e: Exception) {
+            LOGGER.error("Error parsing dependency line: $line", e)
+            throw e
+        }
     }
 
-    override fun hashCode(): Int {
-        val PRIME = 59
-        var result = 1
-        val `$sourceDataFile`: Any? = this.sourceDataFile
-        result = result * PRIME + (`$sourceDataFile`?.hashCode()
-                                   ?: 43)
-        val `$fileType`: Any? = this.fileType
-        result = result * PRIME + (`$fileType`?.hashCode()
-                                   ?: 43)
-        val `$logger`: Any = this.logger
-        result = result * PRIME + (`$logger`?.hashCode()
-                                   ?: 43)
-        return result
+    private fun getObjectType(line: String): Ranking {
+        val strippedLine = line.substring(line.indexOf('#') + 1).trim { it <= ' ' }
+        val chunks = strippedLine.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        var shape: Shape = Shape.RECTANGLE
+        var color: Color = Color.BLACK
+        var name: String = "noName"
+
+        for (chunk in chunks) {
+            val nibbles = chunk.trim { it <= ' ' }.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+
+            val trimmedNibble = nibbles[0].trim { it <= ' ' }
+            when {
+                trimmedNibble.equals(Constants.NAME, ignoreCase = true)  -> name = nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault())
+                trimmedNibble.equals(Constants.COLOR, ignoreCase = true) -> color = Color.valueOf(nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault()))
+                trimmedNibble.equals(Constants.SHAPE, ignoreCase = true) -> shape = Shape.valueOf(nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault()))
+            }
+        }
+
+        return Ranking.valueOf(name, color, shape)
     }
 
-    override fun toString(): String {
-        return "DataFileReader(sourceDataFile=" + this.sourceDataFile + ", fileType=" + this.fileType + ", logger=" + this.logger + ")"
+    /**
+     * Determine if this is a family history or not.
+     */
+    private fun isFamilyHistory(line: String): Boolean {
+        val nibbles = line.trim { it <= ' ' }.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val isFamily = nibbles[0].toBoolean()
+        val isTrue = nibbles[1].toBoolean()
+
+        return isFamily && isTrue
+    }
+
+    companion object {
+        private val LOGGER: Logger = LoggerFactory.getLogger(DataFileReader::class.java)
     }
 }

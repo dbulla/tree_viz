@@ -53,7 +53,7 @@ open class BaseDependencyObject : Comparable<Any> {
          * Returns a job with all spaces and weird characters "fixed" for Dot processing.
          *
          *
-         * todo - something better with regular expressions - anything except text and numbers in one expression
+         * todo - something better with regular expressions - anything except text and numbers in one expression.  And, add a test!!!
          */
         fun replaceAllBadChars(text: String): String {
             var newValue = text.trim { it <= ' ' }

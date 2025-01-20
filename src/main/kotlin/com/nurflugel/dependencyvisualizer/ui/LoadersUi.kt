@@ -5,6 +5,8 @@ import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter
+import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.DOWN
+import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.UP
 import com.nurflugel.dependencyvisualizer.enums.OutputFormat
 import com.nurflugel.dependencyvisualizer.enums.Ranking
 import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.clearRankings
@@ -48,7 +50,7 @@ class LoadersUi private constructor() : JFrame() {
     /**
      * Get the dot executable path if it already exists in Preferences, or is installed. If not easily findable, as the user where the hell he put it.
      */
-    lateinit var dotExecutablePath: String
+    private lateinit var dotExecutablePath: String
     private val os: String = System.getProperty("os.name")
     private lateinit var filtersPanel: JPanel
     private lateinit var editDataButton: JButton
@@ -97,8 +99,8 @@ class LoadersUi private constructor() : JFrame() {
 
     private fun addListeners() {
         familyTreeCheckBox.addActionListener { e: ActionEvent? -> dataSet.isFamilyTree = familyTreeCheckBox.isSelected }
-        quitButton.addActionListener { actionEvent: ActionEvent? -> doQuitAction() }
-        makeGraphButton.addActionListener { actionEvent: ActionEvent? ->
+        quitButton.addActionListener { _ -> doQuitAction() }
+        makeGraphButton.addActionListener { _ ->
             try {
                 makeGraph()
             } catch (e: IOException) {
@@ -107,10 +109,10 @@ class LoadersUi private constructor() : JFrame() {
                 logger.error("Error", e)
             }
         }
-        findDotButton.addActionListener { actionEvent: ActionEvent? -> findDotExecutablePath() }
-        loadDatafileButton.addActionListener { actionEvent: ActionEvent? -> loadDatafile() }
-        editDataButton.addActionListener { actionEvent: ActionEvent? -> DataEditorUI(dataSet) }
-        saveDataFileButton.addActionListener { e: ActionEvent? -> dataHandler.saveDataset() }
+        findDotButton.addActionListener { _ -> findDotExecutablePath() }
+        loadDatafileButton.addActionListener { _ -> loadDatafile() }
+        editDataButton.addActionListener { _ -> DataEditorUI(dataSet) }
+        saveDataFileButton.addActionListener { _ -> dataHandler.saveDataset() }
         addWindowListener(object : WindowAdapter() {
             override fun windowClosing(e: WindowEvent) {
                 super.windowClosing(e)
@@ -144,11 +146,11 @@ class LoadersUi private constructor() : JFrame() {
             }
 
             if (filterUpCheckBox.isSelected) {
-                filters.add(DirectionalFilter.UP)
+                filters.add(UP)
             }
 
             if (filterDownCheckBox.isSelected) {
-                filters.add(DirectionalFilter.DOWN)
+                filters.add(DOWN)
             }
 
             return filters
@@ -243,7 +245,7 @@ class LoadersUi private constructor() : JFrame() {
     }
 
     /**
-     * Takes something like build.dot and returns build.Png.
+     * Takes something like build.dot and returns build.png.
      */
     private fun getOutputFileName(dotFile: File, outputExtension: String): String {
         var results = dotFile.name
@@ -325,17 +327,17 @@ class LoadersUi private constructor() : JFrame() {
         val dialog = NoDotDialog(dotExecutablePath)
         val dotExecutableFile = dialog.file
 
-        if (dotExecutableFile.exists()) {
-            JOptionPane.showMessageDialog(
-                this, """Sorry, this program can't run without the GraphViz installation.
-  Please install that and try again"""
-            )
-            doQuitAction()
-        }
-        else {
+//        if (dotExecutableFile.exists()) {
+//            JOptionPane.showMessageDialog(
+//                this, """Sorry, this program can't run without the GraphViz installation.
+//  Please install that and try again"""
+//            )
+//            doQuitAction()
+//        }
+//        else {
             dotExecutablePath = dotExecutableFile.absolutePath
             preferences.put(DOT_EXECUTABLE, dotExecutablePath)
-        }
+//        }
     }
 
     private fun loadDatafile() {
@@ -399,16 +401,16 @@ class LoadersUi private constructor() : JFrame() {
         }
     }
 
-    private fun getObjectsForType(type: Ranking): Array<BaseDependencyObject?> {
+    private fun getObjectsForType(type: Ranking): Array<BaseDependencyObject> {
         val filteredObjects: MutableList<BaseDependencyObject> = ArrayList()
 
         filteredObjects.add(DependencyObject("", type.name))
         filteredObjects.addAll(
-            dataSet.getObjects().stream()
+            dataSet.getObjects()
                 .filter { dependencyObject: BaseDependencyObject -> dependencyObject.ranking == type.name }
                 .toList())
 
-        return filteredObjects.toTypedArray<BaseDependencyObject?>()
+        return filteredObjects.toTypedArray<BaseDependencyObject>()
     }
 
     private fun doQuitAction() {

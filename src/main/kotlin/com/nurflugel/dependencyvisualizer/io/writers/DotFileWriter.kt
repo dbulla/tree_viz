@@ -9,7 +9,6 @@ import java.io.DataOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.stream.Collectors
 
 /**
  *
@@ -27,11 +26,11 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         try {
             FileOutputStream(dotFile).use { outputStream ->
                 DataOutputStream(outputStream).use { out ->
-                    val types = getOnlyUsedTypes(objects)
+                    val rankings = getOnlyUsedRankings(objects)
                     writeHeader(out)
-                    writeRankingEnumeration(out, types)
+                    writeRankingEnumeration(out, rankings)
                     writeObjectDeclarations(objects, out)
-                    writeRankingGroupings(objects, out, types)
+                    writeRankingGroupings(objects, out, rankings)
                     writeObjectDependencies(objects, out)
 
                     // writeSpouses(objects, out);
@@ -43,13 +42,11 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         }
     }
 
-    private fun getOnlyUsedTypes(objects: Collection<BaseDependencyObject>): List<Ranking> {
+    private fun getOnlyUsedRankings(objects: Collection<BaseDependencyObject>): List<Ranking> {
         val types = objects
-            .asSequence()
             .map(BaseDependencyObject::ranking)
             .distinct()
-            .filterNotNull()
-            .map{it->Ranking.valueOf(it)}
+            .map{ Ranking.valueOf(it)}
 //            .sorted(Comparator.comparing(Ranking::rank).reversed())
             .sortedDescending()  // todo sort by rank descending
             .toList()
@@ -76,7 +73,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
     }
 
     /**
-     * Write out ranking from the type enumerations. If I were to make this more general, it'd read these in from the file itelf, instead of a hardcoded enum. The output looks like
+     * Write out ranking from the type enumerations. If I were to make this more general, it'd read these in from the file itself, instead of a hardcoded enum. The output looks like
      * this:{
      *
      *
@@ -88,9 +85,9 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
             writeToOutput(out, "node [shape=plaintext,fontname=\"Arial\",fontsize=\"10\"];\n")
             writeToOutput(out, "{ ")
 
-            val line = types.stream()
+            val line = types
                 .map { type: Ranking -> "\"" + type + '\"' }
-                .collect(Collectors.joining(" -> "))
+                .joinToString { " -> " }
 
             writeToOutput(out, line)
             writeToOutput(out, " }\n\n")
@@ -101,20 +98,20 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
 
     private fun writeObjectDeclarations(objects: Collection<BaseDependencyObject>, out: DataOutputStream) {
         writeToComment(out, "Declarations")
-        objects.stream()
+        objects
             .sorted()
-            .forEach { `object`: BaseDependencyObject ->
-                val name = `object`.ranking
-                val type = Ranking.valueOf(name!!)
+            .forEach { dependencyObject: BaseDependencyObject ->
+                val name = dependencyObject.ranking
+                val type = Ranking.valueOf(name)
                 val text = StringBuilder()
-                val notes = `object`.notes
+                val notes = dependencyObject.notes
                 val displayName: String
 
                 if (notes.size == 0) {
-                    displayName = `object`.displayName
+                    displayName = dependencyObject.displayName
                 }
                 else {
-                    val displayText = StringBuilder(`object`.displayName)
+                    val displayText = StringBuilder(dependencyObject.displayName)
 
                     for (note in notes) {
                         displayText.append("\\n").append(note)
@@ -123,7 +120,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
                     displayName = displayText.toString()
                 }
 
-                text.append(`object`.name).append(" [label=\"").append(displayName).append('\"')
+                text.append(dependencyObject.name).append(" [label=\"").append(displayName).append('\"')
                 text.append(" shape=").append(type.shape)
                 text.append(" color=\"").append(type.color).append("\"];\n")
 
@@ -142,10 +139,10 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
 
             for (type in types) {
                 writeToOutput(out, "{ rank = same; \"$type\"; ")
-                objects.stream()
-                    .filter { `object`: BaseDependencyObject -> `object`.ranking == type.name }
+                objects
+                    .filter { it: BaseDependencyObject -> it.ranking == type.name }
                     .sorted()
-                    .forEach { `object`: BaseDependencyObject -> writeToOutput(out, '\"'.toString() + `object`.name + "\"; ") }
+                    .forEach { it: BaseDependencyObject -> writeToOutput(out, '\"'.toString() + it.name + "\"; ") }
                 writeToOutput(out, "}\n")
             }
 
@@ -163,7 +160,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         objects.forEach { dependencyObject ->
             dependencyObject.dependencies
                 .filter { names.contains(it) }
-                .forEach { lines.add("$dependencyObject -> $it;\n") }
+                .forEach { lines.add("${dependencyObject.name} -> $it;\n") }
         }
 
         lines.sorted()
@@ -181,8 +178,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
             .filterIsInstance<Person>()
             .forEach { oooo: BaseDependencyObject ->
                 (oooo as Person).spouses
-                    .stream()
-                    .filter(names::contains)
+                    .filter { names.contains(it) }
                     .map { spouse -> oooo.name + " -> " + spouse + ";\n" }
                     .forEach(lines::add)
             }
@@ -192,9 +188,9 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
             writeToOutput(out, "edge [color=red,arrowhead=none]\n")
         }
 
-        lines.stream()
+        lines
             .sorted()
-            .forEach { l: String -> writeToOutput(out, l) }
+            .forEach { writeToOutput(out, it) }
         writeToOutput(out, "\n\n")
     }
 

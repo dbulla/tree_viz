@@ -5,8 +5,6 @@ import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
 import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet
 import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet
 import org.apache.commons.io.FileUtils
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -32,9 +30,9 @@ class JsonFileReader : DataFileReader {
             lines = ArrayList()
         }
 
-        val isFamilyTree = lines.stream()
-            .filter { l: String -> l.contains("isFamilyTree") }
-            .anyMatch { l: String -> l.contains("true") }
+        val isFamilyTree = lines
+            .filter { it.contains("isFamilyTree") }
+            .any { it.contains("true") }
 
         try {
             BufferedReader(FileReader(sourceDataFile)).use { br ->
@@ -55,27 +53,27 @@ class JsonFileReader : DataFileReader {
         }
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (o === this) return true
-        if (o !is JsonFileReader) return false
-        if (!o.canEqual(this as Any)) return false
-        return true
-    }
-
-override     fun canEqual(other: Any?): Boolean {
-        return other is JsonFileReader
-    }
-
-    override fun hashCode(): Int {
-        val result = 1
-        return result
-    }
-
-    override fun toString(): String {
-        return "JsonFileReader()"
-    }
-
-    companion object {
-        val LOGGER: Logger = LoggerFactory.getLogger(JsonFileReader::class.java)
-    }
+//    override fun equals(other: Any?): Boolean {
+//        if (other === this) return true
+//        if (other !is JsonFileReader) return false
+//        if (!other.canEqual(this as Any)) return false
+//        return true
+//    }
+//
+//override     fun canEqual(other: Any?): Boolean {
+//        return other is JsonFileReader
+//    }
+//
+//    override fun hashCode(): Int {
+//        val result = 1
+//        return result
+//    }
+//
+//    override fun toString(): String {
+//        return "JsonFileReader()"
+//    }
+//
+//    companion object {
+//        val LOGGER: Logger = LoggerFactory.getLogger(JsonFileReader::class.java)
+//    }
 }

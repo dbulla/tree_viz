@@ -95,7 +95,7 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
             // Add the object itself if it has a higher ranking.
             // now, valueOf all dependencies of this object that have a higher ranking, too
             dataSet.getObjects()
-                .filter { o: Any? -> keyObjects.contains(o) }
+                .filter(keyObjects::contains)
                 .forEach { mainObject ->
                     // Add the object itself if it has a higher ranking.
                     filteredObjects.add(mainObject)

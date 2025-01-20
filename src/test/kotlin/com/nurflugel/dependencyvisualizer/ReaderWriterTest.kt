@@ -8,18 +8,17 @@ import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter
 import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.first
 import org.apache.commons.io.FileUtils
 import org.apache.commons.lang3.StringUtils
+import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-/**   */
 class ReaderWriterTest {
-    // -------------------------- OTHER METHODS --------------------------
-    /**   */
-    protected fun doTestComparisons(sourceDataFile: File, expectedDotFile: File) {
+    //    @Test
+    private fun doTestComparisons(sourceDataFile: File, expectedDotFile: File) {
         val resultFile = File(StringUtils.replace(sourceDataFile.absolutePath, ".txt", ".dot"))
-        val testOutput = getOutput(resultFile)
-        val expectedOutput = getOutput(expectedDotFile)
+        val testOutput = getExpectedOutput(resultFile)
+        val expectedOutput = getExpectedOutput(expectedDotFile)
 
         if (logger.isDebugEnabled) {
             logger.debug("Comparing $expectedDotFile and $resultFile")
@@ -36,18 +35,18 @@ class ReaderWriterTest {
      *
      * @param   dotFile  The .dot file to read
      *
-     * @return  A string array, where each element represents one line of the.dot tex file.
+     * @return  A string array, where each element represents one line of the.dot text file.
      */
-    fun getOutput(dotFile: File): Array<String> {
+    private fun getExpectedOutput(dotFile: File): Array<String> {
         val strings = FileUtils.readLines(dotFile)
 
         return strings.toTypedArray<String>()
     }
 
-    //  @Test
+    @Test
     fun testAutosys() {
-        val sourceDataFile = File("build/resources/test/data/Autosys dependencies.txt")
-        val expectedDotFile = File("build/resources/test/data/Autosys dependencies_saved.dot")
+        val sourceDataFile = File("build/resources/test/data/Autosys_dependencies.txt")
+        val expectedDotFile = File("build/resources/test/data/Autosys_dependencies_saved.dot")
         val dataHandler = DataHandler(sourceDataFile)
 
         dataHandler.loadDataset()
@@ -55,10 +54,10 @@ class ReaderWriterTest {
         doTestComparisons(sourceDataFile, expectedDotFile)
     }
 
-    //  @Test
+    @Test
     fun testNoFilters() {
-        val sourceDataFile = File("build/resources/test/data/test dependencies.txt")
-        val expectedDotFile = File("build/resources/test/data/test dependencies_saved.dot")
+        val sourceDataFile = File("build/resources/test/data/test_dependencies.txt")
+        val expectedDotFile = File("build/resources/test/data/test_dependencies_saved.dot")
         val directionalFilters: List<DirectionalFilter> = ArrayList()
         val keyObjects: List<BaseDependencyObject> = ArrayList()
         val dataHandler = DataHandler(sourceDataFile)
@@ -70,13 +69,13 @@ class ReaderWriterTest {
         doTestComparisons(sourceDataFile, expectedDotFile)
     }
 
-    //  @Test
+    @Test
     fun testUpFilters() {
-        val destFile = File("build/resources/test/data/test filters up.txt")
+        val destFile = File("build/resources/test/data/test_filters_up.txt")
 
-        FileUtils.copyFile(File("build/resources/test/data/test dependencies.txt"), destFile)
+        FileUtils.copyFile(File("build/resources/test/data/test_dependencies.txt"), destFile)
 
-        val expectedDotFile = File("build/resources/test/data/test filters up_saved.dot")
+        val expectedDotFile = File("build/resources/test/data/test_filters_up_saved.dot")
         val dataHandler = DataHandler(destFile)
         val directionalFilters: MutableList<DirectionalFilter> = ArrayList()
         val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
@@ -93,13 +92,13 @@ class ReaderWriterTest {
         doTestComparisons(destFile, expectedDotFile)
     }
 
-    //  @Test
+    @Test
     fun testUpFiltersOnCdm() {
-        val destFile = File("build/resources/test/data/test filters up cdm.txt")
+        val destFile = File("build/resources/test/data/test_filters_up_cdm.txt")
 
-        FileUtils.copyFile(File("build/resources/test/data/Autosys dependencies.txt"), destFile)
+        FileUtils.copyFile(File("build/resources/test/data/Autosys_dependencies.txt"), destFile)
 
-        val expectedDotFile = File("build/resources/test/data/test filters up cdm_saved.dot")
+        val expectedDotFile = File("build/resources/test/data/test_filters_up_cdm_saved.dot")
         val dataHandler = DataHandler(destFile)
         val directionalFilters: MutableList<DirectionalFilter> = ArrayList()
         val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
@@ -116,13 +115,13 @@ class ReaderWriterTest {
         doTestComparisons(destFile, expectedDotFile)
     }
 
-    //  @Test
+    @Test
     fun testDownFilters() {
-        val destFile = File("build/resources/test/data/test filters down.txt")
+        val destFile = File("build/resources/test/data/test_filters_down.txt")
 
-        FileUtils.copyFile(File("build/resources/test/data/test dependencies.txt"), destFile)
+        FileUtils.copyFile(File("build/resources/test/data/test_dependencies.txt"), destFile)
 
-        val expectedDotFile = File("build/resources/test/data/test filters down_saved.dot")
+        val expectedDotFile = File("build/resources/test/data/test_filters_down_saved.dot")
         val dataHandler = DataHandler(destFile)
         val directionalFilters: MutableList<DirectionalFilter> = ArrayList()
         val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
@@ -139,13 +138,13 @@ class ReaderWriterTest {
         doTestComparisons(destFile, expectedDotFile)
     }
 
-    //  @Test
+    @Test
     fun testUpAndDownFilters() {
-        val destFile = File("build/resources/test/data/test filters up and down.txt")
+        val destFile = File("build/resources/test/data/test_filters_up_and_down.txt")
 
-        FileUtils.copyFile(File("build/resources/test/data/test dependencies.txt"), destFile)
+        FileUtils.copyFile(File("build/resources/test/data/test_dependencies.txt"), destFile)
 
-        val expectedDotFile = File("build/resources/test/data/test filters up and down_saved.dot")
+        val expectedDotFile = File("build/resources/test/data/test_filters_up_and_down_saved.dot")
         val dataHandler = DataHandler(destFile)
         val directionalFilters: MutableList<DirectionalFilter> = ArrayList()
         val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
@@ -161,7 +160,8 @@ class ReaderWriterTest {
         dataHandler.setDirectionalFilters(directionalFilters)
         dataHandler.doIt()
         doTestComparisons(destFile, expectedDotFile)
-    } // public void testDownFilters()
+    }
+    // public void testDownFilters()
     // {
     // File                    sourceDataFile     = new File("Test data/test dependencies.txt");
     // File                    expectedDotFile    = new File("Test data/test filters down.dot");

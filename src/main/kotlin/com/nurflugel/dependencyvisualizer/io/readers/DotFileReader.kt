@@ -1,20 +1,19 @@
 package com.nurflugel.dependencyvisualizer.io.readers
 
-import com.nurflugel.dependencyvisualizer.enums.FileType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.File
 
-class TextFileReader : DataFileReader {
+// Read in a Graphviz .dot file
+class DotFileReader : DataFileReader {
     // private boolean isFamilyTree;
-    internal constructor(sourceDataFile: File) : super(sourceDataFile) {
-        fileType = FileType.TXT
-    }
+//    internal constructor(sourceDataFile: File) : super(sourceDataFile) {
+//        fileType = FileType.DOT
+//    }
 
     constructor()
-
+//
 //    override fun parseLines(): BaseDependencyDataSet {
-//        val lines: List<String>
+//        val lines: MutableList<String>
 //        val isFamilyTree: Boolean
 //        var dataSet: BaseDependencyDataSet = DependencyDataSet()
 //
@@ -132,12 +131,12 @@ class TextFileReader : DataFileReader {
 //        val result = 1
 //        return result
 //    }
-//
-//    override fun toString(): String {
-//        return "TextFileReader()"
-//    }
+
+    override fun toString(): String {
+        return "TextFileReader()"
+    }
 
     companion object {
-        private val LOGGER: Logger = LoggerFactory.getLogger(TextFileReader::class.java)
+        private val LOGGER: Logger = LoggerFactory.getLogger(DotFileReader::class.java)
     }
 }

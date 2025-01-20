@@ -37,7 +37,6 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     private lateinit var notesText: JTextArea
     private lateinit var parentsList: JList<Person>
     private lateinit var displayNameField: JTextField
-
     private lateinit var mainPanel: JPanel
     private lateinit var itemToEditDropdownLabel: JLabel
     private lateinit var rankingsPanel: JPanel
@@ -48,13 +47,10 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     private lateinit var spousesScrollPane: JScrollPane
     private lateinit var parentsLabel: JLabel
     private lateinit var addEditRankingsButton: JButton
-    private lateinit var spouseList: JList<Person>
+    private lateinit var spousesList: JList<Person>
     private lateinit var spousesPanel: JPanel
     private lateinit var birthDateField: JTextField
     private lateinit var deathDateField: JTextField
-
-    //    private lateinit val slaveWrapper: JPanel
-    //    private lateinit val masterPanel: JPanel
     private lateinit var displayNameLabel: JLabel
     private lateinit var birthDateLabel: JLabel
     private lateinit var deathDateLabel: JLabel
@@ -91,7 +87,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     }
 
     private fun populateDropdowns() {
-        val objects: List<BaseDependencyObject> = dataSet.getObjects()
+        val objects: List<BaseDependencyObject> = dataSet.getObjects().sorted()
         val dropdownObjects = getDropdownListWithEmptyTopItem(objects)
 
         existingDataCombobox.setModel(DefaultComboBoxModel(dropdownObjects.toTypedArray<BaseDependencyObject>()))
@@ -125,8 +121,8 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         saveEditedButton.addActionListener { saveEditedData() }
         newDatapointButton.addActionListener { addNewDataPoint() }
         addEditRankingsButton.addActionListener { editRankings() }
-        existingDataCombobox.addItemListener { itemEvent: ItemEvent -> this.existingDataSelected(itemEvent) }
-        spouseList.addListSelectionListener {
+        existingDataCombobox.addItemListener { this.existingDataSelected(it) }
+        spousesList.addListSelectionListener {
             val person = existingDataCombobox.selectedItem as Person
             buildSpousesPanel() // todo person as arg?
             validate()
@@ -151,13 +147,14 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         saveEditedButton.isVisible = true
         parentsScrollPane.isVisible = true
         parentsLabel.isVisible = true
+
     }
 
     private fun saveEditedData() {
         // todo set dependencies to parents selected for existing data
-        val currentDatapoint = currentDatapoint
+//        val currentDatapoint = currentDatapoint
 
-        setParents(currentDatapoint!!) // todo what if null??
+        setParents(currentDatapoint) // todo what if null??
         setRanking(currentDatapoint)
         setSpouses(currentDatapoint)
 
@@ -174,7 +171,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         if (currentDatapoint is Person) {
             currentDatapoint.removeAllSpouses()
 
-            spouseList.selectedValuesList
+            spousesList.selectedValuesList
                 .map { value: Person -> value }
                 .forEach { spouse: Person -> currentDatapoint.addSpouse(spouse) }
         }
@@ -245,7 +242,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
                 .toTypedArray()
 
             parentsList.setListData(personList)
-            spouseList.setListData(personList)
+            spousesList.setListData(personList)
 
             val dependencies: Collection<String> = item.dependencies
 
@@ -285,7 +282,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
             birthDateField,  //
             deathDateField,  //
             notesText,  //
-            spouseList,  //
+            spousesList,  //
             saveEditedButton,  //
             deleteButton,  //
             rankingsPanel,  //
@@ -297,7 +294,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
             spousesFieldLabel
         )
             .filter(Objects::nonNull)
-            .forEach { c: JComponent -> c.isEnabled = value }
+            .forEach { it.isEnabled = value }
     }
 
     private fun getObjectsFromNames(names: Collection<String>): Collection<BaseDependencyObject> {
@@ -312,7 +309,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     private fun buildSpousesPanel() {
         spousesPanel.removeAll()
 
-        spouseList.selectedValuesList
+        spousesList.selectedValuesList
             .map { spouse: Person -> JLabel(spouse.displayName) }
             .forEach(spousesPanel::add)
         validate()
@@ -418,9 +415,9 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         parentsScrollPane = JScrollPane()
         parentsList = JList<Person>()
         parentsScrollPane.setViewportView(parentsList)
-        spouseList = JList<Person>()
+        spousesList = JList<Person>()
         spousesScrollPane = JScrollPane()
-        spousesScrollPane.setViewportView(spouseList)
+        spousesScrollPane.setViewportView(spousesList)
 
         parentsPanel.add(parentsScrollPane, CENTER)
         spousesPanel.add(spousesScrollPane, CENTER)

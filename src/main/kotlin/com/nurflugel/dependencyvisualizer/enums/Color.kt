@@ -15,7 +15,7 @@ enum class Color {
             return entries[(ordinal + 1) % entries.size]
         }
 
-        /** Get the next color in the enum.  */
+        /** Get the previous color in the enum.  */
         fun previous(color: Color): Color {
             val ordinal = color.ordinal
             var previousIndex = ordinal - 1

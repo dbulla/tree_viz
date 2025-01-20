@@ -14,14 +14,17 @@ import java.util.function.Consumer
 abstract class BaseDependencyDataSet {
     var isFamilyTree: Boolean = false
     private var rankings: MutableList<Ranking> = mutableListOf()
+
     // todo this is duplicated in the child classes... not good
-//    val objects: MutableList<BaseDependencyObject> = mutableListOf()
+    //    val objects: MutableList<BaseDependencyObject> = mutableListOf()
+    private val dependencyMap: MutableMap<String, BaseDependencyObject> = mutableMapOf()
 
-    abstract fun getObjects(): MutableList<BaseDependencyObject>
+    fun getObjects(): MutableList<BaseDependencyObject> {
+        return dependencyMap.values.toMutableList()
+    }
 
-    // public abstract Map<String,DependencyObject> getObjectsMap() ;
     fun getRankings(): Collection<Ranking> {
-        val collect: List<Ranking> = getObjects()
+        val collect: List<Ranking> = dependencyMap.values.toList()
             .map(BaseDependencyObject::ranking)
             .distinct()
             .map { title: String -> Ranking.valueOf(title) }
@@ -29,25 +32,26 @@ abstract class BaseDependencyDataSet {
     }
 
     fun add(newObject: BaseDependencyObject) {
-        put(newObject.name, newObject)
+        dependencyMap.put(newObject.name, newObject)
     }
 
-    fun getLoaderObjectByName(name: String): BaseDependencyObject {
+    // If we have the object, return it, else create one, store it, and return that new instance.
+    fun objectByName(name: String): BaseDependencyObject {
         val trimmedName = replaceAllBadChars(name.trim { it <= ' ' })
-        val exists = containsKey(trimmedName)
+        val exists = dependencyMap.containsKey(trimmedName)
         val baseDependencyObject: BaseDependencyObject
 
         if (exists) {
-            baseDependencyObject = get(trimmedName)
+            baseDependencyObject = dependencyMap.getValue(trimmedName) // replace with get or else?  Still want to log that a new instance was created...
         }
         else {
-            baseDependencyObject = DependencyObject(trimmedName, Ranking.first().name)
+            baseDependencyObject = DependencyObject(trimmedName, Ranking.first().name) // todo create a new instance of the right class
 
             if (LOGGER.isDebugEnabled) {
                 LOGGER.debug("Adding unregistered object: {} as object of type {}", trimmedName, baseDependencyObject.ranking)
             }
 
-            put(trimmedName, baseDependencyObject)
+            dependencyMap.put(trimmedName, baseDependencyObject)
         }
 
         return baseDependencyObject
@@ -63,12 +67,6 @@ abstract class BaseDependencyDataSet {
     fun generateRankingsMap() {
         rankings = Ranking.values().toMutableList()
     }
-
-    abstract fun get(key: String): BaseDependencyObject
-
-    abstract fun containsKey(key: String): Boolean
-
-    abstract fun put(key: String, theObject: BaseDependencyObject)
 
     companion object {
         private val LOGGER: Logger = LoggerFactory.getLogger(DependencyDataSet::class.java)

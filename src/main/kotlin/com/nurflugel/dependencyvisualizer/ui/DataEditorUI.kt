@@ -299,8 +299,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
 
     private fun getObjectsFromNames(names: Collection<String>): Collection<BaseDependencyObject> {
         val objects = names
-            .filter(dataSet::containsKey)
-            .map(dataSet::get)
+            .map(dataSet::objectByName)
             .sorted()
 
         return objects

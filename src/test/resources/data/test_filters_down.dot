@@ -1,0 +1,24 @@
+digraph G {
+node [shape=box,fontname="Arial",fontsize="10"];
+edge [fontname="Arial",fontsize="8"];
+ranksep=.75;
+rankdir=BT;
+concentrate=true;
+
+node [shape=plaintext,fontname="Arial",fontsize="10"];
+{ "Level Five" -> "Level Four" -> "Level Three" }
+
+a [label="a" shape=ELLIPSE color="blue"];
+Item_d [label="Item d" shape=ELLIPSE color="green"];
+b [label="b" shape=RECTANGLE color="red"];
+
+
+{ rank = same; "Level Five"; "a"; }
+{ rank = same; "Level Four"; "b"; }
+{ rank = same; "Level Three"; "Item_d"; }
+
+a -> b;
+b -> Item_d;
+
+
+}

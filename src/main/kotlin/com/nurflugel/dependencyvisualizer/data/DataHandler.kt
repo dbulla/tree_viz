@@ -9,7 +9,6 @@ import com.nurflugel.dependencyvisualizer.io.DataFileFactory
 import com.nurflugel.dependencyvisualizer.io.readers.DataFileReader
 import com.nurflugel.dependencyvisualizer.io.writers.DataFileWriter
 import com.nurflugel.dependencyvisualizer.io.writers.DotFileWriter
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -62,20 +61,18 @@ class DataHandler(sourceDataFile: File) {
      * Filter the objects based on criteria from the UI- - Specific objects - filter up or down - show/don't show tiers (no NSC, etc.).
      */
     private fun filterObjects(): Collection<BaseDependencyObject> {
-        val filter: ObjectFilterer = ObjectFilterer(directionalFilters, typesFilters)
+        val filter = ObjectFilterer(directionalFilters, typesFilters)
 
         return filter.filter(dataset, keyObjects)
     }
 
     /**
-     * See if the given object is found. if not, throw an excpetion.
+     * See if the given object is found. if not, throw an exception.
      */
     @Throws(Exception::class)
     fun findObjectByName(name: String): BaseDependencyObject {
         val cleanName = replaceAllBadChars(name)
-        val baseDependencyObject = dataset.getObjects()
-            .first { o: BaseDependencyObject -> StringUtils.equals(o.name, cleanName) }
-
+        val baseDependencyObject = dataset.objectByName(cleanName)
         return baseDependencyObject
     }
 

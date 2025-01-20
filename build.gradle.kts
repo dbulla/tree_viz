@@ -34,11 +34,6 @@ dependencies {
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    // This dependency is used by the application.
-    //    implementation("com.google.guava:guava:33.3.0-jre")
-    //    implementation("commons-io:commons-io:2.16.1")
-
-
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("ch.qos.logback:logback-core:$logbackVersion")
     implementation("ch.qos.logback:logback-core:$logbackVersion")
@@ -49,6 +44,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.17.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
 
     // Use the Kotlin test library.
     //    testImplementation("org.jetbrains.kotlin:kotlin-test")

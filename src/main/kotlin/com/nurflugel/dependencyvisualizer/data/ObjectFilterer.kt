@@ -101,9 +101,10 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
                     filteredObjects.add(mainObject)
 
                     // now, valueOf all dependencies of this object that have a higher ranking, too
-                    val dependencies: Collection<String> = mainObject.dependencies
+//                    val dependencies: Collection<String> = mainObject.dependencies.
+                    val dependencies = mainObject.dependencies
                     val baseDependencyObjects = dependencies
-                        .map { key: String -> dataSet.get(key) }
+                        .map(dataSet::objectByName)
                     filteredObjects.addAll(baseDependencyObjects)
                 }
         }

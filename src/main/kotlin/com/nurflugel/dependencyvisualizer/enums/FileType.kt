@@ -24,7 +24,7 @@ enum class FileType(private val extension: String,
 
     @Throws(IllegalAccessException::class, InstantiationException::class)
     fun getDataFileReader(sourceDataFile: File): DataFileReader {
-        val reader = fileReaderClass.newInstance()!!
+        val reader = fileReaderClass.getDeclaredConstructor().newInstance()
 
         reader.sourceDataFile = sourceDataFile
 
@@ -33,7 +33,7 @@ enum class FileType(private val extension: String,
 
     @Throws(IllegalAccessException::class, InstantiationException::class)
     fun getDataFileWriter(sourceDataFile: File): DataFileWriter {
-        val reader = fileWriterClass.newInstance()!!
+        val reader = fileWriterClass.getDeclaredConstructor().newInstance()
 
         return reader
     }

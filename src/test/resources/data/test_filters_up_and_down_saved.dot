@@ -1,0 +1,38 @@
+//Header
+digraph G {
+node [shape=box,fontname="Arial",fontsize="10"];
+edge [fontname="Arial",fontsize="8"];
+ranksep=1.5;
+rankdir=BT;
+concentrate=true;
+
+//Ranking Enumeration
+node [shape=plaintext,fontname="Arial",fontsize="10"];
+{ "Level Five" -> "Level Four" -> "Level Three" -> "Level Two" -> "level One" }
+
+//Declarations
+Item_d [label="Item d" shape=ELLIPSE color="GREEN"];
+a [label="a" shape=ELLIPSE color="BLUE"];
+b [label="b" shape=RECTANGLE color="RED"];
+f [label="f" shape=TRIANGLE color="BLACK"];
+g [label="g" shape=HEXAGON color="YELLOW"];
+h [label="h" shape=HEXAGON color="YELLOW"];
+
+
+//Ranking groupings
+{ rank = same; "Level Five"; "a"; }
+{ rank = same; "Level Four"; "b"; }
+{ rank = same; "Level Three"; "Item_d"; }
+{ rank = same; "Level Two"; "f"; }
+{ rank = same; "level One"; "g"; "h"; }
+
+
+//Dependencies
+Item_d -> f;
+a -> b;
+b -> Item_d;
+f -> g;
+f -> h;
+
+
+}

@@ -1,6 +1,8 @@
 package com.nurflugel.dependencyvisualizer.io.readers
 
-import com.nurflugel.dependencyvisualizer.Constants
+import com.nurflugel.dependencyvisualizer.Constants.Companion.COLOR
+import com.nurflugel.dependencyvisualizer.Constants.Companion.NAME
+import com.nurflugel.dependencyvisualizer.Constants.Companion.SHAPE
 import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
 import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet
 import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet
@@ -25,7 +27,7 @@ import java.util.*
 abstract class DataFileReader {
     lateinit var sourceDataFile: File
     lateinit var fileType: FileType
-//    var logger: Logger = LoggerFactory.getLogger(DataFileReader::class.java)
+    //    var logger: Logger = LoggerFactory.getLogger(DataFileReader::class.java)
 
     protected constructor(sourceDataFile: File) {
         this.sourceDataFile = sourceDataFile
@@ -124,8 +126,8 @@ abstract class DataFileReader {
                 .toTypedArray()
 
             for (i in 0..<(chunks.size - 1)) {
-                val main = dataSet.getLoaderObjectByName(chunks[i])
-                val dependency = dataSet.getLoaderObjectByName(chunks[i + 1])
+                val main = dataSet.objectByName(chunks[i])
+                val dependency = dataSet.objectByName(chunks[i + 1])
 
                 main.addDependency(dependency.name)
             }
@@ -140,16 +142,16 @@ abstract class DataFileReader {
         val chunks = strippedLine.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         var shape: Shape = Shape.RECTANGLE
         var color: Color = Color.BLACK
-        var name: String = "noName"
+        var name = "noName"
 
         for (chunk in chunks) {
             val nibbles = chunk.trim { it <= ' ' }.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
             val trimmedNibble = nibbles[0].trim { it <= ' ' }
             when {
-                trimmedNibble.equals(Constants.NAME, ignoreCase = true)  -> name = nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault())
-                trimmedNibble.equals(Constants.COLOR, ignoreCase = true) -> color = Color.valueOf(nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault()))
-                trimmedNibble.equals(Constants.SHAPE, ignoreCase = true) -> shape = Shape.valueOf(nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault()))
+                trimmedNibble.equals(NAME, ignoreCase = true)  -> name = nibbles[1].trim { it <= ' ' }
+                trimmedNibble.equals(COLOR, ignoreCase = true) -> color = Color.valueOf(nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault()))
+                trimmedNibble.equals(SHAPE, ignoreCase = true) -> shape = Shape.valueOf(nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault()))
             }
         }
 

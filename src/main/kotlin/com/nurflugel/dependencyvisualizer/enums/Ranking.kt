@@ -16,9 +16,9 @@ package com.nurflugel.dependencyvisualizer.enums
     }
 //
 //    // ------------------------ CANONICAL METHODS ------------------------
-//    override fun toString(): String {
-//        return name
-//    }
+    override fun toString(): String {
+        return name
+    }
 //
 //    override fun equals(o: Any?): Boolean {
 //        if (o === this) return true

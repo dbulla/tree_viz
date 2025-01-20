@@ -8,10 +8,12 @@ import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter
 import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.first
 import org.apache.commons.io.FileUtils
 import org.apache.commons.lang3.StringUtils
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.nio.charset.Charset
 
 class ReaderWriterTest {
     //    @Test
@@ -20,13 +22,13 @@ class ReaderWriterTest {
         val testOutput = getExpectedOutput(resultFile)
         val expectedOutput = getExpectedOutput(expectedDotFile)
 
-        if (logger.isDebugEnabled) {
-            logger.debug("Comparing $expectedDotFile and $resultFile")
-        }
+//        if (logger.isDebugEnabled) {
+            logger.error("Comparing $expectedDotFile and $resultFile")
+//        }
 
         //    assertEquals(resultFile + " and " + expectedDotFile + " should have the same number of lines", expectedOutput.length, testOutput.length);
         for (i in expectedOutput.indices) {
-            //      assertEquals("Test output at line " + i + " should be equal to expected output", expectedOutput[i], testOutput[i]);
+                  assertEquals(expectedOutput[i], testOutput[i], "Test output at line $i should be equal to expected output");
         }
     }
 
@@ -38,7 +40,7 @@ class ReaderWriterTest {
      * @return  A string array, where each element represents one line of the.dot text file.
      */
     private fun getExpectedOutput(dotFile: File): Array<String> {
-        val strings = FileUtils.readLines(dotFile)
+        val strings = FileUtils.readLines(dotFile, Charset.defaultCharset())
 
         return strings.toTypedArray<String>()
     }
@@ -83,9 +85,9 @@ class ReaderWriterTest {
         directionalFilters.add(DirectionalFilter.UP)
         dataHandler.loadDataset()
 
-        val `object` = dataHandler.findObjectByName(replaceAllBadChars(ITEM_D))
+        val itemD = dataHandler.findObjectByName(replaceAllBadChars(ITEM_D))
 
-        keyObjects.add(`object`)
+        keyObjects.add(itemD)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
         dataHandler.doIt()
@@ -106,9 +108,9 @@ class ReaderWriterTest {
         directionalFilters.add(DirectionalFilter.UP)
         dataHandler.loadDataset()
 
-        val `object`: BaseDependencyObject = DependencyObject("cdm_style", first().name)
+        val styleObject: BaseDependencyObject = DependencyObject("cdm_style", first().name)
 
-        keyObjects.add(`object`)
+        keyObjects.add(styleObject)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
         dataHandler.doIt()
@@ -129,9 +131,9 @@ class ReaderWriterTest {
         directionalFilters.add(DirectionalFilter.DOWN)
         dataHandler.loadDataset()
 
-        val `object` = dataHandler.findObjectByName(replaceAllBadChars(ITEM_D))
+        val itemD = dataHandler.findObjectByName(replaceAllBadChars(ITEM_D))
 
-        keyObjects.add(`object`)
+        keyObjects.add(itemD)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
         dataHandler.doIt()
@@ -153,9 +155,9 @@ class ReaderWriterTest {
         directionalFilters.add(DirectionalFilter.UP)
         dataHandler.loadDataset()
 
-        val `object` = dataHandler.findObjectByName(replaceAllBadChars(ITEM_D))
+        val itemD = dataHandler.findObjectByName(replaceAllBadChars(ITEM_D))
 
-        keyObjects.add(`object`)
+        keyObjects.add(itemD)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
         dataHandler.doIt()

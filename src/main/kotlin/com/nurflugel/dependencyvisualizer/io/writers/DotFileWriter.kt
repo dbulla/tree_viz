@@ -64,7 +64,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
      edge [fontname="Arial",fontsize="8"];
      ranksep=1.5;
      rankdir=BT;
-     concentrate=false;
+     concentrate=true;
      
      
      """.trimIndent())
@@ -85,11 +85,10 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
             writeToOutput(out, "node [shape=plaintext,fontname=\"Arial\",fontsize=\"10\"];\n")
             writeToOutput(out, "{ ")
 
-            val line = types
-                .map { type: Ranking -> "\"" + type + '\"' }
-                .joinToString { " -> " }
+            val line = types.joinToString(" -> ") { it -> "\"" + it.name + '\"' }
 
             writeToOutput(out, line)
+//            writeToOutput(out, line.joinToString {  " -> " })
             writeToOutput(out, " }\n\n")
         }
 
@@ -107,7 +106,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
                 val notes = dependencyObject.notes
                 val displayName: String
 
-                if (notes.size == 0) {
+                if (notes.isEmpty()) {
                     displayName = dependencyObject.displayName
                 }
                 else {

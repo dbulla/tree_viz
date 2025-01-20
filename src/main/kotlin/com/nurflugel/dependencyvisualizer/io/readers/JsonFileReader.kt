@@ -30,6 +30,7 @@ class JsonFileReader : DataFileReader {
             lines = ArrayList()
         }
 
+        // First, we need to determine which class to use - a Family Tree, or a generic object?
         val isFamilyTree = lines
             .filter { it.contains("isFamilyTree") }
             .any { it.contains("true") }

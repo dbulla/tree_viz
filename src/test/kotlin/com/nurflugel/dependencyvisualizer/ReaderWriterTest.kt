@@ -5,45 +5,14 @@ import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject.Companion.replaceAllBadChars
 import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter
+import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.DOWN
+import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.UP
 import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.first
 import org.apache.commons.io.FileUtils
-import org.apache.commons.lang3.StringUtils
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.File
-import java.nio.charset.Charset
 
-class ReaderWriterTest {
-    //    @Test
-    private fun doTestComparisons(sourceDataFile: File, expectedDotFile: File) {
-        val resultFile = File(StringUtils.replace(sourceDataFile.absolutePath, ".txt", ".dot"))
-        val testOutput = getExpectedOutput(resultFile)
-        val expectedOutput = getExpectedOutput(expectedDotFile)
-
-//        if (logger.isDebugEnabled) {
-            logger.error("Comparing $expectedDotFile and $resultFile")
-//        }
-
-        //    assertEquals(resultFile + " and " + expectedDotFile + " should have the same number of lines", expectedOutput.length, testOutput.length);
-        for (i in expectedOutput.indices) {
-                  assertEquals(expectedOutput[i], testOutput[i], "Test output at line $i should be equal to expected output");
-        }
-    }
-
-    /**
-     * Gets the expected output from the .dot file.
-     *
-     * @param   dotFile  The .dot file to read
-     *
-     * @return  A string array, where each element represents one line of the.dot text file.
-     */
-    private fun getExpectedOutput(dotFile: File): Array<String> {
-        val strings = FileUtils.readLines(dotFile, Charset.defaultCharset())
-
-        return strings.toTypedArray<String>()
-    }
+class ReaderWriterTest: BaseReaderWriterTest() {
 
     @Test
     fun testAutosys() {
@@ -82,7 +51,7 @@ class ReaderWriterTest {
         val directionalFilters: MutableList<DirectionalFilter> = ArrayList()
         val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
 
-        directionalFilters.add(DirectionalFilter.UP)
+        directionalFilters.add(UP)
         dataHandler.loadDataset()
 
         val itemD = dataHandler.findObjectByName(replaceAllBadChars(ITEM_D))
@@ -105,7 +74,7 @@ class ReaderWriterTest {
         val directionalFilters: MutableList<DirectionalFilter> = ArrayList()
         val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
 
-        directionalFilters.add(DirectionalFilter.UP)
+        directionalFilters.add(UP)
         dataHandler.loadDataset()
 
         val styleObject: BaseDependencyObject = DependencyObject("cdm_style", first().name)
@@ -128,7 +97,7 @@ class ReaderWriterTest {
         val directionalFilters: MutableList<DirectionalFilter> = ArrayList()
         val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
 
-        directionalFilters.add(DirectionalFilter.DOWN)
+        directionalFilters.add(DOWN)
         dataHandler.loadDataset()
 
         val itemD = dataHandler.findObjectByName(replaceAllBadChars(ITEM_D))
@@ -151,8 +120,8 @@ class ReaderWriterTest {
         val directionalFilters: MutableList<DirectionalFilter> = ArrayList()
         val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
 
-        directionalFilters.add(DirectionalFilter.DOWN)
-        directionalFilters.add(DirectionalFilter.UP)
+        directionalFilters.add(DOWN)
+        directionalFilters.add(UP)
         dataHandler.loadDataset()
 
         val itemD = dataHandler.findObjectByName(replaceAllBadChars(ITEM_D))
@@ -163,21 +132,9 @@ class ReaderWriterTest {
         dataHandler.doIt()
         doTestComparisons(destFile, expectedDotFile)
     }
-    // public void testDownFilters()
-    // {
-    // File                    sourceDataFile     = new File("Test data/test dependencies.txt");
-    // File                    expectedDotFile    = new File("Test data/test filters down.dot");
-    // Handler            readerWriter       = new Handler(sourceDataFile);
-    // List<DirectionalFilter> directionalFilters = new ArrayList<DirectionalFilter>();
-    //
-    // directionalFilters.valueOf(DirectionalFilter.Down);
-    // readerWriter.setDirectionalFilters(directionalFilters);
-    // readerWriter.doIt();
-    // doTestComparisons(sourceDataFile, expectedDotFile);
-    // }
+
 
     companion object {
-        val logger: Logger = LoggerFactory.getLogger(ReaderWriterTest::class.java)
         const val ITEM_D: String = "Item d"
     }
 }

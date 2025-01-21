@@ -17,14 +17,14 @@ abstract class BaseDependencyDataSet {
 
     // todo this is duplicated in the child classes... not good
     //    val objects: MutableList<BaseDependencyObject> = mutableListOf()
-    private val dependencyMap: MutableMap<String, BaseDependencyObject> = mutableMapOf()
+    private val objectsMap: MutableMap<String, BaseDependencyObject> = mutableMapOf()
 
     fun getObjects(): MutableList<BaseDependencyObject> {
-        return dependencyMap.values.toMutableList()
+        return objectsMap.values.toMutableList()
     }
 
     fun getRankings(): Collection<Ranking> {
-        val collect: List<Ranking> = dependencyMap.values.toList()
+        val collect: List<Ranking> = objectsMap.values.toList()
             .map(BaseDependencyObject::ranking)
             .distinct()
             .map { title: String -> Ranking.valueOf(title) }
@@ -32,17 +32,17 @@ abstract class BaseDependencyDataSet {
     }
 
     fun add(newObject: BaseDependencyObject) {
-        dependencyMap.put(newObject.name, newObject)
+        objectsMap.put(newObject.name, newObject)
     }
 
     // If we have the object, return it, else create one, store it, and return that new instance.
     fun objectByName(name: String): BaseDependencyObject {
         val trimmedName = replaceAllBadChars(name.trim { it <= ' ' })
-        val exists = dependencyMap.containsKey(trimmedName)
+        val exists = objectsMap.containsKey(trimmedName)
         val baseDependencyObject: BaseDependencyObject
 
         if (exists) {
-            baseDependencyObject = dependencyMap.getValue(trimmedName) // replace with get or else?  Still want to log that a new instance was created...
+            baseDependencyObject = objectsMap.getValue(trimmedName) // replace with get or else?  Still want to log that a new instance was created...
         }
         else {
             baseDependencyObject = DependencyObject(trimmedName, Ranking.first().name) // todo create a new instance of the right class
@@ -51,7 +51,7 @@ abstract class BaseDependencyDataSet {
                 LOGGER.debug("Adding unregistered object: {} as object of type {}", trimmedName, baseDependencyObject.ranking)
             }
 
-            dependencyMap.put(trimmedName, baseDependencyObject)
+            objectsMap.put(trimmedName, baseDependencyObject)
         }
 
         return baseDependencyObject
@@ -63,7 +63,7 @@ abstract class BaseDependencyDataSet {
     fun rectify() {
         rankings.forEach(Consumer { ranking: Ranking -> Ranking.addRanking(ranking) })
     }
-
+    // todo very bad name - what does this do
     fun generateRankingsMap() {
         rankings = Ranking.values().toMutableList()
     }

@@ -19,6 +19,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
+import java.nio.charset.Charset
 import java.util.*
 
 /**
@@ -83,7 +84,7 @@ abstract class DataFileReader {
         var dataSet: BaseDependencyDataSet = DependencyDataSet()
 
         try {
-            lines = FileUtils.readLines(sourceDataFile)
+            lines = FileUtils.readLines(sourceDataFile, Charset.defaultCharset())
             isFamilyTree = lines
                 .filter { it.startsWith("&") }
                 .any { this.isFamilyHistory(it) }

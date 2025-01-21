@@ -44,11 +44,11 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
             directionalFilters.add(DOWN)
             directionalFilters.add(UP)
         }
-        else {
+//        else {
             directionalFilters
                 .map { filterObjectsByDirection(dataSet, keyObjects, 0, it) }
                 .forEach { filteredObjects.addAll(it) }
-        }
+//        }
 
         return filteredObjects
     }

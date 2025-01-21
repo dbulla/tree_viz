@@ -770,9 +770,23 @@
       "notes"       : [],
       "ranking"     : "Grandparents",
       "dependencies": [
-        "Clarence Johnson",
-        "Molly Johnson"
+        "Clarence_Johnson",
+        "Molly_Johnson"
       ]
+    },
+    "Clarence_Johnson": {
+      "spouses"     : ["Molly_Johnson"],
+      "name"        : "Clarence_Johnson",
+      "displayName" : "Clarence Johnson",
+      "notes"       : [],
+      "ranking"     : "Great Grandparents"
+    },
+    "Molly_Johnson": {
+      "spouses"     : ["Clarence_Johnson"],
+      "name"        : "Molly_Johnson",
+      "displayName" : "Molly Johnson",
+      "notes"       : [],
+      "ranking"     : "Great Grandparents"
     },
     "Robert_Champion"           : {
       "spouses"     : [],

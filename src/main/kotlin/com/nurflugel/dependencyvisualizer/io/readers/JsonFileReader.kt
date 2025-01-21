@@ -10,6 +10,7 @@ import java.io.File
 import java.io.FileReader
 import java.io.IOException
 import java.lang.reflect.Type
+import java.nio.charset.Charset
 
 class JsonFileReader : DataFileReader {
     internal constructor(sourceDataFile: File) : super(sourceDataFile)
@@ -24,7 +25,7 @@ class JsonFileReader : DataFileReader {
         var lines: List<String>
 
         try {
-            lines = FileUtils.readLines(sourceDataFile)
+            lines = FileUtils.readLines(sourceDataFile, Charset.defaultCharset())
         } catch (e: IOException) {
             e.printStackTrace()
             lines = ArrayList()

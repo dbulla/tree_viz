@@ -1,0 +1,66 @@
+//Header
+digraph G {
+node [shape=box,fontname="Arial",fontsize="10"];
+edge [fontname="Arial",fontsize="8"];
+ranksep=1.5;
+rankdir=BT;
+concentrate=true;
+
+//Ranking Enumeration
+node [shape=plaintext,fontname="Arial",fontsize="10"];
+{ "Contemporaries" -> "Parents" -> "Grandparents" -> "Great Grandparents" -> "Great-Great Grandparents" }
+
+//Declarations
+Adrienne_Stuhler [label="Adrienne Bullard" shape=null color="null"];
+Bradford_Bullard [label="Bradford Bullard" shape=null color="null"];
+Christine_Bullard [label="Christine Bullard" shape=null color="null"];
+James_Bullard [label="James R. S. Bullard" shape=null color="null"];
+Jerusha_Bullard [label="Jerusha Bullard" shape=null color="null"];
+John_Carter [label="John Carter" shape=null color="null"];
+John_Carter_Bullard [label="John Carter Bullard" shape=null color="null"];
+Katherine_Bullard [label="Katherine Bullard" shape=null color="null"];
+Kurt_Stuhler [label="Kurt Conrad Stuhler" shape=null color="null"];
+Paul_Bullard [label="Paul Bullard" shape=null color="null"];
+Rachel_Sarah_Carter [label="Rachel Sarah Carter\nb. Greenwood December 27, 1855\nd. Mineral Wells, Palo Pinto County Texas May 7, 1914." shape=null color="null"];
+Robert_Lee_Bullard [label="Robert Lee Bullard" shape=null color="null"];
+Sarah_Bullard [label="Sarah Bullard" shape=null color="null"];
+Sarah_Lewis [label="Sarah Lewis\nEither 1/4 Cherokee or\nFull-blooded Cree Indian.  Her father's entire family\nwas banished from their tribe.\nShe was adopted by Christian missionaries." shape=null color="null"];
+Sarita_Bullard [label="Sarita Bullard" shape=null color="null"];
+Wiley_Petit_Bullard [label="Wiley Petit Bullard\nb. August 2, 1852 p. Brazos County, Texas\nd. Breckenridge, Stephens County, Texas September 17, 1927" shape=null color="null"];
+Wylie_Aubrey_Bullard [label="Wylie Aubrey Bullard\nb. on December 31, 1899 Whitt, Parker County, Texas\nd. November 17 1982 Dallas, Dallas County, Texas" shape=null color="null"];
+bruce_bullard [label="Bruce Elliot Bullard\nb. November 30, 1957 St. Paul, Minnesota" shape=null color="null"];
+donn_bullard [label="Donn Wiley Bullard\nb. Dec 4, 1925\nd. Nov 3, 1995" shape=null color="null"];
+douglas_bullard [label="Douglas Gary Bullard\nb. September 9, 1959 St. Paul, Minnesota" shape=null color="null"];
+
+
+//Ranking groupings
+{ rank = same; "Contemporaries"; "Bradford_Bullard"; "Christine_Bullard"; "Katherine_Bullard"; "Kurt_Stuhler"; "Paul_Bullard"; "Sarah_Bullard"; "bruce_bullard"; "douglas_bullard"; }
+{ rank = same; "Parents"; "Adrienne_Stuhler"; "John_Carter_Bullard"; "Robert_Lee_Bullard"; "Sarita_Bullard"; "donn_bullard"; }
+{ rank = same; "Grandparents"; "Wylie_Aubrey_Bullard"; }
+{ rank = same; "Great Grandparents"; "Rachel_Sarah_Carter"; "Wiley_Petit_Bullard"; }
+{ rank = same; "Great-Great Grandparents"; "James_Bullard"; "Jerusha_Bullard"; "John_Carter"; "Sarah_Lewis"; }
+
+
+//Dependencies
+Adrienne_Stuhler -> Wylie_Aubrey_Bullard;
+Bradford_Bullard -> John_Carter_Bullard;
+Christine_Bullard -> John_Carter_Bullard;
+John_Carter_Bullard -> Wylie_Aubrey_Bullard;
+Katherine_Bullard -> John_Carter_Bullard;
+Kurt_Stuhler -> Adrienne_Stuhler;
+Paul_Bullard -> Robert_Lee_Bullard;
+Rachel_Sarah_Carter -> John_Carter;
+Rachel_Sarah_Carter -> Sarah_Lewis;
+Robert_Lee_Bullard -> Wylie_Aubrey_Bullard;
+Sarah_Bullard -> Robert_Lee_Bullard;
+Sarita_Bullard -> Wylie_Aubrey_Bullard;
+Wiley_Petit_Bullard -> James_Bullard;
+Wiley_Petit_Bullard -> Jerusha_Bullard;
+Wylie_Aubrey_Bullard -> Rachel_Sarah_Carter;
+Wylie_Aubrey_Bullard -> Wiley_Petit_Bullard;
+bruce_bullard -> donn_bullard;
+donn_bullard -> Wylie_Aubrey_Bullard;
+douglas_bullard -> donn_bullard;
+
+
+}

@@ -14,9 +14,9 @@ plugins {
     application
 //    id("org.openjfx.javafxplugin") version "0.1.0"
 
-    id("com.github.ben-manes.versions") version "0.51.0"
+    id("com.github.ben-manes.versions") version "0.52.0"
     id("com.dorongold.task-tree") version "4.0.0"
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.1.20-Beta1"
 }
 
 repositories {

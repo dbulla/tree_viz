@@ -16,13 +16,14 @@ class ReaderWriterTest: BaseReaderWriterTest() {
 
     @Test
     fun testAutosys() {
-        val sourceDataFile = File("build/resources/test/data/Autosys_dependencies.txt")
+        val sourceDataFile = File("build/resources/test/data/Autosys_dependencies.json")
+        val generatedDotFile = File("build/resources/test/data/Autosys_dependencies.dot")
         val expectedDotFile = File("build/resources/test/data/Autosys_dependencies_saved.dot")
         val dataHandler = DataHandler(sourceDataFile)
 
         dataHandler.loadDataset()
         dataHandler.doIt()
-        doTestComparisons(sourceDataFile, expectedDotFile)
+        doTestComparisons(generatedDotFile, expectedDotFile)
     }
 
     @Test

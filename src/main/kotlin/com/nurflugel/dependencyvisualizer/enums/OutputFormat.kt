@@ -17,31 +17,13 @@ enum class OutputFormat(
     // ------------------------------ FIELDS ------------------------------
     Svg("SVG", "svg", ".svg"),
     Png("PNG", "png", ".png"),
-    Pdf("PDF", "epdf", ".pdf"),
+    Pdf("PDF", "pdf", ".pdf"),
     Dot("DOT", "dot", ".dot"),
     PdfViaGhostscript("PDF_VIA_GHOSTSCRIPT", "ps", ".ps");
 
-
-    // --------------------------- CONSTRUCTORS ---------------------------
-//    /**   */
-//    init {
-//        this.type = type
-//        this.extension = extension
-//    }
-
-    // -------------------------- OTHER METHODS --------------------------
-//    /**   */
-//    fun displayLabel(): String {
-//        return displayLabel
-//    }
-
-//    /**   */
-//    fun extension(): String {
-//        return extension
-//    }
-//
-//    /**   */
-//    fun type(): String {
-//        return type
-//    }
+    companion object {
+        fun getDefaultExtension(): OutputFormat {
+            return Pdf
+        }
+    }
 }

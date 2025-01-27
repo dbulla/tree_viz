@@ -9,16 +9,12 @@ import java.io.File
 
 /** simple factory to get the right stuff for the different types of data files.  */
 class DataFileFactory(private val sourceDataFile: File) {
-    private val fileType =
-        findByExtension(FilenameUtils.getExtension(sourceDataFile.absolutePath))
-
-//    @get:Throws(InstantiationException::class, IllegalAccessException::class)
+    private val fileType = findByExtension(FilenameUtils.getExtension(sourceDataFile.absolutePath))
     val reader: DataFileReader
         get() = fileType.getDataFileReader(sourceDataFile)
 
-//    @get:Throws(InstantiationException::class, IllegalAccessException::class)
     val writer: DataFileWriter
-        /** for right now, always return an XML writer.  */
+        /** for right now, always return an JSON writer.  */
         get() = // return fileType.getDataFileWriter(sourceDataFile);
             JsonFileWriter(sourceDataFile)
 

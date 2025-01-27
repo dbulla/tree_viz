@@ -11,7 +11,6 @@ import com.nurflugel.dependencyvisualizer.enums.OutputFormat
 import com.nurflugel.dependencyvisualizer.enums.Ranking
 import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.clearRankings
 import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.values
-import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.awt.*
@@ -19,8 +18,10 @@ import java.awt.BorderLayout.*
 import java.awt.event.ActionEvent
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
+import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
+import java.io.InputStreamReader
 import java.time.Duration
 import java.time.Instant
 import java.util.*
@@ -30,6 +31,7 @@ import javax.swing.BoxLayout.X_AXIS
 import javax.swing.BoxLayout.Y_AXIS
 import javax.swing.border.Border
 import javax.swing.border.EtchedBorder
+
 
 /**
  *
@@ -77,7 +79,7 @@ class LoadersUi private constructor() : JFrame() {
 
     private fun retrieveSettings() {
         preferences = Preferences.userNodeForPackage(LoadersUi::class.java)
-        dotExecutablePath = preferences.get(DOT_EXECUTABLE, "")
+        dotExecutablePath = preferences.get(DOT_EXECUTABLE, "").trim()
         rankingCheckBox.isSelected = preferences.get(USE_RANKING, "true").toBoolean()
         filterUpCheckBox.isSelected = preferences.get(FILTER_UP, "false").toBoolean()
         filterDownCheckBox.isSelected = preferences.get(FILTER_DOWN, "false").toBoolean()
@@ -131,10 +133,9 @@ class LoadersUi private constructor() : JFrame() {
 
         val dotFile = dataHandler.doIt()
 
-        // String outputFilePath = convertDataFile(dotFile);
+        val outputFilePath = convertDataFile(dotFile);
 
-        // showImage(outputFilePath);
-        showImage(dotFile.absolutePath)
+        showImage(outputFilePath);
     }
 
     private val directionalFilters: List<DirectionalFilter>
@@ -160,17 +161,16 @@ class LoadersUi private constructor() : JFrame() {
         get() {
             val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
 
-            for (component in filtersPanel.components) {
-                if (component is JPanel) {
-                    val panelComponents = (component as Container).components
-
-                    for (panelComponent in panelComponents) {
+            filtersPanel.components
+                .filterIsInstance<JPanel>()
+                .map { (it as Container).components }
+                .forEach {
+                    for (panelComponent in it) {
                         if (panelComponent is JComboBox<*>) {
                             getValueFromDropdown(keyObjects, panelComponent)
                         }
                     }
                 }
-            }
 
             return keyObjects
         }
@@ -190,16 +190,13 @@ class LoadersUi private constructor() : JFrame() {
         val parentFile = outputFile.parentFile
         val dotFilePath = dotFile.absolutePath
         val outputFilePath = outputFile.absolutePath
-
+        val dotfileName = dotFile.name
         if (outputFile.exists()) {
-            if (logger.isDebugEnabled) {
-                logger.debug("Deleting existing version of {}", outputFilePath)
-            }
-
+            logger.info("Deleting existing version of {}", outputFilePath)
             outputFile.delete() // delete the file before generating it if it exists
         }
 
-        if (StringUtils.isEmpty(dotExecutablePath)) {
+        if (dotExecutablePath.isEmpty()) {
             findDotExecutablePath()
         }
 
@@ -212,34 +209,15 @@ class LoadersUi private constructor() : JFrame() {
             else
                 ""
             val dot = quote + dotExecutablePath + quote
-            val output = " -o$quote$outputFilePath$quote"
-            val command = "$dot -T$outputFormat $quote$dotFilePath$quote$output"
-
-            if (logger.isDebugEnabled) {
-                logger.debug("1 Command to run: {}, parent file is {}", command, parentFile.path)
-            }
-
-            val runtime = Runtime.getRuntime()
-
-            runtime.exec(command).waitFor()
+            val output = " -o $quote$outputFilePath$quote"
+            runProcess("convertDataFile", mutableListOf(dot, "-T$outputFormat", "$quote$dotFilePath$quote$output"))
         }
         else {
-            val command = arrayOf(dotExecutablePath, "-T$outputFormat", dotFilePath, "-o$outputFilePath")
-
-            if (logger.isDebugEnabled) {
-                logger.debug("Command to run: {}, parent file is {}", concatenate(command), parentFile.path)
-            }
-
-            val runtime = Runtime.getRuntime()
-
-            runtime.exec(command).waitFor()
+            runProcess("convertDataFile", mutableListOf(dotExecutablePath, "-T$outputFormat", "-T$outputFormat", dotFilePath, "-o$outputFilePath"))
+            //            runProcess("convertDataFile", mutableListOf(dotExecutablePath, "-T$outputFormat", "-T$outputFormat", dotFilePath, "-o ${outputFile.name}"))
         }
 
-        val end = Date().time
-
-        if (logger.isDebugEnabled) {
-            logger.debug("Took {} milliseconds to generate graphic", Duration.between(start, Instant.now()).toMillis())
-        }
+        logger.debug("Took {} milliseconds to generate graphic", Duration.between(start, Instant.now()).toMillis())
 
         return outputFilePath
     }
@@ -280,36 +258,30 @@ class LoadersUi private constructor() : JFrame() {
                 commandList.add(outputFilePath)
             }
             else if (isOsX) {
-                // commandList.add(PREVIEW_LOCATION);
                 commandList.add("open")
-
-                // String delimitedOutputFilePath = StringUtils.replace(outputFilePath, " ", "\\ ");
                 commandList.add(outputFilePath)
             }
-
-            //            val command = commandList.toArray<String?> { _Dummy_.__Array__() }
-            val command: Array<String?> = commandList.toTypedArray()
-
-            if (logger.isDebugEnabled) {
-                logger.debug("Command to run: {}", concatenate(command))
-            }
-
-            val process = ProcessBuilder(commandList).start()
-            val errorStream = process.errorStream
+            runProcess("showImage", commandList)
         } catch (e: Exception) {
             logger.error("Error", e)
         }
     }
 
+    private fun runProcess(methodName: String, commandList: MutableList<String>) {
+        logger.info("Running command in $methodName: '${commandList.joinToString(" ")}'")
+        val process = ProcessBuilder(commandList).start()
+        // grab the error stream and print that to stdout so we can see any errors
+        val bre = BufferedReader(InputStreamReader(process.errorStream))
+        var line: String? = bre.readLine()
+        while (line != null) {
+            println(line)
+            line = bre.readLine()
+        }
+    }
+
     private val isOsX: Boolean
-        /**
-         *
-         */
         get() = os.lowercase(Locale.getDefault()).startsWith("mac os")
 
-    /**
-     *
-     */
     private fun findDotExecutablePath() {
         dotExecutablePath = preferences[DOT_EXECUTABLE, ""]
 
@@ -327,17 +299,17 @@ class LoadersUi private constructor() : JFrame() {
         val dialog = NoDotDialog(dotExecutablePath)
         val dotExecutableFile = dialog.file
 
-//        if (dotExecutableFile.exists()) {
-//            JOptionPane.showMessageDialog(
-//                this, """Sorry, this program can't run without the GraphViz installation.
-//  Please install that and try again"""
-//            )
-//            doQuitAction()
-//        }
-//        else {
-            dotExecutablePath = dotExecutableFile.absolutePath
-            preferences.put(DOT_EXECUTABLE, dotExecutablePath)
-//        }
+        //        if (dotExecutableFile.exists()) {
+        //            JOptionPane.showMessageDialog(
+        //                this, """Sorry, this program can't run without the GraphViz installation.
+        //  Please install that and try again"""
+        //            )
+        //            doQuitAction()
+        //        }
+        //        else {
+        dotExecutablePath = dotExecutableFile.absolutePath
+        preferences.put(DOT_EXECUTABLE, dotExecutablePath)
+        //        }
     }
 
     private fun loadDatafile() {
@@ -428,10 +400,10 @@ class LoadersUi private constructor() : JFrame() {
     private val outputFormat: OutputFormat
         get() {
             if (isOsX) {
-                return OutputFormat.Dot
+                return OutputFormat.getDefaultExtension()
             }
-            // todo fix
-            return OutputFormat.Dot
+            // todo fix - get from settings
+            return OutputFormat.getDefaultExtension()
         }
 
     //    private fun populateDropdown(comboBox: JComboBox<*>, type: Ranking) {
@@ -578,3 +550,4 @@ class LoadersUi private constructor() : JFrame() {
         }
     }
 }
+

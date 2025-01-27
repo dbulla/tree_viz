@@ -18,7 +18,7 @@
       "ranking": "Parents",
       "dependencies": [
         "Helen_Johnson",
-        "bruce_bullard"
+        "Charles_Delevan_Elliot"
       ]
     },
     "douglas_bullard": {
@@ -107,17 +107,11 @@
     },
     {
       "name": "Contemporaries",
-      "rank": 1
-    },
-    {
-      "name": "Parents",
       "rank": 2
     },
     {
-      "name": "",
-      "color": "BLACK",
-      "shape": "RECTANGLE",
-      "rank": 0
+      "name": "Parents",
+      "rank": 1
     }
   ]
 }

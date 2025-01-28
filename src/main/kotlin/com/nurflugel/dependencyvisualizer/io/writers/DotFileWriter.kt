@@ -32,8 +32,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
                     writeObjectDeclarations(objects, out)
                     writeRankingGroupings(objects, out, rankings)
                     writeObjectDependencies(objects, out)
-
-                    // writeSpouses(objects, out);
+//                    writeSpouses(objects, out);
                     writeFooter(out)
                 }
             }
@@ -46,9 +45,8 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         val types = objects
             .map(BaseDependencyObject::ranking)
             .distinct()
-            .map{ Ranking.valueOf(it)}
-//            .sorted(Comparator.comparing(Ranking::rank).reversed())
-            .sortedDescending()  // todo sort by rank descending
+            .map { Ranking.valueOf(it) }
+            .sortedDescending()
             .toList()
 
         return types
@@ -74,10 +72,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
 
     /**
      * Write out ranking from the type enumerations. If I were to make this more general, it'd read these in from the file itself, instead of a hardcoded enum. The output looks like
-     * this:{
-     *
-     *
-     * "CDM tables" -> "CDM loaders" -> "CDM views" -> "CDB views" -> "CDB tables"; }
+     * this: { "CDM tables" -> "CDM loaders" -> "CDM views" -> "CDB views" -> "CDB tables"; }
      */
     private fun writeRankingEnumeration(out: DataOutputStream, types: List<Ranking>): List<Ranking> {
         if (doRankings) {
@@ -88,7 +83,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
             val line = types.joinToString(" -> ") { it -> "\"" + it.name + '\"' }
 
             writeToOutput(out, line)
-//            writeToOutput(out, line.joinToString {  " -> " })
+            //            writeToOutput(out, line.joinToString {  " -> " })
             writeToOutput(out, " }\n\n")
         }
 
@@ -153,7 +148,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         writeToComment(out, "Dependencies")
 
         val names: List<String> = objects
-            .map{ it.name}
+            .map { it.name }
         val lines: MutableList<String> = mutableListOf()
 
         objects.forEach { dependencyObject ->
@@ -175,10 +170,10 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
 
         objects
             .filterIsInstance<Person>()
-            .forEach { oooo: BaseDependencyObject ->
-                (oooo as Person).spouses
+            .forEach { it ->
+                it.spouses
                     .filter { names.contains(it) }
-                    .map { spouse -> oooo.name + " -> " + spouse + ";\n" }
+                    .map { spouse -> it.name + " -> " + spouse + ";\n" }
                     .forEach(lines::add)
             }
 

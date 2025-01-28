@@ -3,7 +3,7 @@ package com.nurflugel.dependencyvisualizer.data.pojos
 import org.apache.commons.lang3.StringUtils.replace
 
 /**
- * TODO - Is there a reason this isn't merged with DependencyObject???  Yes, as Person extends it, too.
+ * Is there a reason this isn't merged with DependencyObject???  Yes, as Person extends it, too.
  *
  * Created by douglas_bullard on 1/18/16.
  */

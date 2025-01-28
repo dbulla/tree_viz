@@ -29,6 +29,7 @@ import java.util.prefs.Preferences
 import javax.swing.*
 import javax.swing.BoxLayout.X_AXIS
 import javax.swing.BoxLayout.Y_AXIS
+import javax.swing.JFileChooser.APPROVE_OPTION
 import javax.swing.border.Border
 import javax.swing.border.EtchedBorder
 
@@ -105,9 +106,7 @@ class LoadersUi private constructor() : JFrame() {
         makeGraphButton.addActionListener { _ ->
             try {
                 makeGraph()
-            } catch (e: IOException) {
-                logger.error("Error", e)
-            } catch (e: InterruptedException) {
+            } catch (e: Exception) {
                 logger.error("Error", e)
             }
         }
@@ -132,7 +131,6 @@ class LoadersUi private constructor() : JFrame() {
         dataHandler.setTypesFilters(ArrayList())
 
         val dotFile = dataHandler.doIt()
-
         val outputFilePath = convertDataFile(dotFile);
 
         showImage(outputFilePath);
@@ -187,10 +185,8 @@ class LoadersUi private constructor() : JFrame() {
     private fun convertDataFile(dotFile: File): String {
         val outputFileName = getOutputFileName(dotFile, outputFormat.extension)
         val outputFile = File(dotFile.parent, outputFileName)
-        val parentFile = outputFile.parentFile
         val dotFilePath = dotFile.absolutePath
         val outputFilePath = outputFile.absolutePath
-        val dotfileName = dotFile.name
         if (outputFile.exists()) {
             logger.info("Deleting existing version of {}", outputFilePath)
             outputFile.delete() // delete the file before generating it if it exists
@@ -214,7 +210,6 @@ class LoadersUi private constructor() : JFrame() {
         }
         else {
             runProcess("convertDataFile", mutableListOf(dotExecutablePath, "-T$outputFormat", "-T$outputFormat", dotFilePath, "-o$outputFilePath"))
-            //            runProcess("convertDataFile", mutableListOf(dotExecutablePath, "-T$outputFormat", "-T$outputFormat", dotFilePath, "-o ${outputFile.name}"))
         }
 
         logger.debug("Took {} milliseconds to generate graphic", Duration.between(start, Instant.now()).toMillis())
@@ -236,17 +231,6 @@ class LoadersUi private constructor() : JFrame() {
 
     private val isWindows: Boolean
         get() = os.lowercase(Locale.getDefault()).startsWith(WINDOWS)
-
-    private fun concatenate(command: Array<String?>): String {
-        val stringBuffer = StringBuilder()
-
-        command.forEach { s ->
-            stringBuffer.append(' ')
-            stringBuffer.append(s)
-        }
-
-        return stringBuffer.toString()
-    }
 
     private fun showImage(outputFilePath: String) {
         try {
@@ -297,19 +281,11 @@ class LoadersUi private constructor() : JFrame() {
 
         // Create a file chooser
         val dialog = NoDotDialog(dotExecutablePath)
-        val dotExecutableFile = dialog.file
 
-        //        if (dotExecutableFile.exists()) {
-        //            JOptionPane.showMessageDialog(
-        //                this, """Sorry, this program can't run without the GraphViz installation.
-        //  Please install that and try again"""
-        //            )
-        //            doQuitAction()
-        //        }
-        //        else {
-        dotExecutablePath = dotExecutableFile.absolutePath
-        preferences.put(DOT_EXECUTABLE, dotExecutablePath)
-        //        }
+        if (dialog.wasFileChosen) {
+            dotExecutablePath = dialog.file.absolutePath
+            preferences.put(DOT_EXECUTABLE, dotExecutablePath)
+        }
     }
 
     private fun loadDatafile() {
@@ -334,7 +310,7 @@ class LoadersUi private constructor() : JFrame() {
 
         val returnVal = fileChooser.showOpenDialog(this)
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        if (returnVal == APPROVE_OPTION) {
             val selectedFile = fileChooser.selectedFile
 
             preferences.put(LAST_DIR, selectedFile.parent)
@@ -444,8 +420,8 @@ class LoadersUi private constructor() : JFrame() {
         filtersPanel = JPanel()
         filtersPanel.layout = BoxLayout(filtersPanel, Y_AXIS)
         filtersPanel.border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Filter Criteria (none=show all)")
-        filtersPanel.minimumSize = Dimension(400, 400)
-        filtersPanel.preferredSize = Dimension(400, 400)
+        filtersPanel.minimumSize = Dimension(600, 400)
+        filtersPanel.preferredSize = Dimension(600, 400)
 
         val rightPanel = JPanel()
         rightPanel.layout = BorderLayout(5, 5)
@@ -524,7 +500,7 @@ class LoadersUi private constructor() : JFrame() {
         rightButtonPanel.add(quitButton)
 
 
-        contentPane.add(filtersPanel, WEST)
+        contentPane.add(filtersPanel, CENTER)
         contentPane.add(rightPanel, EAST)
 
     }

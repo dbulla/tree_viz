@@ -10,10 +10,6 @@ abstract class NurflugelDialog : JDialog() {
 
     /**   */
     fun center() {
-        val alpha = "abcedfg"
-        val dibble = "adfafd"
-        val allMatch = dibble.chars().allMatch { d: Int -> alpha.indexOf(d.toChar()) >= 0 }
-
         val defaultToolkit = Toolkit.getDefaultToolkit()
         val screenSize = defaultToolkit.screenSize
         val x = ((screenSize.getWidth() - width) / 2).toInt()

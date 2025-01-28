@@ -8,5 +8,5 @@ import java.io.File
 abstract class DataFileWriter(protected var sourceDataFile: File) {
     lateinit var fileType: FileType
 
-    abstract fun saveToFile(dataHandler: DataHandler?)
+    abstract fun saveToFile(dataHandler: DataHandler)
 }

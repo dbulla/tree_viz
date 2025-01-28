@@ -18,17 +18,12 @@ import java.awt.GridBagConstraints
 import java.awt.GridBagConstraints.HORIZONTAL
 import java.awt.GridBagLayout
 import java.awt.event.ItemEvent
-import java.util.*
 import javax.swing.*
 import javax.swing.BorderFactory.createEtchedBorder
 import javax.swing.BorderFactory.createTitledBorder
 import javax.swing.BoxLayout.Y_AXIS
 import javax.swing.SwingConstants.RIGHT
 
-
-/**
- *
- */
 class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataSet) : NurflugelDialog() {
     private lateinit var exitButton: JButton
     private lateinit var editExistingButton: JButton
@@ -63,8 +58,8 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         addListeners()
         pack()
 
-        setSize(600, 800);
-        //        setHeightToHalfScreen()
+        //        setSize(600, 800);
+        setHeightToHalfScreen()
         center()
         isVisible = true
     }
@@ -152,7 +147,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
 
     private fun saveEditedData() {
         // todo set dependencies to parents selected for existing data
-//        val currentDatapoint = currentDatapoint
+        //        val currentDatapoint = currentDatapoint
 
         setParents(currentDatapoint) // todo what if null??
         setRanking(currentDatapoint)
@@ -236,9 +231,9 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
             val item = itemEvent.item as BaseDependencyObject
             // filter out item from list
 
-            val personList: Array<Person?> = dataSet.getObjects()
+            val personList: Array<Person> = dataSet.getObjects()
                 .filter { o: BaseDependencyObject -> item != o }
-                .map { o: BaseDependencyObject? -> o as Person? }
+                .map { o: BaseDependencyObject -> o as Person }
                 .toTypedArray()
 
             parentsList.setListData(personList)
@@ -293,7 +288,6 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
             notesLabel,  //
             spousesFieldLabel
         )
-            .filter(Objects::nonNull)
             .forEach { it.isEnabled = value }
     }
 

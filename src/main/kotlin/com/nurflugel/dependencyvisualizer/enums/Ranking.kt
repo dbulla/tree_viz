@@ -19,25 +19,6 @@ package com.nurflugel.dependencyvisualizer.enums
     override fun toString(): String {
         return name
     }
-//
-//    override fun equals(o: Any?): Boolean {
-//        if (o === this) return true
-//        if (o !is Ranking) return false
-//        if (!o.canEqual(this as Any)) return false
-//        if (this.rank != o.rank) return false
-//        return true
-//    }
-//
-//    protected fun canEqual(other: Any?): Boolean {
-//        return other is Ranking
-//    }
-//
-//    override fun hashCode(): Int {
-//        val PRIME = 59
-//        var result = 1
-//        result = result * PRIME + this.rank
-//        return result
-//    }
 
     companion object {
         // ------------------------------ FIELDS ------------------------------

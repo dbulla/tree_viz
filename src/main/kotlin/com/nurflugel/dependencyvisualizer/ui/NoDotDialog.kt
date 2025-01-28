@@ -13,9 +13,6 @@ import javax.swing.*
 import javax.swing.JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
 import javax.swing.JFileChooser.APPROVE_OPTION
 
-/**
- *
- */
 open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
     lateinit var file: File
     private lateinit var buttonCancel: JButton
@@ -23,10 +20,8 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
     private lateinit var useTextBoxButton: JButton
     private lateinit var contentPane: JPanel
     private lateinit var pathTextField: JTextField
+    var wasFileChosen = false
 
-    /**
-     * Creates a new NoDotDialog object.
-     */
     init {
         buildDialog(dotExecutablePath)
     }
@@ -53,6 +48,7 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
             dispose()
         }
         buttonCancel.addActionListener { e: ActionEvent? -> onCancel() }
+
         addWindowListener(object : WindowAdapter() {
             override fun windowClosing(e: WindowEvent) {
                 onCancel()
@@ -63,9 +59,6 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
         contentPane.registerKeyboardAction({ e: ActionEvent? -> onCancel() }, KeyStroke.getKeyStroke(VK_ESCAPE, 0), WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
     }
 
-    /**
-     *
-     */
     private fun onOK() {
         // valueOf your code here
         val fileChooser = JFileChooser()
@@ -74,15 +67,12 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
         if (result == APPROVE_OPTION) {
             file = fileChooser.selectedFile
         }
-
+        wasFileChosen = true
         dispose()
     }
 
-    /**
-     *
-     */
     private fun onCancel() {
-        // valueOf your code here if necessary
+        wasFileChosen = false
         dispose()
     }
 
@@ -130,9 +120,6 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
     }
 
     companion object {
-        /**
-         *
-         */
         @JvmStatic
         fun main(args: Array<String>) {
             val dialog = NoDotDialog("/opt/homebrew/bin/dot")

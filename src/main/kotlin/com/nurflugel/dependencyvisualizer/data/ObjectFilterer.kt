@@ -44,11 +44,9 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
             directionalFilters.add(DOWN)
             directionalFilters.add(UP)
         }
-//        else {
-            directionalFilters
-                .map { filterObjectsByDirection(dataSet, keyObjects, 0, it) }
-                .forEach { filteredObjects.addAll(it) }
-//        }
+        directionalFilters
+            .map { filterObjectsByDirection(dataSet, keyObjects, 0, it) }
+            .forEach { filteredObjects.addAll(it) }
 
         return filteredObjects
     }
@@ -61,7 +59,7 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
         dataSet: BaseDependencyDataSet,
         keyObjects: Set<BaseDependencyObject>,
         initialSize: Int,
-        directionalFilter: DirectionalFilter
+        directionalFilter: DirectionalFilter,
     ): Set<BaseDependencyObject> {
         val filteredObjects: MutableSet<BaseDependencyObject> = mutableSetOf()
 
@@ -101,7 +99,6 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
                     filteredObjects.add(mainObject)
 
                     // now, valueOf all dependencies of this object that have a higher ranking, too
-//                    val dependencies: Collection<String> = mainObject.dependencies.
                     val dependencies = mainObject.dependencies
                     val baseDependencyObjects = dependencies
                         .map(dataSet::objectByName)
@@ -133,7 +130,7 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
             dataSet.getObjects() // todo can filter and collect
                 // for this object, are any of the keyNames in it's list of dependencies?
 
-                .forEach { mainObject ->   //
+                .forEach { mainObject ->
                     val dependencies: Set<String?> = mainObject.dependencies
                     val intersection = Sets.intersection(keyNames, dependencies)
                     if (!intersection.isEmpty()) {

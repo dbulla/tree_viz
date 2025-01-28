@@ -34,9 +34,7 @@ class DataHandler(sourceDataFile: File) {
         try {
             dataFileReader = dataFileFactory.reader
             dataFileWriter = dataFileFactory.writer
-        } catch (e: InstantiationException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 

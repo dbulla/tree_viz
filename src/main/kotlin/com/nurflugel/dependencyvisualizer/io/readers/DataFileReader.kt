@@ -28,7 +28,6 @@ import java.util.*
 abstract class DataFileReader {
     lateinit var sourceDataFile: File
     lateinit var fileType: FileType
-    //    var logger: Logger = LoggerFactory.getLogger(DataFileReader::class.java)
 
     protected constructor(sourceDataFile: File) {
         this.sourceDataFile = sourceDataFile

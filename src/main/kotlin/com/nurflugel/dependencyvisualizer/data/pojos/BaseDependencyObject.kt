@@ -39,8 +39,8 @@ open class BaseDependencyObject : Comparable<Any> {
     }
 
     // --------------------- Interface Comparable ---------------------
-    override fun compareTo(o: Any): Int {
-        return if (o is BaseDependencyObject) name.compareTo(o.name)
+    override fun compareTo(other: Any): Int {
+        return if (other is BaseDependencyObject) name.compareTo(other.name)
         else 0
     }
 
@@ -51,7 +51,6 @@ open class BaseDependencyObject : Comparable<Any> {
     companion object {
         /**
          * Returns a job with all spaces and weird characters "fixed" for Dot processing.
-         *
          *
          * todo - something better with regular expressions - anything except text and numbers in one expression.  And, add a test!!!
          */

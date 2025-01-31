@@ -10,8 +10,8 @@ package com.nurflugel.dependencyvisualizer.enums
 data class Ranking // --------------------------- CONSTRUCTORS ---------------------------
     (var name: String, var color: Color, var shape: Shape, val rank: Int) : Comparable<Any> {
     // --------------------- Interface Comparable ---------------------
-    override fun compareTo(o: Any): Int {
-        return rank.compareTo((o as Ranking).rank)
+    override fun compareTo(other: Any): Int {
+        return rank.compareTo((other as Ranking).rank)
     }
 
     //
@@ -37,7 +37,6 @@ data class Ranking // --------------------------- CONSTRUCTORS -----------------
                 else          -> {
                     // create the next type if it didn't already exist
                     val type = Ranking(title, color, shape, rankCounter++)
-
                     types.add(type)
                     type
                 }

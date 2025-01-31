@@ -96,7 +96,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
             .sorted()
             .forEach { dependencyObject: BaseDependencyObject ->
                 val name = dependencyObject.ranking
-                val type = Ranking.valueOf(name)
+                val ranking = Ranking.valueOf(name)
                 val text = StringBuilder()
                 val notes = dependencyObject.notes
                 val displayName: String
@@ -115,8 +115,8 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
                 }
 
                 text.append(dependencyObject.name).append(" [label=\"").append(displayName).append('\"')
-                text.append(" shape=").append(type.shape)
-                text.append(" color=\"").append(type.color).append("\"];\n")
+                text.append(" shape=").append(ranking.shape)
+                text.append(" color=\"").append(ranking.color).append("\"];\n")
 
                 val outputText = text.toString()
                 writeToOutput(out, outputText)

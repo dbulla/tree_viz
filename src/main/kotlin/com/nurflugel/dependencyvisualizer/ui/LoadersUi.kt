@@ -168,7 +168,6 @@ class LoadersUi private constructor() : JFrame() {
         val dotFilePath = dotFile.absolutePath
         val outputFilePath = outputFile.absolutePath
         if (outputFile.exists()) {
-            logger.info("Deleting existing version of {}", outputFilePath)
             outputFile.delete() // delete the file before generating it if it exists
         }
 
@@ -186,10 +185,10 @@ class LoadersUi private constructor() : JFrame() {
                 ""
             val dot = quote + dotExecutablePath + quote
             val output = " -o $quote$outputFilePath$quote"
-            runProcess("convertDataFile", mutableListOf(dot, "-T$outputFormat", "$quote$dotFilePath$quote$output"))
+            runProcess(mutableListOf(dot, "-T$outputFormat", "$quote$dotFilePath$quote$output"))
         }
         else {
-            runProcess("convertDataFile", mutableListOf(dotExecutablePath, "-T$outputFormat", "-T$outputFormat", dotFilePath, "-o$outputFilePath"))
+            runProcess(mutableListOf(dotExecutablePath, "-T$outputFormat", "-T$outputFormat", dotFilePath, "-o$outputFilePath"))
         }
 
         logger.debug("Took {} milliseconds to generate graphic", Duration.between(start, Instant.now()).toMillis())
@@ -225,14 +224,13 @@ class LoadersUi private constructor() : JFrame() {
                 commandList.add("open")
                 commandList.add(outputFilePath)
             }
-            runProcess("showImage", commandList)
+            runProcess(commandList)
         } catch (e: Exception) {
             logger.error("Error", e)
         }
     }
 
-    private fun runProcess(methodName: String, commandList: MutableList<String>) {
-        logger.info("Running command in $methodName: '${commandList.joinToString(" ")}'")
+    private fun runProcess(commandList: MutableList<String>) {
         val process = ProcessBuilder(commandList).start()
         // grab the error stream and print that to stdout so we can see any errors
         val bre = BufferedReader(InputStreamReader(process.errorStream))
@@ -333,6 +331,7 @@ class LoadersUi private constructor() : JFrame() {
         }
     }
 
+    @Suppress("SENSELESS_COMPARISON")
     private fun getObjectsForType(type: Ranking): Array<BaseDependencyObject> {
         val filteredObjects: MutableList<BaseDependencyObject> = ArrayList()
 
@@ -341,7 +340,7 @@ class LoadersUi private constructor() : JFrame() {
             dataSet.getObjects()
                 .filter { it.ranking != null }
                 .sortedBy { it.name.uppercase() }
-                .filter { dependencyObject: BaseDependencyObject -> dependencyObject.ranking == type.name }
+                .filter { it.ranking == type.name }
                 .toList())
 
         return filteredObjects.toTypedArray<BaseDependencyObject>()

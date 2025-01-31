@@ -41,7 +41,6 @@ class JsonFileReader : DataFileReader() {
 
                 dataSet = gson.fromJson(br, theClazz)
                 dataSet.rectify()
-                println("dataSet = $dataSet")
                 return dataSet
             }
         } catch (e: IOException) {

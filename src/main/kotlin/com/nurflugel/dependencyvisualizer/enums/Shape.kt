@@ -1,6 +1,7 @@
 package com.nurflugel.dependencyvisualizer.enums
 
 enum class Shape {
+    box,
     ellipse,
     rectangle,
     hexagon,

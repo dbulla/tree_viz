@@ -22,7 +22,7 @@ class ReaderWriterTest: BaseReaderWriterTest() {
         val dataHandler = DataHandler(sourceDataFile)
 
         dataHandler.loadDataset()
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(generatedDotFile, expectedDotFile)
     }
 
@@ -37,7 +37,7 @@ class ReaderWriterTest: BaseReaderWriterTest() {
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
         dataHandler.loadDataset()
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(sourceDataFile, expectedDotFile)
     }
 
@@ -60,7 +60,7 @@ class ReaderWriterTest: BaseReaderWriterTest() {
         keyObjects.add(itemD)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(destFile, expectedDotFile)
     }
 
@@ -83,7 +83,7 @@ class ReaderWriterTest: BaseReaderWriterTest() {
         keyObjects.add(styleObject)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(destFile, expectedDotFile)
     }
 
@@ -106,7 +106,7 @@ class ReaderWriterTest: BaseReaderWriterTest() {
         keyObjects.add(itemD)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(destFile, expectedDotFile)
     }
 
@@ -130,7 +130,7 @@ class ReaderWriterTest: BaseReaderWriterTest() {
         keyObjects.add(itemD)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(destFile, expectedDotFile)
     }
 

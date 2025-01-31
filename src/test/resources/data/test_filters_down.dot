@@ -8,9 +8,9 @@ concentrate=true;
 node [shape=plaintext,fontname="Arial",fontsize="10"];
 { "Level Five" -> "Level Four" -> "Level Three" }
 
-a [label="a" shape=ELLIPSE color="blue"];
-Item_d [label="Item d" shape=ELLIPSE color="green"];
-b [label="b" shape=RECTANGLE color="red"];
+a [label="a" shape=ellipse color="blue"];
+Item_d [label="Item d" shape=ellipse color="green"];
+b [label="b" shape=rectangle color="red"];
 
 
 { rank = same; "Level Five"; "a"; }

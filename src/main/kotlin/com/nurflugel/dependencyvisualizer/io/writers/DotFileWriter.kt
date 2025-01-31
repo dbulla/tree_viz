@@ -152,6 +152,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         val lines: MutableList<String> = mutableListOf()
 
         objects.forEach { dependencyObject ->
+//            println(dependencyObject.toString())
             dependencyObject.dependencies
                 .filter { names.contains(it) }
                 .forEach { lines.add("${dependencyObject.name} -> $it;\n") }

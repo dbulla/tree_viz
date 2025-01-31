@@ -2,11 +2,11 @@ package com.nurflugel.dependencyvisualizer.enums
 
 /**   */
 enum class Color {
-    YELLOW,
-    GREEN,
-    BLACK,
-    RED,
-    BLUE;
+    yellow,
+    green,
+    black,
+    red,
+    blue;
 
     companion object {
         /** Get the next color in the enum.  */

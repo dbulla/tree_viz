@@ -99,8 +99,7 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
                     filteredObjects.add(mainObject)
 
                     // now, valueOf all dependencies of this object that have a higher ranking, too
-                    val dependencies = mainObject.dependencies
-                    val baseDependencyObjects = dependencies
+                    val baseDependencyObjects = mainObject.dependencies
                         .map(dataSet::objectByName)
                     filteredObjects.addAll(baseDependencyObjects)
                 }
@@ -133,7 +132,7 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
                 .forEach { mainObject ->
                     val dependencies: Set<String?> = mainObject.dependencies
                     val intersection = Sets.intersection(keyNames, dependencies)
-                    if (!intersection.isEmpty()) {
+                    if (intersection.isNotEmpty()) {
                         filteredObjects.add(mainObject)
                     }
                 }

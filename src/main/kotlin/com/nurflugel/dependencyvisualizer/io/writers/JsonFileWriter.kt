@@ -17,7 +17,7 @@ class JsonFileWriter(sourceDataFile: File) : DataFileWriter(sourceDataFile) {
     override fun saveToFile(dataHandler: DataHandler) {
         val dataSet = dataHandler.dataset
 
-        dataSet.generateRankingsMap()
+        dataSet.generateRankings()
 
         var fileName = super.sourceDataFile.absolutePath
         val baseName = FilenameUtils.getBaseName(fileName)

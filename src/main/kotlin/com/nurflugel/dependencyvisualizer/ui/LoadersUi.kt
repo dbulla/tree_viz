@@ -15,7 +15,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.awt.*
 import java.awt.BorderLayout.*
-import java.awt.event.ActionEvent
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.io.BufferedReader
@@ -27,6 +26,8 @@ import java.time.Instant
 import java.util.*
 import java.util.prefs.Preferences
 import javax.swing.*
+import javax.swing.BorderFactory.createEtchedBorder
+import javax.swing.BorderFactory.createTitledBorder
 import javax.swing.BoxLayout.X_AXIS
 import javax.swing.BoxLayout.Y_AXIS
 import javax.swing.JFileChooser.APPROVE_OPTION
@@ -40,6 +41,7 @@ import javax.swing.border.EtchedBorder
 class LoadersUi private constructor() : JFrame() {
     var version: String = "1.0.0"
     private lateinit var quitButton: JButton
+
     private lateinit var makeGraphButton: JButton
     private lateinit var findDotButton: JButton
     private lateinit var loadDatafileButton: JButton
@@ -56,10 +58,12 @@ class LoadersUi private constructor() : JFrame() {
     private lateinit var dotExecutablePath: String
     private val os: String = System.getProperty("os.name")
     private lateinit var filtersPanel: JPanel
+    private val listCollection: MutableList<JList<*>> = mutableListOf()
     private lateinit var editDataButton: JButton
     private lateinit var dataHandler: DataHandler
     private lateinit var newDataButton: JButton
     private lateinit var familyTreeCheckBox: JCheckBox
+    private lateinit var clearFiltersButton: JButton
     private lateinit var saveDataFileButton: JButton
     private lateinit var dataSet: BaseDependencyDataSet
 
@@ -87,9 +91,6 @@ class LoadersUi private constructor() : JFrame() {
         familyTreeCheckBox.isSelected = preferences.get(FAMILY_TREE, "true").toBoolean()
     }
 
-    /**
-     *
-     */
     private fun center() {
         val defaultToolkit = Toolkit.getDefaultToolkit()
         val screenSize = defaultToolkit.screenSize
@@ -101,15 +102,10 @@ class LoadersUi private constructor() : JFrame() {
     }
 
     private fun addListeners() {
-        familyTreeCheckBox.addActionListener { e: ActionEvent? -> dataSet.isFamilyTree = familyTreeCheckBox.isSelected }
-        quitButton.addActionListener { _ -> doQuitAction() }
-        makeGraphButton.addActionListener { _ ->
-            try {
-                makeGraph()
-            } catch (e: Exception) {
-                logger.error("Error", e)
-            }
-        }
+        familyTreeCheckBox.addActionListener { _ -> dataSet.isFamilyTree = familyTreeCheckBox.isSelected }
+        clearFiltersButton.addActionListener { _ -> listCollection.forEach { it.clearSelection() } }
+        quitButton.addActionListener { _ -> quitAction() }
+        makeGraphButton.addActionListener { _ -> makeGraph() }
         findDotButton.addActionListener { _ -> findDotExecutablePath() }
         loadDatafileButton.addActionListener { _ -> loadDatafile() }
         editDataButton.addActionListener { _ -> DataEditorUI(dataSet) }
@@ -117,7 +113,7 @@ class LoadersUi private constructor() : JFrame() {
         addWindowListener(object : WindowAdapter() {
             override fun windowClosing(e: WindowEvent) {
                 super.windowClosing(e)
-                doQuitAction()
+                quitAction()
             }
         })
     }
@@ -130,7 +126,7 @@ class LoadersUi private constructor() : JFrame() {
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setTypesFilters(ArrayList())
 
-        val dotFile = dataHandler.doIt()
+        val dotFile = dataHandler.writeObjects()
         val outputFilePath = convertDataFile(dotFile);
 
         showImage(outputFilePath);
@@ -159,27 +155,11 @@ class LoadersUi private constructor() : JFrame() {
         get() {
             val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
 
-            filtersPanel.components
-                .filterIsInstance<JPanel>()
-                .map { (it as Container).components }
-                .forEach {
-                    for (panelComponent in it) {
-                        if (panelComponent is JComboBox<*>) {
-                            getValueFromDropdown(keyObjects, panelComponent)
-                        }
-                    }
-                }
-
+            listCollection
+                .flatMap { it.selectedValuesList }
+                .forEach { keyObjects.add(it as BaseDependencyObject) }
             return keyObjects
         }
-
-    private fun getValueFromDropdown(keyObjects: MutableList<BaseDependencyObject>, comboBox: JComboBox<*>) {
-        val selectedItem = comboBox.selectedItem as BaseDependencyObject
-
-        if (selectedItem.name.isNotEmpty()) {
-            keyObjects.add(selectedItem)
-        }
-    }
 
     @Throws(IOException::class, InterruptedException::class)
     private fun convertDataFile(dotFile: File): String {
@@ -335,16 +315,20 @@ class LoadersUi private constructor() : JFrame() {
         val shapeAttributes = values()
 
         filtersPanel.removeAll()
+        listCollection.clear()
         filtersPanel.layout = GridLayout((shapeAttributes.size / 2) + 1, 2)
 
         for (type in shapeAttributes) {
             val filteredObjects = getObjectsForType(type)
-            val comboBox: JComboBox<*> = JComboBox<Any?>(filteredObjects)
-            val borderPanel = JPanel()
-            val border: Border = BorderFactory.createTitledBorder(EtchedBorder(), type.name)
+            val dependencyObjectJList = JList(filteredObjects)
+            listCollection.add(dependencyObjectJList)
+            val scrollPane = JScrollPane(dependencyObjectJList)
+            scrollPane.preferredSize = Dimension(400, 600)
+            val borderPanel = JPanel(BorderLayout())
+            val border: Border = createTitledBorder(EtchedBorder(), type.name)
 
             borderPanel.border = border
-            borderPanel.add(comboBox)
+            borderPanel.add(scrollPane, CENTER)
             filtersPanel.add(borderPanel)
         }
     }
@@ -355,13 +339,15 @@ class LoadersUi private constructor() : JFrame() {
         filteredObjects.add(DependencyObject("", type.name))
         filteredObjects.addAll(
             dataSet.getObjects()
+                .filter { it.ranking != null }
+                .sortedBy { it.name.uppercase() }
                 .filter { dependencyObject: BaseDependencyObject -> dependencyObject.ranking == type.name }
                 .toList())
 
         return filteredObjects.toTypedArray<BaseDependencyObject>()
     }
 
-    private fun doQuitAction() {
+    private fun quitAction() {
         saveSettings()
         System.exit(0)
     }
@@ -382,25 +368,6 @@ class LoadersUi private constructor() : JFrame() {
             return OutputFormat.getDefaultExtension()
         }
 
-    //    private fun populateDropdown(comboBox: JComboBox<*>, type: Ranking) {
-    //        val dropdownList: MutableList<BaseDependencyObject> = ArrayList()
-    //
-    //        dropdownList.add(DependencyObject("", type.name))
-    //        dropdownList.addAll(
-    //            dataSet.getObjects().stream()
-    //                .filter { `object`: BaseDependencyObject -> `object`.ranking == type.name }
-    //                .toList())
-    //
-    //        val loaderObjects = dropdownList.toTypedArray<BaseDependencyObject>()
-    //
-    //        // Arrays.sort(loaderObjects);
-    //        val defaultComboBoxModel = DefaultComboBoxModel(loaderObjects)
-    //        comboBox.setModel(defaultComboBoxModel)
-    //    }
-
-    /**
-     *
-     */
     private fun setDefaultDotLocation() {
         dotExecutablePath = preferences[DOT_EXECUTABLE, ""]
 
@@ -419,17 +386,17 @@ class LoadersUi private constructor() : JFrame() {
         contentPane.layout = BorderLayout(5, 5)
         filtersPanel = JPanel()
         filtersPanel.layout = BoxLayout(filtersPanel, Y_AXIS)
-        filtersPanel.border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Filter Criteria (none=show all)")
-        filtersPanel.minimumSize = Dimension(600, 400)
-        filtersPanel.preferredSize = Dimension(600, 400)
+        filtersPanel.border = createTitledBorder(createEtchedBorder(), "Filter Criteria (none=show all)")
+        filtersPanel.minimumSize = Dimension(600, 600)
+        filtersPanel.preferredSize = Dimension(600, 600)
 
         val rightPanel = JPanel()
         rightPanel.layout = BorderLayout(5, 5)
         val filterDirectionPanel = JPanel()
-        rightPanel.add(filterDirectionPanel, BorderLayout.NORTH)
+        rightPanel.add(filterDirectionPanel, NORTH)
 
         filterDirectionPanel.layout = BoxLayout(filterDirectionPanel, Y_AXIS)
-        filterDirectionPanel.border = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Filter Direction (none = both)")
+        filterDirectionPanel.border = createTitledBorder(createEtchedBorder(), "Filter Direction (none = both)")
         filterUpCheckBox = JCheckBox()
         filterUpCheckBox.text = "Filter up on selected"
         filterDirectionPanel.add(filterUpCheckBox)
@@ -453,6 +420,10 @@ class LoadersUi private constructor() : JFrame() {
         familyTreeCheckBox.text = "Family Tree"
         familyTreeCheckBox.toolTipText = "is this a family tree, or a data graph?  Family trees can include concepts like spouses, births, deaths, etc."
         middleCheckboxPanel.add(familyTreeCheckBox)
+
+        clearFiltersButton = JButton()
+        clearFiltersButton.text = "Clear all selections"
+        middleCheckboxPanel.add(clearFiltersButton)
 
         val bottomPanel = JPanel()
 

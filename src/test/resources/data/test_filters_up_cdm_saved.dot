@@ -11,13 +11,13 @@ node [shape=plaintext,fontname="Arial",fontsize="10"];
 { "CDM Tables" -> "CDM Java Loaders" -> "CDM Staging Tables" -> "CDM Staging PL/SQL Scripts" -> "CDB Views" -> "CDB Tables" }
 
 //Declarations
-UpdateProd [label="UpdateProd" shape=RECTANGLE color="GREEN"];
-cdb_prod [label="cdb_prod" shape=ELLIPSE color="GREEN"];
-cdm_prod [label="cdm_prod" shape=TRIANGLE color="BLUE"];
-cdm_style [label="cdm_style" shape=ELLIPSE color="GREEN"];
-delta_cdbProd_sql [label="delta_cdbProd.sql" shape=RECTANGLE color="BLUE"];
-nsc_prod [label="nsc_prod" shape=ELLIPSE color="BLUE"];
-prod_reg_cyc [label="prod_reg_cyc" shape=ELLIPSE color="BLUE"];
+UpdateProd [label="UpdateProd" shape=rectangle color="green"];
+cdb_prod [label="cdb_prod" shape=ellipse color="green"];
+cdm_prod [label="cdm_prod" shape=triangle color="blue"];
+cdm_style [label="cdm_style" shape=ellipse color="green"];
+delta_cdbProd_sql [label="delta_cdbProd.sql" shape=rectangle color="blue"];
+nsc_prod [label="nsc_prod" shape=ellipse color="blue"];
+prod_reg_cyc [label="prod_reg_cyc" shape=ellipse color="blue"];
 
 
 //Ranking groupings

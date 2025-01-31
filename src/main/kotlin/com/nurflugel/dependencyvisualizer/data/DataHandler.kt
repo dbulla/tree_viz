@@ -3,6 +3,7 @@ package com.nurflugel.dependencyvisualizer.data
 import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject.Companion.replaceAllBadChars
+import com.nurflugel.dependencyvisualizer.data.pojos.Person
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter
 import com.nurflugel.dependencyvisualizer.enums.Ranking
 import com.nurflugel.dependencyvisualizer.io.DataFileFactory
@@ -42,7 +43,7 @@ class DataHandler(sourceDataFile: File) {
     }
 
     // -------------------------- OTHER METHODS --------------------------
-    fun doIt(): File {
+    fun writeObjects(): File {
         val filteredObjects = filterObjects()
         val writer = DotFileWriter(dotFile, isRanking)
 
@@ -90,7 +91,17 @@ class DataHandler(sourceDataFile: File) {
     }
 
     fun setKeyObjectsToFilterOn(keyObjects: List<BaseDependencyObject>) {
+        // todo - add an option to also select spouses if this is a person
         this.keyObjects = TreeSet(keyObjects)
+        //
+        for (keyObject in keyObjects) {
+            if(keyObject is Person){
+                val spouses = (keyObject as Person).spouses
+                for (spouse in spouses) {
+                    this.keyObjects.add(dataset.objectByName(spouse))
+                }
+            }
+        }
     }
 
     fun setTypesFilters(typesFilters: List<Ranking>) {

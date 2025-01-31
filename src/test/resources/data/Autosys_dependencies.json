@@ -3,44 +3,44 @@
   "rankings": [
     {
       "name": "Informix Tables",
-      "color": "YELLOW",
-      "shape": "ELLIPSE",
+      "color": "yellow",
+      "shape": "ellipse",
       "rank": 0
     },
     {
       "name": "CDB Tables",
-      "color": "BLUE",
-      "shape": "ELLIPSE",
+      "color": "blue",
+      "shape": "ellipse",
       "rank": 1
     },
     {
       "name": "CDB Views",
-      "color": "BLUE",
-      "shape": "TRIANGLE",
+      "color": "blue",
+      "shape": "triangle",
       "rank": 2
     },
     {
       "name": "CDM Staging PL/SQL Scripts",
-      "color": "BLUE",
-      "shape": "RECTANGLE",
+      "color": "blue",
+      "shape": "rectangle",
       "rank": 3
     },
     {
       "name": "CDM Staging Tables",
-      "color": "GREEN",
-      "shape": "ELLIPSE",
+      "color": "green",
+      "shape": "ellipse",
       "rank": 4
     },
     {
       "name": "CDM Java Loaders",
-      "color": "GREEN",
-      "shape": "RECTANGLE",
+      "color": "green",
+      "shape": "rectangle",
       "rank": 5
     },
     {
       "name": "CDM Tables",
-      "color": "GREEN",
-      "shape": "ELLIPSE",
+      "color": "green",
+      "shape": "ellipse",
       "rank": 6
     }
   ],

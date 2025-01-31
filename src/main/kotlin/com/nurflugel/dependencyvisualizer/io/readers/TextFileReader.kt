@@ -77,8 +77,8 @@ class TextFileReader : DataFileReader {
 //    private fun getObjectType(line: String): Ranking {
 //        val strippedLine = line.substring(line.indexOf('#') + 1).trim { it <= ' ' }
 //        val chunks = strippedLine.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-//        var shape: Shape=Shape.RECTANGLE
-//        var color: Color=Color.BLACK
+//        var shape: Shape=Shape.rectangle
+//        var color: Color=Color.black
 //        var name: String="noName"
 //
 //        for (chunk in chunks) {

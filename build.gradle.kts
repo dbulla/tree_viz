@@ -7,24 +7,18 @@
  */
 
 plugins {
-    // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    // id("org.jetbrains.kotlin.jvm") version "1.7.20"
-
     // Apply the application plugin to add support for building a CLI application in Java.
     application
-//    id("org.openjfx.javafxplugin") version "0.1.0"
-
     id("com.github.ben-manes.versions") version "0.52.0"
     id("com.dorongold.task-tree") version "4.0.0"
-    kotlin("jvm") version "2.1.20-Beta1"
+    kotlin("jvm") version "2.1.20-Beta2"
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
-val KOTEST_VERSION = "5.9.1"
+val kotestVersion = "5.9.1"
 val logbackVersion = "1.5.16"
 
 dependencies {
@@ -37,7 +31,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("ch.qos.logback:logback-core:$logbackVersion")
     implementation("ch.qos.logback:logback-core:$logbackVersion")
-    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.google.code.gson:gson:2.12.0")
     implementation("com.google.guava:guava:33.4.0-jre")
     implementation("com.thoughtworks.xstream:xstream:1.4.21")
     implementation("commons-io:commons-io:2.18.0")

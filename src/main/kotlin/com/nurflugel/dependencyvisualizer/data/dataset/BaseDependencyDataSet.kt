@@ -15,34 +15,20 @@ abstract class BaseDependencyDataSet {
     var isFamilyTree: Boolean = false
     private var rankings: MutableList<Ranking> = mutableListOf()
 
-    // todo this is duplicated in the child classes... not good
-    //    val objects: MutableList<BaseDependencyObject> = mutableListOf()
-    private val objectsMap: MutableMap<String, BaseDependencyObject> = mutableMapOf()
-
-    fun getObjects(): MutableList<BaseDependencyObject> {
-        return objectsMap.values.toMutableList()
-    }
-
-    fun getRankings(): Collection<Ranking> {
-        val collect: List<Ranking> = objectsMap.values.toList()
-            .map(BaseDependencyObject::ranking)
-            .distinct()
-            .map { title: String -> Ranking.valueOf(title) }
-        return collect
-    }
-
-    fun add(newObject: BaseDependencyObject) {
-        objectsMap.put(newObject.name, newObject)
-    }
+    abstract fun getObjects(): MutableList<BaseDependencyObject>
+    abstract fun add(newObject: BaseDependencyObject)
+    abstract fun containsKey(name: String): Boolean
+    abstract fun getValue(name: String): BaseDependencyObject
+    abstract fun setValue(name: String, value: BaseDependencyObject)
 
     // If we have the object, return it, else create one, store it, and return that new instance.
     fun objectByName(name: String): BaseDependencyObject {
         val trimmedName = replaceAllBadChars(name.trim { it <= ' ' })
-        val exists = objectsMap.containsKey(trimmedName)
+        val exists = containsKey(trimmedName)
         val baseDependencyObject: BaseDependencyObject
 
         if (exists) {
-            baseDependencyObject = objectsMap.getValue(trimmedName) // replace with get or else?  Still want to log that a new instance was created...
+            baseDependencyObject = getValue(trimmedName) // replace with get or else?  Still want to log that a new instance was created...
         }
         else {
             baseDependencyObject = DependencyObject(trimmedName, Ranking.first().name) // todo create a new instance of the right class
@@ -51,7 +37,7 @@ abstract class BaseDependencyDataSet {
                 LOGGER.debug("Adding unregistered object: {} as object of type {}", trimmedName, baseDependencyObject.ranking)
             }
 
-            objectsMap.put(trimmedName, baseDependencyObject)
+            setValue(trimmedName, baseDependencyObject)
         }
 
         return baseDependencyObject
@@ -59,12 +45,21 @@ abstract class BaseDependencyDataSet {
 
     /**
      * Deserialization doesn't populate the list of ranking types, so we have to rectify it here.
+     *
+     * In addition, some dependencies aren't listed, and GSON returns those as null - make them empty instead
      */
+    @Suppress("SENSELESS_COMPARISON")
     fun rectify() {
         rankings.forEach(Consumer { ranking: Ranking -> Ranking.addRanking(ranking) })
+        getObjects()
+            .filter { it.dependencies==null }// check for null dependencies, even though Kotlin thinks it can't happen
+            .forEach {
+            it.dependencies= mutableSetOf()
+        }
     }
+
     // todo very bad name - what does this do
-    fun generateRankingsMap() {
+    fun generateRankings() {
         rankings = Ranking.values().toMutableList()
     }
 

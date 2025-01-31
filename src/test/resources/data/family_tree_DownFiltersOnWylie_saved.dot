@@ -11,20 +11,20 @@ node [shape=plaintext,fontname="Arial",fontsize="10"];
 { "Contemporaries" -> "Parents" -> "Grandparents" }
 
 //Declarations
-Adrienne_Stuhler [label="Adrienne Bullard" shape=null color="null"];
-Bradford_Bullard [label="Bradford Bullard" shape=null color="null"];
-Christine_Bullard [label="Christine Bullard" shape=null color="null"];
-John_Carter_Bullard [label="John Carter Bullard" shape=null color="null"];
-Katherine_Bullard [label="Katherine Bullard" shape=null color="null"];
-Kurt_Stuhler [label="Kurt Conrad Stuhler" shape=null color="null"];
-Paul_Bullard [label="Paul Bullard" shape=null color="null"];
-Robert_Lee_Bullard [label="Robert Lee Bullard" shape=null color="null"];
-Sarah_Bullard [label="Sarah Bullard" shape=null color="null"];
-Sarita_Bullard [label="Sarita Bullard" shape=null color="null"];
-Wylie_Aubrey_Bullard [label="Wylie Aubrey Bullard\nb. on December 31, 1899 Whitt, Parker County, Texas\nd. November 17 1982 Dallas, Dallas County, Texas" shape=null color="null"];
-bruce_bullard [label="Bruce Elliot Bullard\nb. November 30, 1957 St. Paul, Minnesota" shape=null color="null"];
-donn_bullard [label="Donn Wiley Bullard\nb. Dec 4, 1925\nd. Nov 3, 1995" shape=null color="null"];
-douglas_bullard [label="Douglas Gary Bullard\nb. September 9, 1959 St. Paul, Minnesota" shape=null color="null"];
+Adrienne_Stuhler [label="Adrienne Bullard" shape=rectangle color="blue"];
+Bradford_Bullard [label="Bradford Bullard" shape=rectangle color="blue"];
+Christine_Bullard [label="Christine Bullard" shape=rectangle color="blue"];
+John_Carter_Bullard [label="John Carter Bullard" shape=rectangle color="blue"];
+Katherine_Bullard [label="Katherine Bullard" shape=rectangle color="blue"];
+Kurt_Stuhler [label="Kurt Conrad Stuhler" shape=rectangle color="blue"];
+Paul_Bullard [label="Paul Bullard" shape=rectangle color="blue"];
+Robert_Lee_Bullard [label="Robert Lee Bullard" shape=rectangle color="blue"];
+Sarah_Bullard [label="Sarah Bullard" shape=rectangle color="blue"];
+Sarita_Bullard [label="Sarita Bullard" shape=rectangle color="blue"];
+Wylie_Aubrey_Bullard [label="Wylie Aubrey Bullard\nb. on December 31, 1899 Whitt, Parker County, Texas\nd. November 17 1982 Dallas, Dallas County, Texas" shape=rectangle color="blue"];
+bruce_bullard [label="Bruce Elliot Bullard\nb. November 30, 1957 St. Paul, Minnesota" shape=rectangle color="blue"];
+donn_bullard [label="Donn Wiley Bullard\nb. Dec 4, 1925\nd. Nov 3, 1995" shape=rectangle color="blue"];
+douglas_bullard [label="Douglas Gary Bullard\nb. September 9, 1959 St. Paul, Minnesota" shape=rectangle color="blue"];
 
 
 //Ranking groupings

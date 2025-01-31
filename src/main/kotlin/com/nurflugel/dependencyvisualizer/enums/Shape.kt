@@ -1,10 +1,10 @@
 package com.nurflugel.dependencyvisualizer.enums
 
 enum class Shape {
-    ELLIPSE,
-    RECTANGLE,
-    HEXAGON,
-    TRIANGLE;
+    ellipse,
+    rectangle,
+    hexagon,
+    triangle;
 
     companion object {
 

@@ -72,7 +72,7 @@ abstract class DataFileReader {
     fun readObjectsFromFile(): BaseDependencyDataSet {
         val dataSet = parseLines()
 
-        dataSet.generateRankingsMap()
+        dataSet.generateRankings()
 
         return dataSet
     }
@@ -140,8 +140,8 @@ abstract class DataFileReader {
     private fun getObjectType(line: String): Ranking {
         val strippedLine = line.substring(line.indexOf('#') + 1).trim { it <= ' ' }
         val chunks = strippedLine.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        var shape: Shape = Shape.RECTANGLE
-        var color: Color = Color.BLACK
+        var shape: Shape = Shape.rectangle
+        var color: Color = Color.black
         var name = "noName"
 
         for (chunk in chunks) {
@@ -150,8 +150,8 @@ abstract class DataFileReader {
             val trimmedNibble = nibbles[0].trim { it <= ' ' }
             when {
                 trimmedNibble.equals(NAME, ignoreCase = true)  -> name = nibbles[1].trim { it <= ' ' }
-                trimmedNibble.equals(COLOR, ignoreCase = true) -> color = Color.valueOf(nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault()))
-                trimmedNibble.equals(SHAPE, ignoreCase = true) -> shape = Shape.valueOf(nibbles[1].trim { it <= ' ' }.uppercase(Locale.getDefault()))
+                trimmedNibble.equals(COLOR, ignoreCase = true) -> color = Color.valueOf(nibbles[1].trim { it <= ' ' }.lowercase(Locale.getDefault()))
+                trimmedNibble.equals(SHAPE, ignoreCase = true) -> shape = Shape.valueOf(nibbles[1].trim { it <= ' ' }.lowercase(Locale.getDefault()))
             }
         }
 

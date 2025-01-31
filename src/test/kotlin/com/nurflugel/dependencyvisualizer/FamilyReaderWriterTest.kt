@@ -27,7 +27,7 @@ class FamilyReaderWriterTest : BaseReaderWriterTest() {
         keyObjects.add(douglas)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(destFile, expectedDotFile)
     }
 
@@ -47,7 +47,7 @@ class FamilyReaderWriterTest : BaseReaderWriterTest() {
         keyObjects.add(wylie)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(destFile, expectedDotFile)
     }
 
@@ -69,7 +69,7 @@ class FamilyReaderWriterTest : BaseReaderWriterTest() {
         keyObjects.add(wylie)
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(destFile, expectedDotFile)
     }
 
@@ -90,7 +90,7 @@ class FamilyReaderWriterTest : BaseReaderWriterTest() {
 //        keyObjects.add(wylie)
 //        dataHandler.setKeyObjectsToFilterOn(keyObjects)
 //        dataHandler.setDirectionalFilters(directionalFilters)
-        dataHandler.doIt()
+        dataHandler.writeObjects()
         doTestComparisons(destFile, expectedDotFile)
     }
 

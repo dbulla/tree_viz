@@ -11,9 +11,9 @@ node [shape=plaintext,fontname="Arial",fontsize="10"];
 { "Level Five" -> "Level Four" -> "Level Three" }
 
 //Declarations
-Item_d [label="Item d" shape=ELLIPSE color="GREEN"];
-a [label="a" shape=ELLIPSE color="BLUE"];
-b [label="b" shape=RECTANGLE color="RED"];
+Item_d [label="Item d" shape=ellipse color="green"];
+a [label="a" shape=ellipse color="blue"];
+b [label="b" shape=rectangle color="red"];
 
 
 //Ranking groupings

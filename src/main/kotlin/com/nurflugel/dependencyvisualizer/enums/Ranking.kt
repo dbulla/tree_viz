@@ -7,15 +7,15 @@ package com.nurflugel.dependencyvisualizer.enums
  *
  * This is sort of like an enum but is determined from the data loaded
  */
- data class Ranking // --------------------------- CONSTRUCTORS ---------------------------
-    (var name: String, var color: Color, var shape: Shape, val rank: Int) :
-    Comparable<Any> {
+data class Ranking // --------------------------- CONSTRUCTORS ---------------------------
+    (var name: String, var color: Color, var shape: Shape, val rank: Int) : Comparable<Any> {
     // --------------------- Interface Comparable ---------------------
     override fun compareTo(o: Any): Int {
         return rank.compareTo((o as Ranking).rank)
     }
-//
-//    // ------------------------ CANONICAL METHODS ------------------------
+
+    //
+    //    // ------------------------ CANONICAL METHODS ------------------------
     override fun toString(): String {
         return name
     }
@@ -27,14 +27,14 @@ package com.nurflugel.dependencyvisualizer.enums
 
         fun valueOf(title: String): Ranking {
             return types.firstOrNull { r: Ranking -> r.name == title }
-                   ?: valueOf(title, Color.BLACK, Shape.RECTANGLE)
+                   ?: valueOf(title, Color.black, Shape.rectangle)
         }
 
         fun valueOf(title: String, color: Color, shape: Shape): Ranking {
             val first: Ranking? = types.firstOrNull { r: Ranking -> r.name == title }
             val ranking: Ranking = when {
-                first !=null -> first
-                else         -> {
+                first != null -> first
+                else          -> {
                     // create the next type if it didn't already exist
                     val type = Ranking(title, color, shape, rankCounter++)
 

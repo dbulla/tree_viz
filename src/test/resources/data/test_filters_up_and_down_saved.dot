@@ -11,12 +11,12 @@ node [shape=plaintext,fontname="Arial",fontsize="10"];
 { "Level Five" -> "Level Four" -> "Level Three" -> "Level Two" -> "level One" }
 
 //Declarations
-Item_d [label="Item d" shape=ELLIPSE color="GREEN"];
-a [label="a" shape=ELLIPSE color="BLUE"];
-b [label="b" shape=RECTANGLE color="RED"];
-f [label="f" shape=TRIANGLE color="BLACK"];
-g [label="g" shape=HEXAGON color="YELLOW"];
-h [label="h" shape=HEXAGON color="YELLOW"];
+Item_d [label="Item d" shape=ellipse color="green"];
+a [label="a" shape=ellipse color="blue"];
+b [label="b" shape=rectangle color="red"];
+f [label="f" shape=triangle color="black"];
+g [label="g" shape=hexagon color="yellow"];
+h [label="h" shape=hexagon color="yellow"];
 
 
 //Ranking groupings

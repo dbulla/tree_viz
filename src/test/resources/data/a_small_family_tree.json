@@ -103,15 +103,21 @@
   "rankings": [
     {
       "name": "Grandparents",
-      "rank": 0
+      "rank": 0,
+      "color": "black",
+      "shape": "rectangle"
     },
     {
       "name": "Contemporaries",
-      "rank": 2
+      "rank": 2,
+      "color": "black",
+      "shape": "rectangle"
     },
     {
       "name": "Parents",
-      "rank": 1
+      "rank": 1,
+      "color": "black",
+      "shape": "rectangle"
     }
   ]
 }

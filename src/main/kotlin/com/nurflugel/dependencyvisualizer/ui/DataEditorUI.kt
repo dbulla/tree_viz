@@ -11,10 +11,10 @@ import com.nurflugel.dependencyvisualizer.data.pojos.Person
 import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.valueOf
 import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.values
 import java.awt.BorderLayout
-import java.awt.BorderLayout.CENTER
-import java.awt.BorderLayout.NORTH
+import java.awt.BorderLayout.*
 import java.awt.Component
 import java.awt.GridBagConstraints
+import java.awt.GridBagConstraints.BOTH
 import java.awt.GridBagConstraints.HORIZONTAL
 import java.awt.GridBagLayout
 import java.awt.event.ItemEvent
@@ -28,9 +28,9 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     private lateinit var exitButton: JButton
     private lateinit var editExistingButton: JButton
     private lateinit var newDatapointButton: JButton
-    private lateinit var existingDataCombobox: JComboBox<BaseDependencyObject>
+    private lateinit var itemToEditCombobox: JComboBox<BaseDependencyObject>
     private lateinit var notesText: JTextArea
-    private lateinit var parentsList: JList<Person>
+    private lateinit var potentialParentsList: JList<Person>
     private lateinit var displayNameField: JTextField
     private lateinit var mainPanel: JPanel
     private lateinit var itemToEditDropdownLabel: JLabel
@@ -42,7 +42,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     private lateinit var spousesScrollPane: JScrollPane
     private lateinit var parentsLabel: JLabel
     private lateinit var addEditRankingsButton: JButton
-    private lateinit var spousesList: JList<Person>
+    private lateinit var potentialSpousesList: JList<Person>
     private lateinit var spousesPanel: JPanel
     private lateinit var birthDateField: JTextField
     private lateinit var deathDateField: JTextField
@@ -51,6 +51,14 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     private lateinit var deathDateLabel: JLabel
     private lateinit var notesLabel: JLabel
     private lateinit var spousesFieldLabel: JLabel
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            val fakeData = DependencyDataSet()
+            SwingUtilities.invokeLater { DataEditorUI(fakeData) }
+        }
+    }
 
     init {
         setupUI()
@@ -82,16 +90,14 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     }
 
     private fun populateDropdowns() {
-        val objects: List<BaseDependencyObject> = dataSet.getObjects().sorted()
-        val dropdownObjects = getDropdownListWithEmptyTopItem(objects)
-
-        existingDataCombobox.setModel(DefaultComboBoxModel(dropdownObjects.toTypedArray<BaseDependencyObject>()))
+        val dropdownObjects = getDropdownListWithEmptyTopItem(dataSet.getObjects())
+        itemToEditCombobox.setModel(DefaultComboBoxModel(dropdownObjects.toTypedArray<BaseDependencyObject>()))
     }
 
     // I want the dropdown to have a "blank" top item.
     private fun getDropdownListWithEmptyTopItem(objects: List<BaseDependencyObject>): List<BaseDependencyObject> {
         val dependencyObject = DependencyObject("", "")
-        return listOf(dependencyObject) + objects
+        return listOf(dependencyObject) + dataSet.getObjects().sortedBy { it.displayName }
     }
 
     /** Build up the radio button list from the types. */
@@ -116,11 +122,21 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         saveEditedButton.addActionListener { saveEditedData() }
         newDatapointButton.addActionListener { addNewDataPoint() }
         addEditRankingsButton.addActionListener { editRankings() }
-        existingDataCombobox.addItemListener { this.existingDataSelected(it) }
-        spousesList.addListSelectionListener {
-            val person = existingDataCombobox.selectedItem as Person
-            buildSpousesPanel() // todo person as arg?
-            validate()
+        itemToEditCombobox.addItemListener { this.editExistingDataSelected(it) }
+        potentialSpousesList.addListSelectionListener {
+            val person = itemToEditCombobox.selectedItem as Person
+            val selectedValuesList = potentialSpousesList.selectedValuesList
+            // clear out the list of spouses - we'll rebuild it based on the GUI list
+            //            person.spouses.clear()
+            selectedValuesList
+                .map { it.name }
+                .forEach {
+                    person.spouses.add(it)
+                    // add the spouse name to the other way
+                    val spouse = dataSet.objectByName(it) as Person
+                    spouse.spouses.add(person.name)
+                }
+            buildSpousesPanel(person)
         }
         // parentsList.addListSelectionListener(e ->
         // {
@@ -136,49 +152,53 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     }
 
     private fun editExistingDataPoint() {
-        existingDataCombobox.isVisible = true
+        itemToEditCombobox.isVisible = true
         displayNameField.isEditable = true
         itemToEditDropdownLabel.isVisible = true
         saveEditedButton.isVisible = true
-        parentsScrollPane.isVisible = true
-        parentsLabel.isVisible = true
-
+        if (dataSet.isFamilyTree) {
+            parentsScrollPane.isVisible = true
+            parentsLabel.isVisible = true
+        }
     }
 
     private fun saveEditedData() {
         // todo set dependencies to parents selected for existing data
         //        val currentDatapoint = currentDatapoint
 
-        setParents(currentDatapoint) // todo what if null??
+        if (dataSet.isFamilyTree) {
+            //            setParents(currentDatapoint) // todo what if null??
+            //            setSpouses(currentDatapoint)
+            parentsScrollPane.isVisible = false
+            parentsLabel.isVisible = false
+        }
+
         setRanking(currentDatapoint)
-        setSpouses(currentDatapoint)
 
         // if new data, add to collection? - no, do that with new data button
         displayNameField.isEditable = false
-        existingDataCombobox.isVisible = false
+        itemToEditCombobox.isVisible = false
         itemToEditDropdownLabel.isVisible = false
         saveEditedButton.isVisible = false
-        parentsScrollPane.isVisible = false
-        parentsLabel.isVisible = false
     }
 
     private fun setSpouses(currentDatapoint: BaseDependencyObject?) {
         if (currentDatapoint is Person) {
             currentDatapoint.removeAllSpouses()
 
-            spousesList.selectedValuesList
+            potentialSpousesList.selectedValuesList
                 .map { value: Person -> value }
                 .forEach { spouse: Person -> currentDatapoint.addSpouse(spouse) }
         }
     }
 
     private val currentDatapoint: BaseDependencyObject
-        get() = existingDataCombobox.selectedItem as BaseDependencyObject
+        get() = itemToEditCombobox.selectedItem as BaseDependencyObject
 
     private fun setParents(currentDatapoint: BaseDependencyObject) {
         currentDatapoint.removeAllDependencies()
 
-        parentsList.selectedValuesList
+        potentialParentsList.selectedValuesList
             .map { value: Person -> value.name }
             .forEach { dependency: String -> currentDatapoint.addDependency(dependency) }
     }
@@ -205,7 +225,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     }
 
     private fun addNewDataPoint() {
-        existingDataCombobox.isVisible = false
+        itemToEditCombobox.isVisible = false
         itemToEditDropdownLabel.isVisible = false
         saveEditedButton.isVisible = true
         displayNameField.isEditable = true
@@ -223,47 +243,45 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
     /**
      * Edit the existing datapoint in the dialog.
      */
-    private fun existingDataSelected(itemEvent: ItemEvent) {
-        parentsList.clearSelection()
+    private fun editExistingDataSelected(itemEvent: ItemEvent) {
+        potentialParentsList.clearSelection()
 
         if (itemEvent.item is BaseDependencyObject) {
 
             val item = itemEvent.item as BaseDependencyObject
             // filter out item from list
 
-            val personList: Array<Person> = dataSet.getObjects()
-                .filter { o: BaseDependencyObject -> item != o }
-                .map { o: BaseDependencyObject -> o as Person }
-                .toTypedArray()
+            if (dataSet.isFamilyTree) {
+                val personList: Array<Person> = dataSet.getObjects()
+                    .filter { o: BaseDependencyObject -> item != o }
+                    .map { o: BaseDependencyObject -> o as Person }
+                    .sortedBy { it.displayName }
+                    .toTypedArray()
 
-            parentsList.setListData(personList)
-            spousesList.setListData(personList)
+                potentialParentsList.setListData(personList)
+                potentialSpousesList.setListData(personList)
+            }
 
-            val dependencies: Collection<String> = item.dependencies
+            val dependenciesNames: Collection<String> = item.dependencies
 
             displayNameField.text = item.displayName
 
-            val objectsFromNames = getObjectsFromNames(dependencies)
+            val dependencies = getObjectsFromNames(dependenciesNames)
 
-            setParentsSelected(objectsFromNames)
+            if (item is Person) {
+                setDependenciesSelected(dependencies)
+                birthDateField.text = item.birthDate
+                deathDateField.text = item.deathDate
+                buildSpousesPanel(item)
+                buildParentsPanel(item)
+            }
             setRankingButtons(item)
 
             when {
                 item.notes.isEmpty() -> notesText.text = ""
-                else                 -> {
-                    notesText.text = item.notes[0] // todo fix this!
-                }
+                else                 -> notesText.text = item.notes[0] /* todo fix this! */
             }
 
-            spousesPanel.removeAll()
-
-            if (item is Person) {
-                birthDateField.text = item.birthDate
-                deathDateField.text = item.deathDate
-                buildSpousesPanel()
-            }
-
-            buildParentsPanel(item)
             activateScreens(true)
             pack()
             setHeightToHalfScreen()
@@ -273,22 +291,21 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
 
     private fun activateScreens(value: Boolean) {
         listOf(
-            parentsList,  //
-            birthDateField,  //
-            deathDateField,  //
-            notesText,  //
-            spousesList,  //
-            saveEditedButton,  //
-            deleteButton,  //
-            rankingsPanel,  //
-            displayNameLabel,  //
-            parentsLabel,  //
-            birthDateLabel,  //
-            deathDateLabel,  //
-            notesLabel,  //
+            potentialParentsList,
+            birthDateField,
+            deathDateField,
+            notesText,
+            potentialSpousesList,
+            saveEditedButton,
+            deleteButton,
+            rankingsPanel,
+            displayNameLabel,
+            parentsLabel,
+            birthDateLabel,
+            deathDateLabel,
+            notesLabel,
             spousesFieldLabel
-        )
-            .forEach { it.isEnabled = value }
+        ).forEach { it.isEnabled = value }
     }
 
     private fun getObjectsFromNames(names: Collection<String>): Collection<BaseDependencyObject> {
@@ -299,30 +316,45 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         return objects
     }
 
-    private fun buildSpousesPanel() {
+    private fun buildSpousesPanel(person: Person) {
         spousesPanel.removeAll()
 
-        spousesList.selectedValuesList
-            .map { spouse: Person -> JLabel(spouse.displayName) }
+        person.spouses.map { dataSet.objectByName(it) }
+            .map { it.displayName }
+            .sorted()
+            .map { JLabel(it) }
             .forEach(spousesPanel::add)
         validate()
     }
 
-    private fun setParentsSelected(dependencies: Collection<BaseDependencyObject>) {
-        val listedObjects = dataSet.getObjects()
+    // set the parents (dependencies) of the item as selected in the list
+    private fun setDependenciesSelected(dependencies: Collection<BaseDependencyObject>) {
+        //        val listedObjects = dataSet.getObjects()
 
-        // Now we have to make an array of the indexes for the dropdown.
-        val indices = dependencies
-            .map(listedObjects::indexOf)
-
-        val indexes = IntArray(indices.size)
-
-        indexes.indices.reversed().forEach { i ->
-            indexes[i] = indices[i]
-            parentsList.ensureIndexIsVisible(indexes[i])
+        val model = potentialParentsList.model
+        val size = model.size
+        val matchingIndicies: MutableList<Int> = mutableListOf()
+        for (index in 0 until size) {
+            val elementAt = model.getElementAt(index)
+            if (dependencies.contains(elementAt)) {
+                matchingIndicies.add(index)
+            }
         }
 
-        parentsList.selectedIndices = indexes
+        //        // Now we have to make an array of the indexes for the dropdown.
+        //        val indices = dependencies
+        //            .map(listedObjects::indexOf)
+        //
+        //        val indexes = IntArray(indices.size)
+        //
+        //        indexes.indices.reversed().forEach { i ->
+        //            indexes[i] = indices[i]
+        //            potentialParentsList.ensureIndexIsVisible(indexes[i])
+        //        }
+        //
+
+        potentialParentsList.setSelectedIndices(matchingIndicies.toIntArray())
+        matchingIndicies.forEach { potentialParentsList.ensureIndexIsVisible(it) }
     }
 
     private fun setRankingButtons(item: BaseDependencyObject) {
@@ -383,12 +415,15 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
 
         buttonPanel.layout = GridBagLayout()
         rankingsPanel = JPanel()
+        rankingsPanel.name = "rankingsPanel"
         rankingsPanel.border = createTitledBorder(createEtchedBorder(), "Ranking")
 
         parentsPanel = JPanel()
+        parentsPanel.name = "parentsPanel"
         parentsPanel.border = createTitledBorder(createEtchedBorder(), "Parents")
 
         spousesPanel = JPanel()
+        spousesPanel.name = "spousesPanel"
         spousesPanel.border = createTitledBorder(createEtchedBorder(), "Spouses")
 
         parentsLabel.horizontalAlignment = 4
@@ -396,35 +431,44 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         parentsLabel.verticalAlignment = 1
 
         notesText = JTextArea()
+        notesText.name = "Notes"
         displayNameField = JTextField()
+        displayNameField.name = "Display Name Field"
         displayNameField.isEditable = false
         itemToEditDropdownLabel.horizontalAlignment = 4
         itemToEditDropdownLabel.isVisible = true
-        existingDataCombobox = JComboBox<BaseDependencyObject>()
-        existingDataCombobox.setInheritsPopupMenu(false)
-        existingDataCombobox.setLightWeightPopupEnabled(true)
-        existingDataCombobox.setMaximumRowCount(30)
-        existingDataCombobox.isVisible = true
+        itemToEditCombobox = JComboBox<BaseDependencyObject>()
+        itemToEditCombobox.setInheritsPopupMenu(false)
+        itemToEditCombobox.setLightWeightPopupEnabled(true)
+        itemToEditCombobox.setMaximumRowCount(30)
+        itemToEditCombobox.isVisible = true
         parentsScrollPane = JScrollPane()
-        parentsList = JList<Person>()
-        parentsScrollPane.setViewportView(parentsList)
-        spousesList = JList<Person>()
+        parentsScrollPane.name = "parentsScrollPane"
+        potentialParentsList = JList<Person>()
+        potentialParentsList.name = "parentsList"
+        parentsScrollPane.setViewportView(potentialParentsList)
+        potentialSpousesList = JList<Person>()
+        potentialSpousesList.name = "spousesList"
         spousesScrollPane = JScrollPane()
-        spousesScrollPane.setViewportView(spousesList)
+        spousesScrollPane.name = "spousesScrollPane"
+        spousesScrollPane.setViewportView(potentialSpousesList)
 
         parentsPanel.add(parentsScrollPane, CENTER)
         spousesPanel.add(spousesScrollPane, CENTER)
 
         birthDateField = JTextField()
+        birthDateField.name = "Birth Date"
         deathDateField = JTextField()
+        deathDateField.name = "Death Date"
 
-        topPanel.add(itemToEditDropdownLabel, BorderLayout.WEST)
-        topPanel.add(existingDataCombobox, CENTER)
+        topPanel.add(itemToEditDropdownLabel, WEST)
+        topPanel.add(itemToEditCombobox, CENTER)
         mainPanel.add(topPanel, NORTH)
         mainPanel.add(attributesPanel, CENTER)
 
         val constraints = GridBagConstraints()
         constraints.fill = HORIZONTAL
+        constraints.fill = BOTH
         constraints.weightx = 1.0
         constraints.gridx = 0
 
@@ -437,33 +481,43 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
 
         attributesPanel.layout = GridBagLayout()
 
-        addGridBagComponent(attributesPanel, displayNameLabel, constraints, 0, 0, 1, 1, HORIZONTAL, 0, 0.5)
-        addGridBagComponent(attributesPanel, displayNameField, constraints, 1, 0, 1, 1, HORIZONTAL, 0, 0.5)
+        var gridY = 0
+        var componentHeight = 1
+        addGridBagComponent(attributesPanel, displayNameLabel, constraints, 0, gridY, 1, 1, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, displayNameField, constraints, 1, gridY, 1, 1, HORIZONTAL, 0, 0.5)
+        gridY += componentHeight
+        componentHeight = 10
+        addGridBagComponent(attributesPanel, parentsLabel, constraints, 0, gridY, 1, 1, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, parentsScrollPane, constraints, 1, gridY, 1, componentHeight, HORIZONTAL, 0, 0.5)
+        gridY += componentHeight
+        componentHeight = 1
+        addGridBagComponent(attributesPanel, birthDateLabel, constraints, 0, gridY, 1, 1, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, birthDateField, constraints, 1, gridY, 1, 1, HORIZONTAL, 0, 0.5)
+        gridY += componentHeight
+        addGridBagComponent(attributesPanel, deathDateLabel, constraints, 0, gridY, 1, 1, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, deathDateField, constraints, 1, gridY, 1, 1, HORIZONTAL, 0, 0.5)
+        gridY += componentHeight
+        componentHeight = 3
+        addGridBagComponent(attributesPanel, notesLabel, constraints, 0, gridY, 1, componentHeight, HORIZONTAL, 10, 0.5)
+        addGridBagComponent(attributesPanel, notesText, constraints, 1, gridY, 1, componentHeight, HORIZONTAL, 80, 0.5)
+        gridY += componentHeight
+        componentHeight = 4
+        addGridBagComponent(attributesPanel, spousesFieldLabel, constraints, 0, gridY, 1, 1, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, spousesScrollPane, constraints, 1, gridY, 1, componentHeight, HORIZONTAL, 0, 0.5)
 
-        addGridBagComponent(attributesPanel, parentsLabel, constraints, 0, 1, 1, 1, HORIZONTAL, 0, 0.5)
-        addGridBagComponent(attributesPanel, parentsScrollPane, constraints, 1, 1, 1, 4, HORIZONTAL, 0, 0.5)
 
+        ///////////////////////////////////////
         addGridBagComponent(attributesPanel, rankingsPanel, constraints, 2, 0, 1, 3, HORIZONTAL, 0, 0.5)
-        addGridBagComponent(attributesPanel, parentsPanel, constraints, 2, 2, 1, 3, HORIZONTAL, 0, 0.5)
-        addGridBagComponent(attributesPanel, spousesPanel, constraints, 2, 5, 1, 3, HORIZONTAL, 0, 0.5)
-        addGridBagComponent(attributesPanel, buttonPanel, constraints, 2, 9, 1, 6, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, parentsPanel, constraints, 2, 3, 1, 3, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, spousesPanel, constraints, 2, 6, 1, 3, HORIZONTAL, 0, 0.5)
+        addGridBagComponent(attributesPanel, buttonPanel, constraints, 2, 10, 1, 6, HORIZONTAL, 0, 0.5)
 
-        addGridBagComponent(attributesPanel, birthDateLabel, constraints, 0, 5, 1, 1, HORIZONTAL, 10, 0.5)
-        addGridBagComponent(attributesPanel, birthDateField, constraints, 1, 5, 1, 1, HORIZONTAL, 10, 0.5)
-
-        addGridBagComponent(attributesPanel, deathDateLabel, constraints, 0, 6, 1, 1, HORIZONTAL, 10, 0.5)
-        addGridBagComponent(attributesPanel, deathDateField, constraints, 1, 6, 1, 1, HORIZONTAL, 10, 0.5)
-
-        addGridBagComponent(attributesPanel, notesLabel, constraints, 0, 7, 1, 1, HORIZONTAL, 10, 0.5)
-        addGridBagComponent(attributesPanel, notesText, constraints, 1, 7, 1, 3, HORIZONTAL, 10, 0.5)
-
-        addGridBagComponent(attributesPanel, spousesFieldLabel, constraints, 0, 11, 1, 1, HORIZONTAL, 10, 0.5)
-        addGridBagComponent(attributesPanel, spousesScrollPane, constraints, 1, 11, 1, 4, HORIZONTAL, 10, 0.5)
     }
 
     @Suppress("SameParameterValue")
     private fun createLabel(text: String, horizontalAlignment: Int, horizontalTextPosition: Int): JLabel {
         val label = JLabel(text)
+        label.name = text
         label.horizontalAlignment = horizontalAlignment
         label.horizontalTextPosition = horizontalTextPosition
         return label
@@ -489,14 +543,8 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         constraints.gridwidth = gridWidth
         constraints.gridheight = gridHeight
         constraints.ipady = ipadY
+        //        println("Adding component ${component.name} with height $gridHeight to row $gridY")
         panel.add(component, constraints)
     }
 
-    companion object {
-        @JvmStatic
-        fun main(args: Array<String>) {
-            val fakeData = DependencyDataSet()
-            val ui = DataEditorUI(fakeData)
-        }
-    }
 }

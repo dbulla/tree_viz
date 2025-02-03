@@ -12,7 +12,7 @@ class DependencyDataSet : BaseDependencyDataSet() {
     }
 
     override fun getObjects(): MutableList<BaseDependencyObject> {
-        return objectsMap.values.toMutableList()
+        return objectsMap.values.sortedBy { it.name }.toMutableList()
     }
 
     override fun add(newObject: BaseDependencyObject) {

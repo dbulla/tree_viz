@@ -31,13 +31,13 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("ch.qos.logback:logback-core:$logbackVersion")
     implementation("ch.qos.logback:logback-core:$logbackVersion")
-    implementation("com.google.code.gson:gson:2.12.0")
+    implementation("com.google.code.gson:gson:2.12.1")
     implementation("com.google.guava:guava:33.4.0-jre")
     implementation("com.thoughtworks.xstream:xstream:1.4.21")
     implementation("commons-io:commons-io:2.18.0")
     implementation("org.apache.commons:commons-lang3:3.17.0")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.12.0-M1")
     testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
 
     // Use the Kotlin test library.

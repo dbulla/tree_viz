@@ -31,8 +31,8 @@ abstract class NurflugelDialog : JDialog() {
         val defaultToolkit = Toolkit.getDefaultToolkit()
         val screenSize = defaultToolkit.screenSize
         val width = size.getWidth().toInt()
-        val height = screenSize.getHeight().toInt() / 2
+        val height = screenSize.getHeight() *.7
 
-        setSize(width, height)
+        setSize(width, height.toInt())
     }
 }

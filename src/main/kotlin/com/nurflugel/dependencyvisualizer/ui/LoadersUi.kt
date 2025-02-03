@@ -107,8 +107,9 @@ class LoadersUi private constructor() : JFrame() {
         quitButton.addActionListener { _ -> quitAction() }
         makeGraphButton.addActionListener { _ -> makeGraph() }
         findDotButton.addActionListener { _ -> findDotExecutablePath() }
-        loadDatafileButton.addActionListener { _ -> loadDatafile() }
+        loadDatafileButton.addActionListener { _ -> loadDatafile(null) }
         editDataButton.addActionListener { _ -> DataEditorUI(dataSet) }
+        newDataButton.addActionListener { _ -> println() } // todo ask if family tree or not, what to call it - then save it
         saveDataFileButton.addActionListener { _ -> dataHandler.saveDataset() }
         addWindowListener(object : WindowAdapter() {
             override fun windowClosing(e: WindowEvent) {
@@ -266,31 +267,35 @@ class LoadersUi private constructor() : JFrame() {
         }
     }
 
-    private fun loadDatafile() {
+    private fun loadDatafile(file: File?) {
         // load data
+        var selectedFile = file
         cursor = busyCursor
 
-        val fileChooser = JFileChooser()
-        val filter = ExampleFileFilter()
+        if (selectedFile == null) {
+            val fileChooser = JFileChooser()
+            val filter = ExampleFileFilter()
 
-        filter.addExtension("txt")
-        filter.addExtension("json")
-        filter.setDescription("data files")
-        fileChooser.fileFilter = filter
+            filter.addExtension("txt")
+            filter.addExtension("json")
+            filter.setDescription("data files")
+            fileChooser.fileFilter = filter
 
-        val lastDir = preferences[LAST_DIR, ""]
+            val lastDir = preferences[LAST_DIR, ""]
 
-        if (lastDir != null) {
-            fileChooser.currentDirectory = File(lastDir)
+            if (lastDir != null) {
+                fileChooser.currentDirectory = File(lastDir)
+            }
+
+            fileChooser.isMultiSelectionEnabled = false
+
+            val  returnVal = fileChooser.showOpenDialog(this)
+
+            if (returnVal == APPROVE_OPTION) {
+                selectedFile = fileChooser.selectedFile
+            }
         }
-
-        fileChooser.isMultiSelectionEnabled = false
-
-        val returnVal = fileChooser.showOpenDialog(this)
-
-        if (returnVal == APPROVE_OPTION) {
-            val selectedFile = fileChooser.selectedFile
-
+        if (selectedFile != null) {
             preferences.put(LAST_DIR, selectedFile.parent)
             makeGraphButton.isEnabled = true
             clearRankings()
@@ -492,7 +497,11 @@ class LoadersUi private constructor() : JFrame() {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val ui = LoadersUi()
+            //            val ui = LoadersUi()
+            SwingUtilities.invokeLater {
+                val loadersUi = LoadersUi()
+                loadersUi.loadDatafile(File("src/test/resources/data/family_tree.json"))
+            }
         }
     }
 }

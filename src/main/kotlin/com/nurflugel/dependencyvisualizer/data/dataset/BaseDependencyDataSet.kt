@@ -33,9 +33,9 @@ abstract class BaseDependencyDataSet {
         else {
             baseDependencyObject = DependencyObject(trimmedName, Ranking.first().name) // todo create a new instance of the right class
 
-            if (LOGGER.isDebugEnabled) {
-                LOGGER.debug("Adding unregistered object: {} as object of type {}", trimmedName, baseDependencyObject.ranking)
-            }
+//            if (LOGGER.isDebugEnabled) {
+//                LOGGER.debug("Adding unregistered object: {} as object of type {}", trimmedName, baseDependencyObject.ranking)
+//            }
 
             setValue(trimmedName, baseDependencyObject)
         }

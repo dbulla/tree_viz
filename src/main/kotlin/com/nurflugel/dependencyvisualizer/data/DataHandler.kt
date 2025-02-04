@@ -1,6 +1,7 @@
 package com.nurflugel.dependencyvisualizer.data
 
 import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
+import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject.Companion.replaceAllBadChars
 import com.nurflugel.dependencyvisualizer.data.pojos.Person
@@ -26,7 +27,7 @@ class DataHandler(sourceDataFile: File) {
     private var isRanking = true
     private lateinit var dataFileReader: DataFileReader
     private lateinit var dataFileWriter: DataFileWriter
-     lateinit var dataset: BaseDependencyDataSet
+    lateinit var dataset: BaseDependencyDataSet
 
     init {
         val dataFileFactory = DataFileFactory(sourceDataFile)
@@ -91,16 +92,16 @@ class DataHandler(sourceDataFile: File) {
     }
 
     fun setKeyObjectsToFilterOn(keyObjects: List<BaseDependencyObject>) {
-        // todo - add an option to also select spouses if this is a person
         this.keyObjects = TreeSet(keyObjects)
-        //
-        for (keyObject in keyObjects) {
-            if(keyObject is Person){
-                val spouses = (keyObject as Person).spouses
-                for (spouse in spouses) {
-                    this.keyObjects.add(dataset.objectByName(spouse))
+
+        if (dataset is FamilyTreeDataSet) {
+            keyObjects
+                .filterIsInstance<Person>()
+                .forEach { person ->
+                    (dataset as FamilyTreeDataSet).getMarriagesForPerson(person)
+                        .map { it.getSpouse(person.name) }
+                        .forEach { this.keyObjects.add(dataset.objectByName(it)) }
                 }
-            }
         }
     }
 

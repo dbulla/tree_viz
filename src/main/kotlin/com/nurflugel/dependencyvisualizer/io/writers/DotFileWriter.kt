@@ -1,7 +1,6 @@
 package com.nurflugel.dependencyvisualizer.io.writers
 
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
-import com.nurflugel.dependencyvisualizer.data.pojos.Person
 import com.nurflugel.dependencyvisualizer.enums.Ranking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -164,33 +163,33 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         writeToOutput(out, "\n\n")
     }
 
-    private fun writeSpouses(objects: Collection<BaseDependencyObject>, out: DataOutputStream) {
-        val lines: MutableList<String> = mutableListOf()
-        val names = objects
-            .map(BaseDependencyObject::name)
-
-        objects
-            .filterIsInstance<Person>()
-            .forEach { it ->
-                it.spouses
-                    .filter { names.contains(it) }
-                    .map { spouse -> it.name + " -> " + spouse + ";\n" }
-                    .forEach(lines::add)
-            }
-
-        if (lines.isNotEmpty()) {
-            writeToComment(out, "Spouses")
-            writeToOutput(out, "edge [color=red,arrowhead=none]\n")
-        }
-
-        lines
-            .sorted()
-            .forEach { writeToOutput(out, it) }
-        writeToOutput(out, "\n\n")
-    }
+//    private fun writeSpouses(objects: Collection<BaseDependencyObject>, out: DataOutputStream) {
+//        val lines: MutableList<String> = mutableListOf()
+//        val names = objects
+//            .map(BaseDependencyObject::name)
+//
+//        objects
+//            .filterIsInstance<Person>()
+//            .forEach { it ->
+//                it.spouses
+//                    .filter { names.contains(it) }
+//                    .map { spouse -> it.name + " -> " + spouse + ";\n" }
+//                    .forEach(lines::add)
+//            }
+//
+//        if (lines.isNotEmpty()) {
+//            writeToComment(out, "Spouses")
+//            writeToOutput(out, "edge [color=red,arrowhead=none]\n")
+//        }
+//
+//        lines
+//            .sorted()
+//            .forEach { writeToOutput(out, it) }
+//        writeToOutput(out, "\n\n")
+//    }
 
     /**
-     * method to suppress checked exceptions).
+     * method to suppress checked exceptions.
      */
     private fun writeToOutput(out: DataOutputStream, text: String) {
         try {

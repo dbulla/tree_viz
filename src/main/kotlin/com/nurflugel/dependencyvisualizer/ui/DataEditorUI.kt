@@ -5,6 +5,7 @@ package com.nurflugel.dependencyvisualizer.ui
 
 import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
 import com.nurflugel.dependencyvisualizer.data.dataset.DependencyDataSet
+import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.Person
@@ -122,22 +123,8 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         saveEditedButton.addActionListener { saveEditedData() }
         newDatapointButton.addActionListener { addNewDataPoint() }
         addEditRankingsButton.addActionListener { editRankings() }
-        itemToEditCombobox.addItemListener { this.editExistingDataSelected(it) }
-        potentialSpousesList.addListSelectionListener {
-            val person = itemToEditCombobox.selectedItem as Person
-            val selectedValuesList = potentialSpousesList.selectedValuesList
-            // clear out the list of spouses - we'll rebuild it based on the GUI list
-            //            person.spouses.clear()
-            selectedValuesList
-                .map { it.name }
-                .forEach {
-                    person.spouses.add(it)
-                    // add the spouse name to the other way
-                    val spouse = dataSet.objectByName(it) as Person
-                    spouse.spouses.add(person.name)
-                }
-            buildSpousesPanel(person)
-        }
+        itemToEditCombobox.addItemListener { editExistingDataSelected(it) }
+        potentialSpousesList.addListSelectionListener { handleSpouseSelected() }
         // parentsList.addListSelectionListener(e ->
         // {
         // Person person = (Person) existingDataCombobox.getSelectedItem();
@@ -145,6 +132,26 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         // buildParentsPanel(person);
         // validate();
         // });
+    }
+
+    /** An item in the spouses listbox has been selected - process that by
+     * adding it to the list of spouses and the spouses dropdown.
+     */
+    private fun handleSpouseSelected() {
+        val person = itemToEditCombobox.selectedItem as Person
+        val selectedValuesList = potentialSpousesList.selectedValuesList
+        // clear out the list of spouses - we'll rebuild it based on the GUI list
+        //            person.spouses.clear()
+        selectedValuesList
+            .map { it.name }
+            .forEach {
+                (dataSet as FamilyTreeDataSet).addMarriage(person,it)
+//                person.spouses.add(it)
+                // add the spouse name to the other way
+//                val spouse = dataSet.objectByName(it) as Person
+//                spouse.spouses.add(person.name)
+            }
+        buildSpousesPanel(person)
     }
 
     private fun editRankings() {
@@ -182,42 +189,42 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         saveEditedButton.isVisible = false
     }
 
-    private fun setSpouses(currentDatapoint: BaseDependencyObject?) {
-        if (currentDatapoint is Person) {
-            currentDatapoint.removeAllSpouses()
-
-            potentialSpousesList.selectedValuesList
-                .map { value: Person -> value }
-                .forEach { spouse: Person -> currentDatapoint.addSpouse(spouse) }
-        }
-    }
-
     private val currentDatapoint: BaseDependencyObject
         get() = itemToEditCombobox.selectedItem as BaseDependencyObject
 
-    private fun setParents(currentDatapoint: BaseDependencyObject) {
-        currentDatapoint.removeAllDependencies()
-
-        potentialParentsList.selectedValuesList
-            .map { value: Person -> value.name }
-            .forEach { dependency: String -> currentDatapoint.addDependency(dependency) }
-    }
+//    private fun setParents(currentDatapoint: BaseDependencyObject) {
+//        currentDatapoint.removeAllDependencies()
+//
+//        potentialParentsList.selectedValuesList
+//            .map { value: Person -> value.name }
+//            .forEach { dependency: String -> currentDatapoint.addDependency(dependency) }
+//    }
 
     private fun setRanking(currentDatapoint: BaseDependencyObject) {
         try {
-            val components = rankingsPanel.components
+//            val components = rankingsPanel.components
+//
+//            for (component in components) {
+//                val radioButton = component as JRadioButton
+//
+//                if (radioButton.isSelected) {
+//                    val text = radioButton.text
+//                    val ranking = valueOf(text)
+//
+//                    currentDatapoint.ranking = ranking.name
+//
+//                    break
+//                }
+//            }
 
-            for (component in components) {
-                val radioButton = component as JRadioButton
+            val jRadioButton = rankingsPanel.components
+                .map { it as JRadioButton }
+                .firstOrNull { it.isSelected }
 
-                if (radioButton.isSelected) {
-                    val text = radioButton.text
-                    val ranking = valueOf(text)
-
-                    currentDatapoint.ranking = ranking.name
-
-                    break
-                }
+            if(jRadioButton != null) {
+                val text= jRadioButton.text
+                val ranking=valueOf(text)
+                currentDatapoint.ranking=ranking.name
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -245,6 +252,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
      */
     private fun editExistingDataSelected(itemEvent: ItemEvent) {
         potentialParentsList.clearSelection()
+        potentialSpousesList.clearSelection()
 
         if (itemEvent.item is BaseDependencyObject) {
 
@@ -270,6 +278,7 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
 
             if (item is Person) {
                 setDependenciesSelected(dependencies)
+                setSpousesSelected(item as Person)
                 birthDateField.text = item.birthDate
                 deathDateField.text = item.deathDate
                 buildSpousesPanel(item)
@@ -318,18 +327,18 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
 
     private fun buildSpousesPanel(person: Person) {
         spousesPanel.removeAll()
-
-        person.spouses.map { dataSet.objectByName(it) }
-            .map { it.displayName }
+        (dataSet as FamilyTreeDataSet).getMarriagesForPerson(person)
+            .map { it.getSpouse(person.name) }
             .sorted()
+            .distinct()
             .map { JLabel(it) }
             .forEach(spousesPanel::add)
+
         validate()
     }
 
     // set the parents (dependencies) of the item as selected in the list
     private fun setDependenciesSelected(dependencies: Collection<BaseDependencyObject>) {
-        //        val listedObjects = dataSet.getObjects()
 
         val model = potentialParentsList.model
         val size = model.size
@@ -341,20 +350,25 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
             }
         }
 
-        //        // Now we have to make an array of the indexes for the dropdown.
-        //        val indices = dependencies
-        //            .map(listedObjects::indexOf)
-        //
-        //        val indexes = IntArray(indices.size)
-        //
-        //        indexes.indices.reversed().forEach { i ->
-        //            indexes[i] = indices[i]
-        //            potentialParentsList.ensureIndexIsVisible(indexes[i])
-        //        }
-        //
-
         potentialParentsList.setSelectedIndices(matchingIndicies.toIntArray())
         matchingIndicies.forEach { potentialParentsList.ensureIndexIsVisible(it) }
+    }
+
+    private fun setSpousesSelected(person: Person) {
+        val spouses = (dataSet as FamilyTreeDataSet).getMarriagesForPerson(person)
+            .map { it.getSpouse(person.name) }
+        val model = potentialSpousesList.model
+        val size = model.size
+        val matchingIndicies: MutableList<Int> = mutableListOf()
+        for (index in 0 until size) {
+            val elementAt = model.getElementAt(index)
+            if (spouses.contains(elementAt.name)) {
+                matchingIndicies.add(index)
+            }
+        }
+
+        potentialSpousesList.setSelectedIndices(matchingIndicies.toIntArray())
+        matchingIndicies.forEach { potentialSpousesList.ensureIndexIsVisible(it) }
     }
 
     private fun setRankingButtons(item: BaseDependencyObject) {
@@ -367,8 +381,8 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
 
             try {
                 val buttonRanking = valueOf(text)
-
-                radioButton.isSelected = buttonRanking == valueOf(rankTitle)
+                val title = valueOf(rankTitle)
+                radioButton.isSelected = buttonRanking == title
             } catch (e: Exception) {
                 e.printStackTrace()
             }

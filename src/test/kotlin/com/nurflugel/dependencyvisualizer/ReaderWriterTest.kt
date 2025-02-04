@@ -12,7 +12,7 @@ import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class ReaderWriterTest: BaseReaderWriterTest() {
+class ReaderWriterTest : BaseReaderWriterTest() {
 
     @Test
     fun testAutosys() {
@@ -33,7 +33,7 @@ class ReaderWriterTest: BaseReaderWriterTest() {
         val directionalFilters: List<DirectionalFilter> = ArrayList()
         val keyObjects: List<BaseDependencyObject> = ArrayList()
         val dataHandler = DataHandler(sourceDataFile)
-
+        dataHandler.loadDataset()
         dataHandler.setKeyObjectsToFilterOn(keyObjects)
         dataHandler.setDirectionalFilters(directionalFilters)
         dataHandler.loadDataset()

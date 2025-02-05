@@ -3,10 +3,8 @@
     "Rachel_Sarah_Carter"       : {
       "name"        : "Rachel_Sarah_Carter",
       "displayName" : "Rachel Sarah Carter",
-      "notes"       : [
-        "b. greenwood December 27, 1855",
-        "d. Mineral Wells, Palo Pinto County Texas May 7, 1914."
-      ],
+      "birthDate"   : "December 27, 1855 Greenwood",
+      "deathDate"   : "May 7, 1914 Mineral Wells, Palo Pinto County Texas",
       "ranking"     : "Great Grandparents",
       "dependencies": [
         "John_Carter",
@@ -54,9 +52,6 @@
     "Ruth_Nemetz"               : {
       "name"       : "Ruth_Nemetz",
       "displayName": "Ruth Nemetz",
-      "notes"      : [
-        "m. Wylie 1921"
-      ],
       "ranking"    : "Grandparents"
     },
     "Richard_Pou"               : {
@@ -85,9 +80,6 @@
     "Josephine_Warren"          : {
       "name"        : "Josephine_Warren",
       "displayName" : "Josephine Warren",
-      "notes"       : [
-        "m. ? Harris"
-      ],
       "ranking"     : "Parents",
       "dependencies": [
         "Melissa_Bullard",
@@ -98,6 +90,7 @@
       "name"        : "elisabeth_elliot",
       "displayName" : "Elisabeth Elliot",
       "ranking"     : "Parents",
+      "birthDate"   : "May 17, 1929",
       "dependencies": [
         "Helen_Johnson",
         "Charles_Delevan_Elliot"
@@ -552,9 +545,7 @@
     "Elizabeth_Warren"          : {
       "name"       : "Elizabeth_Warren",
       "displayName": "Elizabeth Warren",
-      "notes"      : [
-        "d. 21 months"
-      ],
+      "deathDate"  : "21 months",
       "ranking"    : "Parents"
     },
     "Mary_Sue_Champion"         : {
@@ -838,6 +829,10 @@
       "person1"     : "Mattie_Bess_Russell",
       "person2"     : "Garvice_Lynn_Pou",
       "marriageDate": "October 19, 1940 Dallas, Dallas County, Texas"
+    },
+    {
+      "person1": "Josephine_Warren",
+      "person2": "?? Harris"
     }
   ]
 }

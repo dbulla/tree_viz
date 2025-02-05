@@ -3,6 +3,7 @@ package com.nurflugel.dependencyvisualizer.data.dataset
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject.Companion.replaceAllBadChars
 import com.nurflugel.dependencyvisualizer.data.pojos.DependencyObject
+import com.nurflugel.dependencyvisualizer.data.pojos.Person
 import com.nurflugel.dependencyvisualizer.enums.Ranking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -31,7 +32,10 @@ abstract class BaseDependencyDataSet {
             baseDependencyObject = getValue(trimmedName) // replace with get or else?  Still want to log that a new instance was created...
         }
         else {
-            baseDependencyObject = DependencyObject(trimmedName, Ranking.first().name) // todo create a new instance of the right class
+            baseDependencyObject = if (isFamilyTree)// todo sleazy
+                Person(trimmedName, Ranking.first().name)
+            else
+                DependencyObject(trimmedName, Ranking.first().name)
 
             //            if (LOGGER.isDebugEnabled) {
             //                LOGGER.debug("Adding unregistered object: {} as object of type {}", trimmedName, baseDependencyObject.ranking)

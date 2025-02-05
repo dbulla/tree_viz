@@ -1,5 +1,7 @@
 package com.nurflugel.dependencyvisualizer.io.writers
 
+import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
+import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.Person
 import com.nurflugel.dependencyvisualizer.enums.Ranking
@@ -16,7 +18,7 @@ import java.io.IOException
 class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) {
 
     /** Write the filtered objects back out to the file. */
-    fun writeObjectsToDotFile(objects: Collection<BaseDependencyObject>) {
+    fun writeObjectsToDotFile(objects: Collection<BaseDependencyObject>, dataset: BaseDependencyDataSet) {
         if (LOGGER.isDebugEnabled) {
             LOGGER.debug("Writing output to file " + dotFile.absolutePath)
         }
@@ -27,7 +29,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
                     val rankings = getOnlyUsedRankings(objects)
                     writeHeader(out)
                     writeRankingEnumeration(out, rankings)
-                    writeObjectDeclarations(objects, out)
+                    writeObjectDeclarations(objects, out, dataset)
                     writeRankingGroupings(objects, out, rankings)
                     writeObjectDependencies(objects, out)
                     //                    writeSpouses(objects, out);
@@ -88,22 +90,26 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         return types
     }
 
-    private fun writeObjectDeclarations(objects: Collection<BaseDependencyObject>, out: DataOutputStream) {
+    private fun writeObjectDeclarations(objects: Collection<BaseDependencyObject>, out: DataOutputStream, dataset: BaseDependencyDataSet) {
         writeToComment(out, "Declarations")
         objects
             .sorted()
             .forEach { dependencyObject: BaseDependencyObject ->
                 val ranking = Ranking.valueOf(dependencyObject.ranking)
                 val stringBuilder = StringBuilder()
-                val notes = dependencyObject.notes // GSON deserialization can have this null - todo fix it
+                val notes = dependencyObject.notes
                 val displayName: String
 
                 val displayText = StringBuilder(dependencyObject.displayName)
-                //todo if(showDetails){}
-                //todo if(showBirthDeathDates){}
                 if (dependencyObject is Person) {
                     if (dependencyObject.birthDate != null) displayText.append("\\nb: ").append(dependencyObject.birthDate)
                     if (dependencyObject.deathDate != null) displayText.append("\\nd: ").append(dependencyObject.deathDate)
+                    (dataset as FamilyTreeDataSet).getMarriagesForPerson(dependencyObject).forEach { marriage ->
+                        val spouseName = marriage.getSpouse(dependencyObject.name)
+                        val spouseDisplayName = dataset.objectByName(spouseName).displayName
+                        displayText.append("\\nm: ").append(spouseDisplayName)
+                        if (marriage.marriageDate != null) displayText.append(" ").append(marriage.marriageDate)
+                    }
                 }
                 for (note in notes) {
                     displayText.append("\\n").append(note)

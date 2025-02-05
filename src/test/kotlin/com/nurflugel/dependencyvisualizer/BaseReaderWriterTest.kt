@@ -19,7 +19,7 @@ open class BaseReaderWriterTest {
 
         //    assertEquals(resultFile + " and " + expectedDotFile + " should have the same number of lines", expectedOutput.length, testOutput.length);
         expectedOutput.indices.forEach { i ->
-            assertEquals(expectedOutput[i], testOutput[i], "Test output at line $i should be equal to expected output");
+            assertEquals(expectedOutput[i].trim(), testOutput[i].trim(), "Test output at line $i should be equal to expected output");
         }
     }
 

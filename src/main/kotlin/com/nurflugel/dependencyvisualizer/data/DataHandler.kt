@@ -49,7 +49,7 @@ class DataHandler(sourceDataFile: File) {
         val writer = DotFileWriter(dotFile, isRanking)
 
         try {
-            writer.writeObjectsToDotFile(filteredObjects)
+            writer.writeObjectsToDotFile(filteredObjects, dataset)
         } catch (e: Exception) {
             LOGGER.error("Error writing file", e)
         }

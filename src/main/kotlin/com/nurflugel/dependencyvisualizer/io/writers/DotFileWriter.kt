@@ -1,6 +1,7 @@
 package com.nurflugel.dependencyvisualizer.io.writers
 
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
+import com.nurflugel.dependencyvisualizer.data.pojos.Person
 import com.nurflugel.dependencyvisualizer.enums.Ranking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -13,10 +14,8 @@ import java.io.IOException
  *
  */
 class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) {
-    /**
-     * Now, write the filtered objects back out to the file.
-     */
-    @Throws(Exception::class)
+
+    /** Write the filtered objects back out to the file. */
     fun writeObjectsToDotFile(objects: Collection<BaseDependencyObject>) {
         if (LOGGER.isDebugEnabled) {
             LOGGER.debug("Writing output to file " + dotFile.absolutePath)
@@ -31,7 +30,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
                     writeObjectDeclarations(objects, out)
                     writeRankingGroupings(objects, out, rankings)
                     writeObjectDependencies(objects, out)
-//                    writeSpouses(objects, out);
+                    //                    writeSpouses(objects, out);
                     writeFooter(out)
                 }
             }
@@ -79,7 +78,7 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
             writeToOutput(out, "node [shape=plaintext,fontname=\"Arial\",fontsize=\"10\"];\n")
             writeToOutput(out, "{ ")
 
-            val line = types.joinToString(" -> ") { it -> "\"" + it.name + '\"' }
+            val line = types.joinToString(" -> ") { "\"" + it.name + '\"' }
 
             writeToOutput(out, line)
             //            writeToOutput(out, line.joinToString {  " -> " })
@@ -94,30 +93,29 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         objects
             .sorted()
             .forEach { dependencyObject: BaseDependencyObject ->
-                val name = dependencyObject.ranking
-                val ranking = Ranking.valueOf(name)
-                val text = StringBuilder()
-                val notes = dependencyObject.notes
+                val ranking = Ranking.valueOf(dependencyObject.ranking)
+                val stringBuilder = StringBuilder()
+                val notes = dependencyObject.notes // GSON deserialization can have this null - todo fix it
                 val displayName: String
 
-                if (notes.isEmpty()) {
-                    displayName = dependencyObject.displayName
+                val displayText = StringBuilder(dependencyObject.displayName)
+                //todo if(showDetails){}
+                //todo if(showBirthDeathDates){}
+                if (dependencyObject is Person) {
+                    if (dependencyObject.birthDate != null) displayText.append("\\nb: ").append(dependencyObject.birthDate)
+                    if (dependencyObject.deathDate != null) displayText.append("\\nd: ").append(dependencyObject.deathDate)
                 }
-                else {
-                    val displayText = StringBuilder(dependencyObject.displayName)
-
-                    for (note in notes) {
-                        displayText.append("\\n").append(note)
-                    }
-
-                    displayName = displayText.toString()
+                for (note in notes) {
+                    displayText.append("\\n").append(note)
                 }
 
-                text.append(dependencyObject.name).append(" [label=\"").append(displayName).append('\"')
-                text.append(" shape=").append(ranking.shape)
-                text.append(" color=\"").append(ranking.color).append("\"];\n")
+                displayName = displayText.toString()
 
-                val outputText = text.toString()
+                stringBuilder.append(dependencyObject.name).append(" [label=\"").append(displayName).append('\"')
+                stringBuilder.append(" shape=").append(ranking.shape)
+                stringBuilder.append(" color=\"").append(ranking.color).append("\"];\n")
+
+                val outputText = stringBuilder.toString()
                 writeToOutput(out, outputText)
             }
         writeToOutput(out, "\n\n")
@@ -133,9 +131,9 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
             for (type in types) {
                 writeToOutput(out, "{ rank = same; \"$type\"; ")
                 objects
-                    .filter { it: BaseDependencyObject -> it.ranking == type.name }
+                    .filter { it.ranking == type.name }
                     .sorted()
-                    .forEach { it: BaseDependencyObject -> writeToOutput(out, '\"'.toString() + it.name + "\"; ") }
+                    .forEach { writeToOutput(out, '\"'.toString() + it.name + "\"; ") }
                 writeToOutput(out, "}\n")
             }
 
@@ -146,12 +144,10 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
     private fun writeObjectDependencies(objects: Collection<BaseDependencyObject>, out: DataOutputStream) {
         writeToComment(out, "Dependencies")
 
-        val names: List<String> = objects
-            .map { it.name }
+        val names = objects.map { it.name }.toSet()
         val lines: MutableList<String> = mutableListOf()
 
         objects.forEach { dependencyObject ->
-//            println(dependencyObject.toString())
             dependencyObject.dependencies
                 .filter { names.contains(it) }
                 .forEach { lines.add("${dependencyObject.name} -> $it;\n") }
@@ -163,34 +159,32 @@ class DotFileWriter(private val dotFile: File, private val doRankings: Boolean) 
         writeToOutput(out, "\n\n")
     }
 
-//    private fun writeSpouses(objects: Collection<BaseDependencyObject>, out: DataOutputStream) {
-//        val lines: MutableList<String> = mutableListOf()
-//        val names = objects
-//            .map(BaseDependencyObject::name)
-//
-//        objects
-//            .filterIsInstance<Person>()
-//            .forEach { it ->
-//                it.spouses
-//                    .filter { names.contains(it) }
-//                    .map { spouse -> it.name + " -> " + spouse + ";\n" }
-//                    .forEach(lines::add)
-//            }
-//
-//        if (lines.isNotEmpty()) {
-//            writeToComment(out, "Spouses")
-//            writeToOutput(out, "edge [color=red,arrowhead=none]\n")
-//        }
-//
-//        lines
-//            .sorted()
-//            .forEach { writeToOutput(out, it) }
-//        writeToOutput(out, "\n\n")
-//    }
+    //    private fun writeSpouses(objects: Collection<BaseDependencyObject>, out: DataOutputStream) {
+    //        val lines: MutableList<String> = mutableListOf()
+    //        val names = objects
+    //            .map(BaseDependencyObject::name)
+    //
+    //        objects
+    //            .filterIsInstance<Person>()
+    //            .forEach { it ->
+    //                it.spouses
+    //                    .filter { names.contains(it) }
+    //                    .map { spouse -> it.name + " -> " + spouse + ";\n" }
+    //                    .forEach(lines::add)
+    //            }
+    //
+    //        if (lines.isNotEmpty()) {
+    //            writeToComment(out, "Spouses")
+    //            writeToOutput(out, "edge [color=red,arrowhead=none]\n")
+    //        }
+    //
+    //        lines
+    //            .sorted()
+    //            .forEach { writeToOutput(out, it) }
+    //        writeToOutput(out, "\n\n")
+    //    }
 
-    /**
-     * method to suppress checked exceptions.
-     */
+    /** method to suppress checked exceptions. */
     private fun writeToOutput(out: DataOutputStream, text: String) {
         try {
             out.writeBytes(text)

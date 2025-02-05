@@ -125,13 +125,6 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         addEditRankingsButton.addActionListener { editRankings() }
         itemToEditCombobox.addItemListener { editExistingDataSelected(it) }
         potentialSpousesList.addListSelectionListener { handleSpouseSelected() }
-        // parentsList.addListSelectionListener(e ->
-        // {
-        // Person person = (Person) existingDataCombobox.getSelectedItem();
-        //
-        // buildParentsPanel(person);
-        // validate();
-        // });
     }
 
     /** An item in the spouses listbox has been selected - process that by
@@ -141,16 +134,10 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
         val person = itemToEditCombobox.selectedItem as Person
         val selectedValuesList = potentialSpousesList.selectedValuesList
         // clear out the list of spouses - we'll rebuild it based on the GUI list
-        //            person.spouses.clear()
+        //            person.spouses.clear() // don't - forces selection changed event
         selectedValuesList
             .map { it.name }
-            .forEach {
-                (dataSet as FamilyTreeDataSet).addMarriage(person,it)
-//                person.spouses.add(it)
-                // add the spouse name to the other way
-//                val spouse = dataSet.objectByName(it) as Person
-//                spouse.spouses.add(person.name)
-            }
+            .forEach { (dataSet as FamilyTreeDataSet).addMarriage(person,it) }
         buildSpousesPanel(person)
     }
 
@@ -342,16 +329,16 @@ class DataEditorUI internal constructor(private val dataSet: BaseDependencyDataS
 
         val model = potentialParentsList.model
         val size = model.size
-        val matchingIndicies: MutableList<Int> = mutableListOf()
+        val matchingIndices: MutableList<Int> = mutableListOf()
         for (index in 0 until size) {
             val elementAt = model.getElementAt(index)
             if (dependencies.contains(elementAt)) {
-                matchingIndicies.add(index)
+                matchingIndices.add(index)
             }
         }
 
-        potentialParentsList.setSelectedIndices(matchingIndicies.toIntArray())
-        matchingIndicies.forEach { potentialParentsList.ensureIndexIsVisible(it) }
+        potentialParentsList.setSelectedIndices(matchingIndices.toIntArray())
+        matchingIndices.forEach { potentialParentsList.ensureIndexIsVisible(it) }
     }
 
     private fun setSpousesSelected(person: Person) {

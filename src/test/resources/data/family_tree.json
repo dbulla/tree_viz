@@ -14,16 +14,13 @@
       ]
     },
     "Beazley"                   : {
-      "name"        : "Beazley",
-      "displayName" : "? Beazley",
-      "notes"       : [],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "Beazley",
+      "displayName": "? Beazley",
+      "ranking"    : "Parents"
     },
     "Todd_Russell"              : {
       "name"        : "Todd_Russell",
       "displayName" : "Todd Russell",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Wylene",
@@ -33,8 +30,11 @@
     "douglas_bullard"           : {
       "name"        : "douglas_bullard",
       "displayName" : "Douglas Gary Bullard",
+      "birthDate"   : "September 9, 1959 St. Paul, Minnesota",
       "notes"       : [
-        "b. September 9, 1959 St. Paul, Minnesota"
+        "BS Aero Eng 1984",
+        "BS Comp Sci 1994",
+        "Licensed VFR pilot"
       ],
       "ranking"     : "Contemporaries",
       "dependencies": [
@@ -45,7 +45,6 @@
     "Katherine_Bullard"         : {
       "name"        : "Katherine_Bullard",
       "displayName" : "Katherine Bullard",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Drucilla",
@@ -53,18 +52,16 @@
       ]
     },
     "Ruth_Nemetz"               : {
-      "name"        : "Ruth_Nemetz",
-      "displayName" : "Ruth Nemetz",
-      "notes"       : [
+      "name"       : "Ruth_Nemetz",
+      "displayName": "Ruth Nemetz",
+      "notes"      : [
         "m. Wylie 1921"
       ],
-      "ranking"     : "Grandparents",
-      "dependencies": []
+      "ranking"    : "Grandparents"
     },
     "Richard_Pou"               : {
       "name"        : "Richard_Pou",
       "displayName" : "Richard Pou (Dickie)(adopted)",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Mattie_Bess_Russell",
@@ -74,9 +71,6 @@
     "Thelma_Floy_Russell"       : {
       "name"        : "Thelma_Floy_Russell",
       "displayName" : "Thelma Floy (twin)",
-      "notes"       : [
-        "m. Dallas, Dallas County, Texas April 13, 1934"
-      ],
       "ranking"     : "Parents",
       "dependencies": [
         "Mary_Ola_Bullard",
@@ -84,11 +78,9 @@
       ]
     },
     "Boone"                     : {
-      "name"        : "Boone",
-      "displayName" : "Boone",
-      "notes"       : [],
-      "ranking"     : "Contemporaries",
-      "dependencies": []
+      "name"       : "Boone",
+      "displayName": "Boone",
+      "ranking"    : "Contemporaries"
     },
     "Josephine_Warren"          : {
       "name"        : "Josephine_Warren",
@@ -105,7 +97,6 @@
     "elisabeth_elliot"          : {
       "name"        : "elisabeth_elliot",
       "displayName" : "Elisabeth Elliot",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Helen_Johnson",
@@ -113,16 +104,13 @@
       ]
     },
     "Oscar_Harvey_Bryant"       : {
-      "name"        : "Oscar_Harvey_Bryant",
-      "displayName" : "Oscar Harvey Bryant",
-      "notes"       : [],
-      "ranking"     : "Contemporaries",
-      "dependencies": []
+      "name"       : "Oscar_Harvey_Bryant",
+      "displayName": "Oscar Harvey Bryant",
+      "ranking"    : "Contemporaries"
     },
     "Tonya_Russell"             : {
       "name"        : "Tonya_Russell",
       "displayName" : "Tonya Russell",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Wylene",
@@ -130,19 +118,15 @@
       ]
     },
     "John_Henry_Byars"          : {
-      "name"        : "John_Henry_Byars",
-      "displayName" : "John Henry Byars",
-      "notes"       : [
-        "b.Brown County, Texas July 28, 1895",
-        "d. Fort Worth, Tarrant County, Texas on March 7, 1954"
-      ],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "John_Henry_Byars",
+      "displayName": "John Henry Byars",
+      "birthDate"  : "Brown County, Texas July 28, 1895",
+      "deathDate"  : "Fort Worth, Tarrant County, Texas on March 7, 1954",
+      "ranking"    : "Parents"
     },
     "Adrienne_Stuhler"          : {
       "name"        : "Adrienne_Stuhler",
       "displayName" : "Adrienne Bullard",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Ruth_Nemetz",
@@ -152,7 +136,6 @@
     "Troy_Russell_II"           : {
       "name"        : "Troy_Russell_II",
       "displayName" : "Troy Russell",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Wylene",
@@ -162,10 +145,8 @@
     "Mary_Ola_Bullard"          : {
       "name"        : "Mary_Ola_Bullard",
       "displayName" : "Mary Ola Bullard",
-      "notes"       : [
-        "b. greenwood, Sebastian County, Arkansas October 27, 1873",
-        "d. Weatherford, Parker County, Texas, December 27, 1949"
-      ],
+      "birthDate"   : "Greenwood, Sebastian County, Arkansas October 27, 1873",
+      "deathDate"   : "Weatherford, Parker County, Texas, December 27, 1949",
       "ranking"     : "Grandparents",
       "dependencies": [
         "Rachel_Sarah_Carter",
@@ -175,17 +156,14 @@
     "Sarah_Bullard"             : {
       "name"        : "Sarah_Bullard",
       "displayName" : "Sarah Bullard",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
-        "Geraldine",
-        "Robert_Lee_Bullard"
+        "Geraldine"
       ]
     },
     "Dorothy_Jean_Stevenson"    : {
       "name"        : "Dorothy_Jean_Stevenson",
       "displayName" : "Dorothy Jean Stevenson",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Jasper_Porter_Stevenson",
@@ -193,28 +171,22 @@
       ]
     },
     "Chris"                     : {
-      "name"        : "Chris",
-      "displayName" : "Chris",
-      "notes"       : [],
-      "ranking"     : "Contemporaries",
-      "dependencies": []
+      "name"       : "Chris",
+      "displayName": "Chris",
+      "ranking"    : "Contemporaries"
     },
     "Sarah_Lewis"               : {
-      "name"        : "Sarah_Lewis",
-      "displayName" : "Sarah Lewis",
-      "notes"       : [
-        "Either 1/4 Cherokee or",
-        "Full-blooded Cree Indian.  Her father's entire family",
-        "was banished from their tribe.",
-        "She was adopted by Christian missionaries."
+      "name"       : "Sarah_Lewis",
+      "displayName": "Sarah Lewis",
+      "notes"      : [
+        "Either 1/4 Cherokee or full-blooded Cree Indian.  Her father's entire family",
+        "was banished from their tribe.  She was adopted by Christian missionaries."
       ],
-      "ranking"     : "Great-Great Grandparents",
-      "dependencies": []
+      "ranking"    : "Great-Great Grandparents"
     },
     "Lynn_Champion"             : {
       "name"        : "Lynn_Champion",
       "displayName" : "Lynn Champion",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Willis_Grover_Champion",
@@ -222,18 +194,14 @@
       ]
     },
     "Garvice_Lynn_Pou"          : {
-      "name"        : "Garvice_Lynn_Pou",
-      "displayName" : "Garvice Lynn Pou",
-      "notes"       : [
-        " b. May 1, 1911"
-      ],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "Garvice_Lynn_Pou",
+      "displayName": "Garvice Lynn Pou",
+      "birthDate"  : "May 1, 1911",
+      "ranking"    : "Parents"
     },
     "Marta_Champion"            : {
       "name"        : "Marta_Champion",
       "displayName" : "Marta Champion",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Marylene",
@@ -243,7 +211,6 @@
     "Harry_Stevenson"           : {
       "name"        : "Harry_Stevenson",
       "displayName" : "Harry Stevenson",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Jasper_Porter_Stevenson",
@@ -251,41 +218,29 @@
       ]
     },
     "Jerusha_Bullard"           : {
-      "name"        : "Jerusha_Bullard",
-      "displayName" : "Jerusha Bullard",
-      "notes"       : [],
-      "ranking"     : "Great-Great Grandparents",
-      "dependencies": []
+      "name"       : "Jerusha_Bullard",
+      "displayName": "Jerusha Bullard",
+      "ranking"    : "Great-Great Grandparents"
     },
     "Helen_Ruth_McGee"          : {
-      "name"        : "Helen_Ruth_McGee",
-      "displayName" : "Helen Ruth McGee (Babe)",
-      "notes"       : [],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "Helen_Ruth_McGee",
+      "displayName": "Helen Ruth McGee (Babe)",
+      "ranking"    : "Parents"
     },
     "Wylene"                    : {
-      "name"        : "Wylene",
-      "displayName" : "Wylene",
-      "notes"       : [],
-      "ranking"     : "Contemporaries",
-      "dependencies": []
+      "name"       : "Wylene",
+      "displayName": "Wylene",
+      "ranking"    : "Contemporaries"
     },
     "Geraldine"                 : {
-      "name"        : "Geraldine",
-      "displayName" : "Gerry",
-      "notes"       : [],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "Geraldine",
+      "displayName": "Gerry",
+      "ranking"    : "Parents"
     },
     "Melissa_Bullard"           : {
       "name"        : "Melissa_Bullard",
       "displayName" : "Melissa Bullard (Lissie)",
-      "notes"       : [
-        "b. Arkansas 1878",
-        "d. ????",
-        "m. Harry Warren December 23 1898 in Mineral Wells Palo Pinto County, Texas"
-      ],
+      "birthDate"   : "Arkansas 1878",
       "ranking"     : "Grandparents",
       "dependencies": [
         "Rachel_Sarah_Carter",
@@ -295,10 +250,8 @@
     "Wiley_Petit_Bullard"       : {
       "name"        : "Wiley_Petit_Bullard",
       "displayName" : "Wiley Petit Bullard",
-      "notes"       : [
-        "b. August 2, 1852 p. Brazos County, Texas",
-        "d. Breckenridge, Stephens County, Texas September 17, 1927"
-      ],
+      "birthDate"   : "August 2, 1852 Brazos County, Texas",
+      "deathDate"   : "September 17, 1927 Breckenridge, Stephens County, Texas",
       "ranking"     : "Great Grandparents",
       "dependencies": [
         "Jerusha_Bullard",
@@ -308,10 +261,8 @@
     "donn_bullard"              : {
       "name"        : "donn_bullard",
       "displayName" : "Donn Wiley Bullard",
-      "notes"       : [
-        "b. Dec 4, 1925",
-        "d. Nov 3, 1995"
-      ],
+      "birthDate"   : "Dec 4, 1925 White Bear Lake, Minnesota",
+      "deathDate"   : "Nov 3, 1995 Albuquerque, New Mexico",
       "ranking"     : "Parents",
       "dependencies": [
         "Ruth_Nemetz",
@@ -319,16 +270,13 @@
       ]
     },
     "Marylene"                  : {
-      "name"        : "Marylene",
-      "displayName" : "Marylene",
-      "notes"       : [],
-      "ranking"     : "Contemporaries",
-      "dependencies": []
+      "name"       : "Marylene",
+      "displayName": "Marylene",
+      "ranking"    : "Contemporaries"
     },
     "Sarita_Bullard"            : {
       "name"        : "Sarita_Bullard",
       "displayName" : "Sarita Bullard",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Julia_Cano",
@@ -336,32 +284,24 @@
       ]
     },
     "Russell"                   : {
-      "name"        : "Russell",
-      "displayName" : "Russell ???",
-      "notes"       : [],
-      "ranking"     : "Great Grandparents",
-      "dependencies": []
+      "name"       : "Russell",
+      "displayName": "Russell ???",
+      "ranking"    : "Great Grandparents"
     },
     "Willis_Grover_Champion"    : {
-      "name"        : "Willis_Grover_Champion",
-      "displayName" : "Willis Grover Champion (Champ)",
-      "notes"       : [
-        "d. Tarrant County, Texas August 1972??"
-      ],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "Willis_Grover_Champion",
+      "displayName": "Willis Grover Champion (Champ)",
+      "deathDate"  : "August 1972?? Tarrant County, Texas",
+      "ranking"    : "Parents"
     },
     "Drucilla"                  : {
-      "name"        : "Drucilla",
-      "displayName" : "Drucilla",
-      "notes"       : [],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "Drucilla",
+      "displayName": "Drucilla",
+      "ranking"    : "Parents"
     },
     "Christine_Bullard"         : {
       "name"        : "Christine_Bullard",
       "displayName" : "Christine Bullard",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Drucilla",
@@ -371,7 +311,6 @@
     "John_Carter_Bullard"       : {
       "name"        : "John_Carter_Bullard",
       "displayName" : "John Carter Bullard",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Ruth_Nemetz",
@@ -381,10 +320,8 @@
     "Jasper_Porter_Stevenson_Jr": {
       "name"        : "Jasper_Porter_Stevenson_Jr",
       "displayName" : "Jasper Porter Stevenson, Jr.",
-      "notes"       : [
-        "b. July 11, 1922",
-        "d. October 13, 1969"
-      ],
+      "birthDate"   : "July 11, 1922",
+      "deathDate"   : "October 13, 1969",
       "ranking"     : "Children",
       "dependencies": [
         "Jasper_Porter_Stevenson",
@@ -394,7 +331,6 @@
     "Donna_Bryant"              : {
       "name"        : "Donna_Bryant",
       "displayName" : "Donna Bryant Bryant",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Oscar_Harvey_Bryant",
@@ -402,30 +338,23 @@
       ]
     },
     "Robert_Allen_Beazley"      : {
-      "name"        : "Robert_Allen_Beazley",
-      "displayName" : "Robert Allen Beazley",
-      "notes"       : [],
-      "ranking"     : "Contemporaries",
-      "dependencies": []
+      "name"       : "Robert_Allen_Beazley",
+      "displayName": "Robert Allen Beazley",
+      "ranking"    : "Contemporaries"
     },
     "Paul_Bullard"              : {
       "name"        : "Paul_Bullard",
       "displayName" : "Paul Bullard",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
-        "Geraldine",
-        "Robert_Lee_Bullard"
+        "Geraldine"
       ]
     },
     "James_Thomas_Bullard"      : {
       "name"        : "James_Thomas_Bullard",
       "displayName" : "James Thomas Bullard",
-      "notes"       : [
-        "b. 1875, Arkansas",
-        "dl. 1945 ",
-        "m. October 28, 1900 in Mineral Wells, Palo Pinto County, Texas"
-      ],
+      "birthDate"   : "1875, Arkansas",
+      "deathDate"   : "1945",
       "ranking"     : "Grandparents",
       "dependencies": [
         "Rachel_Sarah_Carter",
@@ -435,7 +364,6 @@
     "Ruth_Warren"               : {
       "name"        : "Ruth_Warren",
       "displayName" : "Ruth Warren",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Melissa_Bullard",
@@ -445,7 +373,6 @@
     "Robert_Lee_Bullard"        : {
       "name"        : "Robert_Lee_Bullard",
       "displayName" : "Robert Lee Bullard",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Ruth_Nemetz",
@@ -453,19 +380,15 @@
       ]
     },
     "Virginia"                  : {
-      "name"        : "Virginia",
-      "displayName" : "Virginia",
-      "notes"       : [],
-      "ranking"     : "Contemporaries",
-      "dependencies": []
+      "name"       : "Virginia",
+      "displayName": "Virginia",
+      "ranking"    : "Contemporaries"
     },
     "Wylie_Aubrey_Bullard"      : {
       "name"        : "Wylie_Aubrey_Bullard",
       "displayName" : "Wylie Aubrey Bullard",
-      "notes"       : [
-        "b. on December 31, 1899 Whitt, Parker County, Texas",
-        "d. November 17 1982 Dallas, Dallas County, Texas"
-      ],
+      "birthDate"   : "December 31, 1899 Whitt, Parker County, Texas",
+      "deathDate"   : "November 17 1982 Dallas, Dallas County, Texas",
       "ranking"     : "Grandparents",
       "dependencies": [
         "Rachel_Sarah_Carter",
@@ -473,19 +396,15 @@
       ]
     },
     "John_Pou"                  : {
-      "name"        : "John_Pou",
-      "displayName" : "John Pou",
-      "notes"       : [],
-      "ranking"     : "Children",
-      "dependencies": []
+      "name"       : "John_Pou",
+      "displayName": "John Pou",
+      "ranking"    : "Children"
     },
     "Minnie_Wylma_Russell"      : {
       "name"        : "Minnie_Wylma_Russell",
       "displayName" : "Minnie Wylma Bullard",
-      "notes"       : [
-        "b.Bowie, Borden County, Texas July 24 1900",
-        "d. Fort Worth, Tarrant County, Texas June 9, 1984"
-      ],
+      "birthDate"   : "July 24 1900 Bowie, Borden County, Texas",
+      "deathDate"   : "June 9, 1984 Fort Worth, Tarrant County, Texas ",
       "ranking"     : "Parents",
       "dependencies": [
         "Mary_Ola_Bullard",
@@ -495,7 +414,6 @@
     "Kurt_Stuhler"              : {
       "name"        : "Kurt_Stuhler",
       "displayName" : "Kurt Conrad Stuhler",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Adrienne_Stuhler",
@@ -505,7 +423,6 @@
     "Wilma_Mae_Byars"           : {
       "name"        : "Wilma_Mae_Byars",
       "displayName" : "Wilma Mae Byars",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Minnie_Wylma_Russell",
@@ -515,7 +432,6 @@
     "Russell_Champion"          : {
       "name"        : "Russell_Champion",
       "displayName" : "Russell Champion",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Marylene",
@@ -525,9 +441,7 @@
     "bruce_bullard"             : {
       "name"        : "bruce_bullard",
       "displayName" : "Bruce Elliot Bullard",
-      "notes"       : [
-        "b. November 30, 1957 St. Paul, Minnesota"
-      ],
+      "birthDate"   : "November 30, 1957 St. Paul, Minnesota",
       "ranking"     : "Contemporaries",
       "dependencies": [
         "elisabeth_elliot",
@@ -535,19 +449,15 @@
       ]
     },
     "Julia_Cano"                : {
-      "name"        : "Julia_Cano",
-      "displayName" : "Julia Cano",
-      "notes"       : [],
-      "ranking"     : "Grandparents",
-      "dependencies": []
+      "name"       : "Julia_Cano",
+      "displayName": "Julia Cano",
+      "ranking"    : "Grandparents"
     },
     "Elmer_Troy_Russell"        : {
       "name"        : "Elmer_Troy_Russell",
       "displayName" : "Elmer Troy Russell (twin)",
-      "notes"       : [
-        "b. Gail, Texas October 1, 1909\\d. Fort Worth, Tarrant County, Texas, May 12, 1979",
-        "m. Goldie Lee Latham in Weatherford, Parker County, Texas November 8, 1935"
-      ],
+      "birthDate"   : "October 1, 1909 Gail, Texas",
+      "deathDate"   : "May 12, 1979 Fort Worth, Tarrant County, Texas",
       "ranking"     : "Parents",
       "dependencies": [
         "Mary_Ola_Bullard",
@@ -557,7 +467,6 @@
     "Rosemary_Russell"          : {
       "name"        : "Rosemary_Russell",
       "displayName" : "Rosemary Russell",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Helen_Ruth_McGee",
@@ -567,7 +476,6 @@
     "Cecil_Warren"              : {
       "name"        : "Cecil_Warren",
       "displayName" : "Cecil Warren",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Melissa_Bullard",
@@ -577,10 +485,8 @@
     "Elmer_Hasque_Russell"      : {
       "name"        : "Elmer_Hasque_Russell",
       "displayName" : "Elmer Hasque Russell",
-      "notes"       : [
-        "b. Scyene, Dallas County, Texas September 6, 1873",
-        "d. Lovington, New Mexico June 10, 1956"
-      ],
+      "birthDate"   : "September 6, 1873 Scyene, Dallas County, Texas",
+      "deathDate"   : "June 10, 1956 Lovington, New Mexico",
       "ranking"     : "Grandparents",
       "dependencies": [
         "Russell"
@@ -589,7 +495,6 @@
     "Russell_Warren"            : {
       "name"        : "Russell_Warren",
       "displayName" : "Russell Warren",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Melissa_Bullard",
@@ -597,16 +502,13 @@
       ]
     },
     "John_Carter"               : {
-      "name"        : "John_Carter",
-      "displayName" : "John Carter",
-      "notes"       : [],
-      "ranking"     : "Great-Great Grandparents",
-      "dependencies": []
+      "name"       : "John_Carter",
+      "displayName": "John Carter",
+      "ranking"    : "Great-Great Grandparents"
     },
     "Richard_Champion"          : {
       "name"        : "Richard_Champion",
       "displayName" : "Richard Champion",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Willis_Grover_Champion",
@@ -616,10 +518,8 @@
     "Jewell_Mary"               : {
       "name"        : "Jewell_Mary",
       "displayName" : "Jewell Mary Russell",
-      "notes"       : [
-        "b.Mineral Wells, Palo Pinto County, Texas January 19, 1903",
-        "d. September 19, 1919(Typhoid Fever)"
-      ],
+      "birthDate"   : "January 19, 1903 Mineral Wells, Palo Pinto County, Texas",
+      "deathDate"   : "September 19, 1919 (Typhoid Fever)",
       "ranking"     : "Parents",
       "dependencies": [
         "Mary_Ola_Bullard",
@@ -627,16 +527,13 @@
       ]
     },
     "James_Bullard"             : {
-      "name"        : "James_Bullard",
-      "displayName" : "James R. S. Bullard",
-      "notes"       : [],
-      "ranking"     : "Great-Great Grandparents",
-      "dependencies": []
+      "name"       : "James_Bullard",
+      "displayName": "James R. S. Bullard",
+      "ranking"    : "Great-Great Grandparents"
     },
     "Troy_Russell"              : {
       "name"        : "Troy_Russell",
       "displayName" : "Troy Russell",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Goldie_Lee_Latham",
@@ -646,7 +543,6 @@
     "Christina_Champion"        : {
       "name"        : "Christina_Champion",
       "displayName" : "Christina Champion",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Robert_Champion",
@@ -654,18 +550,16 @@
       ]
     },
     "Elizabeth_Warren"          : {
-      "name"        : "Elizabeth_Warren",
-      "displayName" : "Elizabeth Warren",
-      "notes"       : [
+      "name"       : "Elizabeth_Warren",
+      "displayName": "Elizabeth Warren",
+      "notes"      : [
         "d. 21 months"
       ],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "ranking"    : "Parents"
     },
     "Mary_Sue_Champion"         : {
       "name"        : "Mary_Sue_Champion",
       "displayName" : "Mary Sue Champion",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Willis_Grover_Champion",
@@ -673,26 +567,18 @@
       ]
     },
     "Harry_Warren"              : {
-      "name"        : "Harry_Warren",
-      "displayName" : "Harry Warren",
-      "notes"       : [
-        "b. ???",
-        "d. ???"
-      ],
-      "ranking"     : "Grandparents",
-      "dependencies": []
+      "name"       : "Harry_Warren",
+      "displayName": "Harry Warren",
+      "ranking"    : "Grandparents"
     },
     "Richard_Beazley"           : {
-      "name"        : "Richard_Beazley",
-      "displayName" : "Richard Beazley",
-      "notes"       : [],
-      "ranking"     : "Children",
-      "dependencies": []
+      "name"       : "Richard_Beazley",
+      "displayName": "Richard Beazley",
+      "ranking"    : "Children"
     },
     "Helen_Johnson"             : {
       "name"        : "Helen_Johnson",
       "displayName" : "Helen Johnson",
-      "notes"       : [],
       "ranking"     : "Grandparents",
       "dependencies": [
         "Clarence_Johnson",
@@ -702,19 +588,16 @@
     "Clarence_Johnson"          : {
       "name"       : "Clarence_Johnson",
       "displayName": "Clarence Johnson",
-      "notes"      : [],
       "ranking"    : "Great Grandparents"
     },
     "Molly_Johnson"             : {
       "name"       : "Molly_Johnson",
       "displayName": "Molly Johnson",
-      "notes"      : [],
       "ranking"    : "Great Grandparents"
     },
     "Robert_Champion"           : {
       "name"        : "Robert_Champion",
       "displayName" : "Robert Champion",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Willis_Grover_Champion",
@@ -724,10 +607,7 @@
     "Rachel_Violene_Russell"    : {
       "name"        : "Rachel_Violene_Russell",
       "displayName" : "Rachel Violene Bullard (Rada)",
-      "notes"       : [
-        "b. Mineral Wells, Palo Pinto County, Texas August 25, 1898",
-        "d. ???"
-      ],
+      "birthDate"   : "August 25, 1898 Mineral Wells, Palo Pinto County, Texas",
       "ranking"     : "Parents",
       "dependencies": [
         "Mary_Ola_Bullard",
@@ -735,16 +615,13 @@
       ]
     },
     "George_Stuhler"            : {
-      "name"        : "George_Stuhler",
-      "displayName" : "George Stuhler",
-      "notes"       : [],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "George_Stuhler",
+      "displayName": "George Stuhler",
+      "ranking"    : "Parents"
     },
     "Ruby_Bullard"              : {
       "name"        : "Ruby_Bullard",
       "displayName" : "Ruby Bullard",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Elizabeth_Grant_Russell",
@@ -752,19 +629,15 @@
       ]
     },
     "Charles_Delevan_Elliot"    : {
-      "name"        : "Charles_Delevan_Elliot",
-      "displayName" : "Charles Delevan Elliot",
-      "notes"       : [],
-      "ranking"     : "Grandparents",
-      "dependencies": []
+      "name"       : "Charles_Delevan_Elliot",
+      "displayName": "Charles Delevan Elliot",
+      "ranking"    : "Grandparents"
     },
     "Elizabeth_Grant_Russell"   : {
       "name"        : "Elizabeth_Grant_Russell",
       "displayName" : "Elizabeth Grant Russell (Bessie)",
-      "notes"       : [
-        "b. March 12, 1880 Scyene, Dallas County, Texas",
-        "b. Houston, Harris County, Texas January 25, 1968"
-      ],
+      "birthDate"   : "March 12, 1880 Scyene, Dallas County, Texas",
+      "deathDate"   : "January 25, 1968 Houston, Harris County, Texas",
       "ranking"     : "Grandparents",
       "dependencies": [
         "Russell"
@@ -773,11 +646,7 @@
     "Doyle_Clinton_Russell"     : {
       "name"        : "Doyle_Clinton_Russell",
       "displayName" : "Doyle Clinton Russell (Clint)",
-      "notes"       : [
-        "b. Treadway, Texas March 5, 1907",
-        "m. Ruby Esther Gregory in Weatherford, Texas May 11, 1935",
-        "m. Helen Ruth McGee in Fort Worth, Tarrant County, Texas June 13, 1942"
-      ],
+      "birthDate"   : "March 5, 1907 Treadway, Texas",
       "ranking"     : "Parents",
       "dependencies": [
         "Mary_Ola_Bullard",
@@ -785,20 +654,15 @@
       ]
     },
     "Mattie_Bess_Russell"       : {
-      "name"        : "Mattie_Bess_Russell",
-      "displayName" : "Mattie Bess Russell",
-      "notes"       : [
-        "b. Lovington, New Mexico October 24, 1912",
-        "m.Garvice Lynn Pou October 19, 1940 Dallas, Dallas County, Texas",
-        "d. February 22, 1988"
-      ],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "Mattie_Bess_Russell",
+      "displayName": "Mattie Bess Russell",
+      "birthDate"  : "October 24, 1912 Lovington, New Mexico",
+      "deathDate"  : "February 22, 1988",
+      "ranking"    : "Parents"
     },
     "Carla_Champion"            : {
       "name"        : "Carla_Champion",
       "displayName" : "Carla Champion",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Marylene",
@@ -808,7 +672,6 @@
     "Laura_Lynn_Pou"            : {
       "name"        : "Laura_Lynn_Pou",
       "displayName" : "Laura Lynn Pou",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Chris",
@@ -818,7 +681,6 @@
     "Bradford_Bullard"          : {
       "name"        : "Bradford_Bullard",
       "displayName" : "Bradford Bullard",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Drucilla",
@@ -826,19 +688,15 @@
       ]
     },
     "Jasper_Porter_Stevenson"   : {
-      "name"        : "Jasper_Porter_Stevenson",
-      "displayName" : "Jasper Porter Stevenson",
-      "notes"       : [
-        "b. 1899",
-        "d. 1925"
-      ],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "Jasper_Porter_Stevenson",
+      "displayName": "Jasper Porter Stevenson",
+      "birthDate"  : "1899",
+      "deathDate"  : "1925",
+      "ranking"    : "Parents"
     },
     "Roberta_Byars"             : {
       "name"        : "Roberta_Byars",
       "displayName" : "Roberta Byars",
-      "notes"       : [],
       "ranking"     : "Contemporaries",
       "dependencies": [
         "Minnie_Wylma_Russell",
@@ -848,7 +706,6 @@
     "Trent_Russell"             : {
       "name"        : "Trent_Russell",
       "displayName" : "Trent Russell",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Wylene",
@@ -858,7 +715,6 @@
     "Clayton_Champion"          : {
       "name"        : "Clayton_Champion",
       "displayName" : "Clayton Champion",
-      "notes"       : [],
       "ranking"     : "Children",
       "dependencies": [
         "Marylene",
@@ -868,16 +724,13 @@
       ]
     },
     "Goldie_Lee_Latham"         : {
-      "name"        : "Goldie_Lee_Latham",
-      "displayName" : "Goldie Lee Latham",
-      "notes"       : [],
-      "ranking"     : "Parents",
-      "dependencies": []
+      "name"       : "Goldie_Lee_Latham",
+      "displayName": "Goldie Lee Latham",
+      "ranking"    : "Parents"
     },
     "Leonard_Warren"            : {
       "name"        : "Leonard_Warren",
       "displayName" : "Leonard Warren",
-      "notes"       : [],
       "ranking"     : "Parents",
       "dependencies": [
         "Melissa_Bullard",
@@ -926,8 +779,9 @@
   ],
   "marriages"   : [
     {
-      "person1": "Thelma_Floy_Russell",
-      "person2": "Willis_Grover_Champion"
+      "person1"     : "Thelma_Floy_Russell",
+      "person2"     : "Willis_Grover_Champion",
+      "marriageDate": "Dallas, Dallas County, Texas April 13, 1934"
     },
     {
       "person1": "Robert_Lee_Bullard",
@@ -944,6 +798,46 @@
     {
       "person1": "Jasper_Porter_Stevenson",
       "person2": "Ruby_Bullard"
+    },
+    {
+      "person1"     : "Wylie_Aubrey_Bullard",
+      "person2"     : "Ruth_Nemetz",
+      "marriageDate": "1921"
+    },
+    {
+      "person1"     : "Wylie_Aubrey_Bullard",
+      "person2"     : "Julia_Cano",
+      "marriageDate": "????"
+    },
+    {
+      "person1"     : "Melissa_Bullard",
+      "person2"     : "Harry_Warren",
+      "marriageDate": "December 23 1898 Mineral Wells, Palo Pinto County, Texas"
+    },
+    {
+      "person1"     : "James_Thomas_Bullard",
+      "person2"     : "Elizabeth_Grant_Russell",
+      "marriageDate": "October 28, 1900 Mineral Wells, Palo Pinto County, Texas"
+    },
+    {
+      "person1"     : "Elmer_Troy_Russell",
+      "person2"     : "Goldie_Lee_Latham",
+      "marriageDate": "November 8, 1935 Weatherford, Parker County, Texas"
+    },
+    {
+      "person1"     : "Doyle_Clinton_Russell",
+      "person2"     : "Helen_Ruth_McGee",
+      "marriageDate": "May 11, 1935 Weatherford, Texas"
+    },
+    {
+      "person1"     : "Doyle_Clinton_Russell",
+      "person2"     : "Ruby Esther Gregory",
+      "marriageDate": "June 13, 1942 Fort Worth, Tarrant County, Texas"
+    },
+    {
+      "person1"     : "Mattie_Bess_Russell",
+      "person2"     : "Garvice_Lynn_Pou",
+      "marriageDate": "October 19, 1940 Dallas, Dallas County, Texas"
     }
   ]
 }

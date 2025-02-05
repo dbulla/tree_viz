@@ -11,11 +11,11 @@ import java.io.IOException
 import java.lang.reflect.Type
 import java.nio.charset.Charset
 
+
 class JsonFileReader : DataFileReader() {
 
     override fun parseLines(): BaseDependencyDataSet {
-        val gsonBuilder = GsonBuilder()
-        val gson = gsonBuilder.create()
+        val gson = GsonBuilder().create()
 
         // determine if it's a family tree BEFORE determining which type of data set
         val lines: List<String> = try {

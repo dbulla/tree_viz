@@ -1,11 +1,12 @@
 package com.nurflugel.dependencyvisualizer.data.dataset
 
-//class Marriage(val person1: String, val person2: String, val marriageDate: LocalDate?) {
-class Marriage(val person1: String, val person2: String) {
-//    constructor(person1: String, person2: String) : this(person1, person2, null) // no specified marriage date
+class Marriage(private val person1: String, private val person2: String, val marriageDate: String?) {
+    //class Marriage(private val person1: String, private val person2: String) {
+
+    constructor(person1: String, person2: String) : this(person1, person2, null)
 
     /** check if these people are married */
-    fun hasMarried(person1: String, person2: String): Boolean {
+    fun wereMarried(person1: String, person2: String): Boolean {
         return (person1 == this.person1 && person2 == this.person2) || (person1 == this.person2 && person2 == this.person1)
     }
 
@@ -23,6 +24,6 @@ class Marriage(val person1: String, val person2: String) {
     }
 
     override fun toString(): String {
-            return "Marriage(person1=$person1, person2=$person2)"
+        return "Marriage(person1=$person1, person2=$person2)"
     }
 }

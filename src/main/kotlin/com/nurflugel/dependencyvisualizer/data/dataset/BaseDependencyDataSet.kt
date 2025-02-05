@@ -33,9 +33,9 @@ abstract class BaseDependencyDataSet {
         else {
             baseDependencyObject = DependencyObject(trimmedName, Ranking.first().name) // todo create a new instance of the right class
 
-//            if (LOGGER.isDebugEnabled) {
-//                LOGGER.debug("Adding unregistered object: {} as object of type {}", trimmedName, baseDependencyObject.ranking)
-//            }
+            //            if (LOGGER.isDebugEnabled) {
+            //                LOGGER.debug("Adding unregistered object: {} as object of type {}", trimmedName, baseDependencyObject.ranking)
+            //            }
 
             setValue(trimmedName, baseDependencyObject)
         }
@@ -43,19 +43,15 @@ abstract class BaseDependencyDataSet {
         return baseDependencyObject
     }
 
-    /**
-     * Deserialization doesn't populate the list of ranking types, so we have to rectify it here.
-     *
-     * In addition, some dependencies aren't listed, and GSON returns those as null - make them empty instead
-     */
+    /** Deserialization doesn't populate the lists if missing, so we have to rectify it here, make them empty instead */
     @Suppress("SENSELESS_COMPARISON")
     fun rectify() {
         rankings.forEach(Consumer { ranking: Ranking -> Ranking.addRanking(ranking) })
         getObjects()
-            .filter { it.dependencies==null }// check for null dependencies, even though Kotlin thinks it can't happen
             .forEach {
-            it.dependencies= mutableSetOf()
-        }
+                if (it.dependencies == null) it.dependencies = mutableSetOf()
+                if (it.notes == null) it.notes = mutableListOf()
+            }
     }
 
     // todo very bad name - what does this do

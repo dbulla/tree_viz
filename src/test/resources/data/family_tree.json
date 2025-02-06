@@ -50,9 +50,28 @@
       ]
     },
     "Ruth_Nemetz"               : {
-      "name"       : "Ruth_Nemetz",
-      "displayName": "Ruth Nemetz",
-      "ranking"    : "Grandparents"
+      "name"        : "Ruth_Nemetz",
+      "displayName" : "Emma 'Ruth' Nemetz",
+      "birthDate"   : "April 2, 1895 Iowa",
+      "deathDate"   : "December 1966",
+      "ranking"     : "Grandparents",
+      "dependencies": [
+        "John_Nemetz",
+        "Mary_Ann_Bosh"
+      ]
+    },
+    "John_Nemetz"               : {
+      "name"       : "John_Nemetz",
+      "displayName": "John Nemetz",
+      "birthDate"  : "1868",
+      "deathDate"  : "1919",
+      "ranking"    : "Great Grandparents"
+    },
+    "Mary_Ann_Bosh"             : {
+      "name"       : "Mary_Ann_Bosh",
+      "displayName": "Mary Ann. /Ii' Bosh",
+      "birthDate"  : "1872",
+      "ranking"    : "Great Grandparents"
     },
     "Richard_Pou"               : {
       "name"        : "Richard_Pou",

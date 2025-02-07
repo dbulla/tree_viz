@@ -1,0 +1,55 @@
+//Header
+digraph G {
+node [shape=box,fontname="Arial",fontsize="10"];
+edge [fontname="Arial",fontsize="8"];
+ranksep=1.5;
+rankdir=BT;
+concentrate=true;
+
+//Ranking Enumeration
+node [shape=plaintext,fontname="Arial",fontsize="10"];
+{ "Contemporaries" -> "Parents" -> "Grandparents" }
+
+//Declarations
+Adrienne_Stuhler [label="Adrienne Bullard\nm: George Stuhler" shape=rectangle color="blue"];
+Bradford_Bullard [label="Bradford Bullard" shape=rectangle color="blue"];
+Christine_Bullard [label="Christine Bullard" shape=rectangle color="blue"];
+John_Carter_Bullard [label="John Carter Bullard" shape=rectangle color="blue"];
+Julia_Cano [label="Julia Cano\nm: Wylie Aubrey Bullard ????" shape=rectangle color="blue"];
+Katherine_Bullard [label="Katherine Bullard" shape=rectangle color="blue"];
+Kurt_Stuhler [label="Kurt Conrad Stuhler" shape=rectangle color="blue"];
+Robert_Lee_Bullard [label="Robert Lee Bullard\nm: Gerry" shape=rectangle color="blue"];
+Ruth_Nemetz [label="Emma 'Ruth' Nemetz\nb: April 2, 1895 Iowa\nd: December 1966\nm: Wylie Aubrey Bullard 1921" shape=rectangle color="blue"];
+Sarita_Bullard [label="Sarita Bullard" shape=rectangle color="blue"];
+Wylie_Aubrey_Bullard [label="Wylie Aubrey Bullard\nb: December 31, 1899 Whitt, Parker County, Texas\nd: November 17 1982 Dallas, Dallas County, Texas\nm: Emma 'Ruth' Nemetz 1921\nm: Julia Cano ????" shape=rectangle color="blue"];
+bruce_bullard [label="Bruce Elliot Bullard\nb: November 30, 1957 St. Paul, Minnesota" shape=rectangle color="blue"];
+donn_bullard [label="Donn Wiley Bullard\nb: Dec 4, 1925 White Bear Lake, Minnesota\nd: Nov 3, 1995 Albuquerque, New Mexico\nm: Elisabeth Elliot" shape=rectangle color="blue"];
+douglas_bullard [label="Douglas Gary Bullard\nb: September 9, 1959 St. Paul, Minnesota\nBS Aero Eng 1984\nBS Comp Sci 1994\nLicensed VFR pilot" shape=rectangle color="blue"];
+
+
+//Ranking groupings
+{ rank = same; "Contemporaries"; "Bradford_Bullard"; "Christine_Bullard"; "Katherine_Bullard"; "Kurt_Stuhler"; "bruce_bullard"; "douglas_bullard"; }
+{ rank = same; "Parents"; "Adrienne_Stuhler"; "John_Carter_Bullard"; "Robert_Lee_Bullard"; "Sarita_Bullard"; "donn_bullard"; }
+{ rank = same; "Grandparents"; "Julia_Cano"; "Ruth_Nemetz"; "Wylie_Aubrey_Bullard"; }
+
+
+//Dependencies
+Adrienne_Stuhler -> Ruth_Nemetz;
+Adrienne_Stuhler -> Wylie_Aubrey_Bullard;
+Bradford_Bullard -> John_Carter_Bullard;
+Christine_Bullard -> John_Carter_Bullard;
+John_Carter_Bullard -> Ruth_Nemetz;
+John_Carter_Bullard -> Wylie_Aubrey_Bullard;
+Katherine_Bullard -> John_Carter_Bullard;
+Kurt_Stuhler -> Adrienne_Stuhler;
+Robert_Lee_Bullard -> Ruth_Nemetz;
+Robert_Lee_Bullard -> Wylie_Aubrey_Bullard;
+Sarita_Bullard -> Julia_Cano;
+Sarita_Bullard -> Wylie_Aubrey_Bullard;
+bruce_bullard -> donn_bullard;
+donn_bullard -> Ruth_Nemetz;
+donn_bullard -> Wylie_Aubrey_Bullard;
+douglas_bullard -> donn_bullard;
+
+
+}

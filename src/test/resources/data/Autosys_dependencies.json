@@ -1,0 +1,1648 @@
+{
+  "isFamilyTree": false,
+  "rankings": [
+    {
+      "name": "Informix Tables",
+      "color": "yellow",
+      "shape": "ellipse",
+      "rank": 0
+    },
+    {
+      "name": "CDB Tables",
+      "color": "blue",
+      "shape": "ellipse",
+      "rank": 1
+    },
+    {
+      "name": "CDB Views",
+      "color": "blue",
+      "shape": "triangle",
+      "rank": 2
+    },
+    {
+      "name": "CDM Staging PL/SQL Scripts",
+      "color": "blue",
+      "shape": "rectangle",
+      "rank": 3
+    },
+    {
+      "name": "CDM Staging Tables",
+      "color": "green",
+      "shape": "ellipse",
+      "rank": 4
+    },
+    {
+      "name": "CDM Java Loaders",
+      "color": "green",
+      "shape": "rectangle",
+      "rank": 5
+    },
+    {
+      "name": "CDM Tables",
+      "color": "green",
+      "shape": "ellipse",
+      "rank": 6
+    }
+  ],
+  "objectsMap": {
+    "informix_apparel_prox": {
+      "name": "informix_apparel_prox",
+      "displayName": "informix_apparel_prox",
+      "notes": [
+        "Old BML tables"
+      ],
+      "ranking": "Informix Tables",
+      "dependencies": []
+    },
+    "informix_eq_asset": {
+      "name": "informix_eq_asset",
+      "displayName": "informix_eq_asset",
+      "notes": [
+        "Old BML tables"
+      ],
+      "ranking": "Informix Tables",
+      "dependencies": []
+    },
+    "informix_eq_asset_prox": {
+      "name": "informix_eq_asset_prox",
+      "displayName": "informix_eq_asset_prox",
+      "notes": [
+        "Old BML tables"
+      ],
+      "ranking": "Informix Tables",
+      "dependencies": []
+    },
+    "informix_eq_product_ref": {
+      "name": "informix_eq_product_ref",
+      "displayName": "informix_eq_product_ref",
+      "notes": [
+        "Old BML tables"
+      ],
+      "ranking": "Informix Tables",
+      "dependencies": []
+    },
+    "informix_new_apparel_image": {
+      "name": "informix_new_apparel_image",
+      "displayName": "informix_new_apparel_image",
+      "notes": [
+        "Old BML tables"
+      ],
+      "ranking": "Informix Tables",
+      "dependencies": []
+    },
+    "clsfn": {
+      "name": "clsfn",
+      "displayName": "clsfn",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "cyc": {
+      "name": "cyc",
+      "displayName": "cyc",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "cyc_nm": {
+      "name": "cyc_nm",
+      "displayName": "cyc_nm",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "cyc_typ": {
+      "name": "cyc_typ",
+      "displayName": "cyc_typ",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "fbrc_ctnt": {
+      "name": "fbrc_ctnt",
+      "displayName": "fbrc_ctnt",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "geo_area": {
+      "name": "geo_area",
+      "displayName": "geo_area",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "geo_area_reg": {
+      "name": "geo_area_reg",
+      "displayName": "geo_area_reg",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "itm": {
+      "name": "itm",
+      "displayName": "itm",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "itm_ean": {
+      "name": "itm_ean",
+      "displayName": "itm_ean",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "itm_reg_st": {
+      "name": "itm_reg_st",
+      "displayName": "itm_reg_st",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "lang": {
+      "name": "lang",
+      "displayName": "lang",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "mkt_clsfn": {
+      "name": "mkt_clsfn",
+      "displayName": "mkt_clsfn",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "mkt_str": {
+      "name": "mkt_str",
+      "displayName": "mkt_str",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "mkt_typ": {
+      "name": "mkt_typ",
+      "displayName": "mkt_typ",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "nsc_prod": {
+      "name": "nsc_prod",
+      "displayName": "nsc_prod",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "nsc_prod_reg": {
+      "name": "nsc_prod_reg",
+      "displayName": "nsc_prod_reg",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "nsc_prod_reg_cyc": {
+      "name": "nsc_prod_reg_cyc",
+      "displayName": "nsc_prod_reg_cyc",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "nsc_sty_reg_cyc": {
+      "name": "nsc_sty_reg_cyc",
+      "displayName": "nsc_sty_reg_cyc",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "nsc_size_upc_cdb_cdm_link": {
+      "name": "nsc_size_upc_cdb_cdm_link",
+      "displayName": "nsc_size_upc@cdb_cdm_link",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "pkg": {
+      "name": "pkg",
+      "displayName": "pkg",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "prc": {
+      "name": "prc",
+      "displayName": "prc",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "prc_typ": {
+      "name": "prc_typ",
+      "displayName": "prc_typ",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "prod_reg_cyc": {
+      "name": "prod_reg_cyc",
+      "displayName": "prod_reg_cyc",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "prod_typ": {
+      "name": "prod_typ",
+      "displayName": "prod_typ",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "qual_rtng": {
+      "name": "qual_rtng",
+      "displayName": "qual_rtng",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "reg": {
+      "name": "reg",
+      "displayName": "reg",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "sty": {
+      "name": "sty",
+      "displayName": "sty",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "sty_char": {
+      "name": "sty_char",
+      "displayName": "sty_char",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "sty_cyc": {
+      "name": "sty_cyc",
+      "displayName": "sty_cyc",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "sty_cyc_reg": {
+      "name": "sty_cyc_reg",
+      "displayName": "sty_cyc_reg",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "sty_reg_cyc_clsfn_org": {
+      "name": "sty_reg_cyc_clsfn_org",
+      "displayName": "sty_reg_cyc_clsfn_org",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "sz_altsz": {
+      "name": "sz_altsz",
+      "displayName": "sz_altsz",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "sz_clsfn": {
+      "name": "sz_clsfn",
+      "displayName": "sz_clsfn",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "sz_desc": {
+      "name": "sz_desc",
+      "displayName": "sz_desc",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "sz_typ": {
+      "name": "sz_typ",
+      "displayName": "sz_typ",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_gndr_age": {
+      "name": "tt_all_gndr_age",
+      "displayName": "tt_all_gndr_age",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_master_grid": {
+      "name": "tt_all_master_grid",
+      "displayName": "tt_all_master_grid",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_sales_org": {
+      "name": "tt_all_sales_org",
+      "displayName": "tt_all_sales_org",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_segment": {
+      "name": "tt_all_segment",
+      "displayName": "tt_all_segment",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_silhouette": {
+      "name": "tt_all_silhouette",
+      "displayName": "tt_all_silhouette",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "vxbt0001": {
+      "name": "vxbt0001",
+      "displayName": "vxbt0001",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "vxdm0001": {
+      "name": "vxdm0001",
+      "displayName": "vxdm0001",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "vxga0001": {
+      "name": "vxga0001",
+      "displayName": "vxga0001",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "vxgc0001": {
+      "name": "vxgc0001",
+      "displayName": "vxgc0001",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "vxum0001": {
+      "name": "vxum0001",
+      "displayName": "vxum0001",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "vzfc0001": {
+      "name": "vzfc0001",
+      "displayName": "vzfc0001",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "v_sap_ztmm_gndr_age": {
+      "name": "v_sap_ztmm_gndr_age",
+      "displayName": "v_sap_ztmm_gndr_age",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "v_sap_ztmm_prod_cat": {
+      "name": "v_sap_ztmm_prod_cat",
+      "displayName": "v_sap_ztmm_prod_cat",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "v_sap_ztmm_segment": {
+      "name": "v_sap_ztmm_segment",
+      "displayName": "v_sap_ztmm_segment",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "v_sap_ztmm_silhouette": {
+      "name": "v_sap_ztmm_silhouette",
+      "displayName": "v_sap_ztmm_silhouette",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "v_sap_ztmm_sub_cat": {
+      "name": "v_sap_ztmm_sub_cat",
+      "displayName": "v_sap_ztmm_sub_cat",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "v_sap_ztmm_typ_grp": {
+      "name": "v_sap_ztmm_typ_grp",
+      "displayName": "v_sap_ztmm_typ_grp",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_country": {
+      "name": "tt_all_country",
+      "displayName": "tt_all_country",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_language": {
+      "name": "tt_all_language",
+      "displayName": "tt_all_language",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_life_cycle": {
+      "name": "tt_all_life_cycle",
+      "displayName": "tt_all_life_cycle",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_sales_seasons": {
+      "name": "tt_all_sales_seasons",
+      "displayName": "tt_all_sales_seasons",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "tt_all_uom": {
+      "name": "tt_all_uom",
+      "displayName": "tt_all_uom",
+      "notes": [],
+      "ranking": "CDB Tables",
+      "dependencies": []
+    },
+    "cdb_prod_reg_xref": {
+      "name": "cdb_prod_reg_xref",
+      "displayName": "cdb_prod_reg_xref",
+      "notes": [],
+      "ranking": "CDB Views",
+      "dependencies": [
+        "delta_cdbProdRegXref_sql"
+      ]
+    },
+    "cdm_fbrc_ctnt": {
+      "name": "cdm_fbrc_ctnt",
+      "displayName": "cdm_fbrc_ctnt",
+      "notes": [],
+      "ranking": "CDB Views",
+      "dependencies": [
+        "fbrc_ctnt",
+        "sty",
+        "cyc",
+        "reg"
+      ]
+    },
+    "cdm_prod": {
+      "name": "cdm_prod",
+      "displayName": "cdm_prod",
+      "notes": [],
+      "ranking": "CDB Views",
+      "dependencies": [
+        "nsc_prod",
+        "prod_reg_cyc"
+      ]
+    },
+    "cdm_prod_reg": {
+      "name": "cdm_prod_reg",
+      "displayName": "cdm_prod_reg",
+      "notes": [],
+      "ranking": "CDB Views",
+      "dependencies": [
+        "nsc_prod_reg"
+      ]
+    },
+    "cdm_prod_reg_cyc": {
+      "name": "cdm_prod_reg_cyc",
+      "displayName": "cdm_prod_reg_cyc",
+      "notes": [],
+      "ranking": "CDB Views",
+      "dependencies": [
+        "cyc",
+        "nsc_prod",
+        "nsc_prod_reg",
+        "nsc_prod_reg_cyc",
+        "prod_reg_cyc",
+        "reg"
+      ]
+    },
+    "cdm_sty_reg_cyc": {
+      "name": "cdm_sty_reg_cyc",
+      "displayName": "cdm_sty_reg_cyc",
+      "notes": [],
+      "ranking": "CDB Views",
+      "dependencies": [
+        "clsfn",
+        "cyc",
+        "nsc_prod",
+        "nsc_sty_reg_cyc",
+        "reg",
+        "sty_cyc",
+        "sty_cyc_reg",
+        "sty_reg_cyc_clsfn_org",
+        "tt_all_sales_org"
+      ]
+    },
+    "delta_cdbFbrcCtnt_sql": {
+      "name": "delta_cdbFbrcCtnt_sql",
+      "displayName": "delta_cdbFbrcCtnt.sql",
+      "notes": [],
+      "ranking": "CDM Staging PL/SQL Scripts",
+      "dependencies": [
+        "cdm_fbrc_ctnt"
+      ]
+    },
+    "delta_cdbPrice_sql": {
+      "name": "delta_cdbPrice_sql",
+      "displayName": "delta_cdbPrice.sql",
+      "notes": [],
+      "ranking": "CDM Staging PL/SQL Scripts",
+      "dependencies": [
+        "cdm_prod",
+        "prc",
+        "cyc",
+        "cyc_typ",
+        "prc_typ",
+        "qual_rtng",
+        "geo_area",
+        "reg"
+      ]
+    },
+    "delta_cdbProd_sql": {
+      "name": "delta_cdbProd_sql",
+      "displayName": "delta_cdbProd.sql",
+      "notes": [],
+      "ranking": "CDM Staging PL/SQL Scripts",
+      "dependencies": [
+        "cdm_prod"
+      ]
+    },
+    "delta_cdbProdReg_sql": {
+      "name": "delta_cdbProdReg_sql",
+      "displayName": "delta_cdbProdReg.sql",
+      "notes": [],
+      "ranking": "CDM Staging PL/SQL Scripts",
+      "dependencies": [
+        "cdm_prod_reg"
+      ]
+    },
+    "delta_cdbProdRegCyc_sql": {
+      "name": "delta_cdbProdRegCyc_sql",
+      "displayName": "delta_cdbProdRegCyc.sql",
+      "notes": [],
+      "ranking": "CDM Staging PL/SQL Scripts",
+      "dependencies": [
+        "cdm_prod_reg_cyc"
+      ]
+    },
+    "delta_cdbProdRegXref_sql": {
+      "name": "delta_cdbProdRegXref_sql",
+      "displayName": "delta_cdbProdRegXref.sql",
+      "notes": [],
+      "ranking": "CDM Staging PL/SQL Scripts",
+      "dependencies": [
+        "cdb_prod_reg",
+        "cdm_region_style_color",
+        "cdm_region"
+      ]
+    },
+    "delta_nscSizeUpc_sql": {
+      "name": "delta_nscSizeUpc_sql",
+      "displayName": "delta_nscSizeUpc.sql",
+      "notes": [],
+      "ranking": "CDM Staging PL/SQL Scripts",
+      "dependencies": [
+        "nsc_size_upc_cdb_cdm_link"
+      ]
+    },
+    "cdb_fbrc_ctnt": {
+      "name": "cdb_fbrc_ctnt",
+      "displayName": "cdb_fbrc_ctnt",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "delta_cdbFbrcCtnt_sql"
+      ]
+    },
+    "cdb_price": {
+      "name": "cdb_price",
+      "displayName": "cdb_price",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "cdm_style_color",
+        "delta_cdbPrice_sql"
+      ]
+    },
+    "cdb_prod": {
+      "name": "cdb_prod",
+      "displayName": "cdb_prod",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "delta_cdbProd_sql"
+      ]
+    },
+    "cdb_prod_reg": {
+      "name": "cdb_prod_reg",
+      "displayName": "cdb_prod_reg",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "delta_cdbProdReg_sql"
+      ]
+    },
+    "cdb_prod_reg_cyc": {
+      "name": "cdb_prod_reg_cyc",
+      "displayName": "cdb_prod_reg_cyc",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "delta_cdbProdRegCyc_sql"
+      ]
+    },
+    "cdb_size_master": {
+      "name": "cdb_size_master",
+      "displayName": "cdb_size_master",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "sz_desc"
+      ]
+    },
+    "cdb_size_master_grid": {
+      "name": "cdb_size_master_grid",
+      "displayName": "cdb_size_master_grid",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "sz_desc",
+        "sz_clsfn",
+        "clsfn",
+        "tt_all_master_grid"
+      ]
+    },
+    "cdb_size_region": {
+      "name": "cdb_size_region",
+      "displayName": "cdb_size_region",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "cdb_prod_reg",
+        "cdm_prod",
+        "itm",
+        "itm_reg_st",
+        "reg"
+      ]
+    },
+    "cdb_size_translations": {
+      "name": "cdb_size_translations",
+      "displayName": "cdb_size_translations",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "clsfn",
+        "sty_char",
+        "sz_altsz",
+        "sz_desc",
+        "tt_all_gndr_age",
+        "tt_all_master_grid"
+      ]
+    },
+    "cdb_size_upc": {
+      "name": "cdb_size_upc",
+      "displayName": "cdb_size_upc",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "cdb_prod",
+        "cdm_prod",
+        "itm",
+        "itm_ean",
+        "pkg"
+      ]
+    },
+    "cdb_sty_reg_cyc": {
+      "name": "cdb_sty_reg_cyc",
+      "displayName": "cdb_sty_reg_cyc",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "cdm_sty_reg_cyc",
+        "cdm_prod_reg_cyc",
+        "cdb_prod_reg"
+      ]
+    },
+    "nsc_size_upc": {
+      "name": "nsc_size_upc",
+      "displayName": "nsc_size_upc",
+      "notes": [],
+      "ranking": "CDM Staging Tables",
+      "dependencies": [
+        "delta_nscSizeUpc_sql"
+      ]
+    },
+    "UpdatePreSalesSeason": {
+      "name": "UpdatePreSalesSeason",
+      "displayName": "UpdatePreSalesSeason",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "tt_all_sales_seasons",
+        "reg"
+      ]
+    },
+    "UpdateSalesSeason": {
+      "name": "UpdateSalesSeason",
+      "displayName": "UpdateSalesSeason",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdm_pre_sales_season"
+      ]
+    },
+    "UpdateTTAllSesnChanges": {
+      "name": "UpdateTTAllSesnChanges",
+      "displayName": "UpdateTTAllSesnChanges",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdm_sales_season",
+        "cdm_style",
+        "cdm_style_color",
+        "cdm_region_style_color",
+        "cdm_region"
+      ]
+    },
+    "UpdateProd": {
+      "name": "UpdateProd",
+      "displayName": "UpdateProd",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdb_prod"
+      ]
+    },
+    "UpdateProdReg": {
+      "name": "UpdateProdReg",
+      "displayName": "UpdateProdReg",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdb_prod_reg",
+        "cdm_language",
+        "cdm_region"
+      ]
+    },
+    "UpdateProdCategory": {
+      "name": "UpdateProdCategory",
+      "displayName": "UpdateProdCategory",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "temp_cdm_prod_category",
+        "cdm_5_5_pwb_region",
+        "cdm_sales_season"
+      ]
+    },
+    "UpdateStyleCarryOverFlag": {
+      "name": "UpdateStyleCarryOverFlag",
+      "displayName": "UpdateStyleCarryOverFlag",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdm_region_style_color_sesnyr",
+        "cdm_region_style_sesnyr"
+      ]
+    },
+    "UpdateProdRegCyc": {
+      "name": "UpdateProdRegCyc",
+      "displayName": "UpdateProdRegCyc",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdb_sty_reg_cyc",
+        "cdb_prod_reg_cyc"
+      ]
+    },
+    "UpdateFabricContent": {
+      "name": "UpdateFabricContent",
+      "displayName": "UpdateFabricContent",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdm_region_style_sesnyr",
+        "cdb_fbrc_ctnt"
+      ]
+    },
+    "UpdatePrice": {
+      "name": "UpdatePrice",
+      "displayName": "UpdatePrice",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdb_price",
+        "cdm5_5_block_prc_lst_typ_cd",
+        "cdm_sales_season",
+        "temp1_cdb_price",
+        "user_tables"
+      ]
+    },
+    "UpdateStyleSize": {
+      "name": "UpdateStyleSize",
+      "displayName": "UpdateStyleSize",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdb_size_upc",
+        "cdb_size_master",
+        "cdb_size_master_grid"
+      ]
+    },
+    "UpdateStyleColorSize": {
+      "name": "UpdateStyleColorSize",
+      "displayName": "UpdateStyleColorSize",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdb_size_upc",
+        "cdm_style_size",
+        "cdb_size_master",
+        "cdb_size_region",
+        "cdm_style_color_size",
+        "cdm_region",
+        "cdm_region_style_color"
+      ]
+    },
+    "SizeDisplayLoader": {
+      "name": "SizeDisplayLoader",
+      "displayName": "SizeDisplayLoader",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdm_style_size",
+        "nsc_size_upc"
+      ]
+    },
+    "ImageDataLoader": {
+      "name": "ImageDataLoader",
+      "displayName": "ImageDataLoader",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": []
+    },
+    "CatalogPriceRefresher": {
+      "name": "CatalogPriceRefresher",
+      "displayName": "CatalogPriceRefresher",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdm_header_style_color",
+        "cdm_master_profile",
+        "cdm_region_style_color_sesnyr",
+        "cdm_remove_header_style_color",
+        "cdm_season_year",
+        "cdm_style",
+        "cdm_style_color_price",
+        "cdm_transactional_profile",
+        "cdm_sales_season"
+      ]
+    },
+    "ImageSync": {
+      "name": "ImageSync",
+      "displayName": "ImageSync",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "informix_new_apparel_image",
+        "informix_apparel_prox",
+        "informix_eq_product_ref",
+        "informix_eq_asset",
+        "informix_eq_asset_prox"
+      ]
+    },
+    "ExportCatalogs": {
+      "name": "ExportCatalogs",
+      "displayName": "ExportCatalogs",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "cdm_catalog_delta"
+      ]
+    },
+    "UpdateBodyType": {
+      "name": "UpdateBodyType",
+      "displayName": "UpdateBodyType",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "vxbt0001"
+      ]
+    },
+    "UpdateCategory": {
+      "name": "UpdateCategory",
+      "displayName": "UpdateCategory",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "v_sap_ztmm_prod_cat"
+      ]
+    },
+    "UpdateCurrency": {
+      "name": "UpdateCurrency",
+      "displayName": "UpdateCurrency",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "vzfc0001"
+      ]
+    },
+    "UpdateGender": {
+      "name": "UpdateGender",
+      "displayName": "UpdateGender",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "vxgc0001"
+      ]
+    },
+    "UpdateGenderAge": {
+      "name": "UpdateGenderAge",
+      "displayName": "UpdateGenderAge",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "v_sap_ztmm_gndr_age",
+        "vxga0001",
+        "tt_all_gndr_age"
+      ]
+    },
+    "UpdateLifeCycle": {
+      "name": "UpdateLifeCycle",
+      "displayName": "UpdateLifeCycle",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "tt_all_life_cycle"
+      ]
+    },
+    "UpdateMarketingTypeGroup": {
+      "name": "UpdateMarketingTypeGroup",
+      "displayName": "UpdateMarketingTypeGroup",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "v_sap_ztmm_typ_grp"
+      ]
+    },
+    "UpdateMarketingType": {
+      "name": "UpdateMarketingType",
+      "displayName": "UpdateMarketingType",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "mkt_typ"
+      ]
+    },
+    "UpdateMscClsfn": {
+      "name": "UpdateMscClsfn",
+      "displayName": "UpdateMscClsfn",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "mkt_clsfn"
+      ]
+    },
+    "UpdateMsc": {
+      "name": "UpdateMsc",
+      "displayName": "UpdateMsc",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "mkt_str"
+      ]
+    },
+    "UpdatePriceTypes": {
+      "name": "UpdatePriceTypes",
+      "displayName": "UpdatePriceTypes",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "prc_typ"
+      ]
+    },
+    "UpdateProductType": {
+      "name": "UpdateProductType",
+      "displayName": "UpdateProductType",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "prod_typ"
+      ]
+    },
+    "UpdateRegion": {
+      "name": "UpdateRegion",
+      "displayName": "UpdateRegion",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "reg"
+      ]
+    },
+    "UpdateCountry": {
+      "name": "UpdateCountry",
+      "displayName": "UpdateCountry",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "geo_area",
+        "tt_all_country",
+        "reg",
+        "geo_area_reg"
+      ]
+    },
+    "UpdateSeasonYear": {
+      "name": "UpdateSeasonYear",
+      "displayName": "UpdateSeasonYear",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "tt_all_sales_seasons",
+        "cyc_nm",
+        "cyc"
+      ]
+    },
+    "UpdateSegment": {
+      "name": "UpdateSegment",
+      "displayName": "UpdateSegment",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "v_sap_ztmm_segment",
+        "tt_all_segment"
+      ]
+    },
+    "UpdateSilhouette": {
+      "name": "UpdateSilhouette",
+      "displayName": "UpdateSilhouette",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "v_sap_ztmm_silhouette",
+        "tt_all_silhouette"
+      ]
+    },
+    "UpdateSizeType": {
+      "name": "UpdateSizeType",
+      "displayName": "UpdateSizeType",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "sz_typ"
+      ]
+    },
+    "UpdateSubCategory": {
+      "name": "UpdateSubCategory",
+      "displayName": "UpdateSubCategory",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "v_sap_ztmm_sub_cat"
+      ]
+    },
+    "UpdateUom": {
+      "name": "UpdateUom",
+      "displayName": "UpdateUom",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "tt_all_uom",
+        "vxum0001"
+      ]
+    },
+    "UpdateLanguage": {
+      "name": "UpdateLanguage",
+      "displayName": "UpdateLanguage",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "tt_all_language",
+        "lang"
+      ]
+    },
+    "UpdateDimension": {
+      "name": "UpdateDimension",
+      "displayName": "UpdateDimension",
+      "notes": [],
+      "ranking": "CDM Java Loaders",
+      "dependencies": [
+        "vxdm0001"
+      ]
+    },
+    "cdm5_5_block_prc_lst_typ_cd": {
+      "name": "cdm5_5_block_prc_lst_typ_cd",
+      "displayName": "cdm5_5_block_prc_lst_typ_cd",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": []
+    },
+    "cdm_5_5_pwb_region": {
+      "name": "cdm_5_5_pwb_region",
+      "displayName": "cdm_5_5_pwb_region",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": []
+    },
+    "cdm_body_type": {
+      "name": "cdm_body_type",
+      "displayName": "cdm_body_type",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateBodyType"
+      ]
+    },
+    "cdm_catalog_delta": {
+      "name": "cdm_catalog_delta",
+      "displayName": "cdm_catalog_delta",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "CatalogPriceRefresher"
+      ]
+    },
+    "cdm_category": {
+      "name": "cdm_category",
+      "displayName": "cdm_category",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateCategory"
+      ]
+    },
+    "cdm_country": {
+      "name": "cdm_country",
+      "displayName": "cdm_country",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateCountry"
+      ]
+    },
+    "cdm_currency": {
+      "name": "cdm_currency",
+      "displayName": "cdm_currency",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateCurrency"
+      ]
+    },
+    "cdm_dimension": {
+      "name": "cdm_dimension",
+      "displayName": "cdm_dimension",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateDimension"
+      ]
+    },
+    "cdm_gender": {
+      "name": "cdm_gender",
+      "displayName": "cdm_gender",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateGender"
+      ]
+    },
+    "cdm_gender_age": {
+      "name": "cdm_gender_age",
+      "displayName": "cdm_gender_age",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateGenderAge"
+      ]
+    },
+    "cdm_header_style_color": {
+      "name": "cdm_header_style_color",
+      "displayName": "cdm_header_style_color",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": []
+    },
+    "cdm_image": {
+      "name": "cdm_image",
+      "displayName": "cdm_image",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "ImageSync"
+      ]
+    },
+    "cdm_language": {
+      "name": "cdm_language",
+      "displayName": "cdm_language",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateLanguage"
+      ]
+    },
+    "cdm_lifecycle": {
+      "name": "cdm_lifecycle",
+      "displayName": "cdm_lifecycle",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateLifeCycle"
+      ]
+    },
+    "cdm_marketing_type": {
+      "name": "cdm_marketing_type",
+      "displayName": "cdm_marketing_type",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateMarketingType"
+      ]
+    },
+    "cdm_marketing_type_group": {
+      "name": "cdm_marketing_type_group",
+      "displayName": "cdm_marketing_type_group",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateMarketingTypeGroup"
+      ]
+    },
+    "cdm_master_profile": {
+      "name": "cdm_master_profile",
+      "displayName": "cdm_master_profile",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": []
+    },
+    "cdm_msc": {
+      "name": "cdm_msc",
+      "displayName": "cdm_msc",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateMsc"
+      ]
+    },
+    "cdm_msc_clsfn": {
+      "name": "cdm_msc_clsfn",
+      "displayName": "cdm_msc_clsfn",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateMscClsfn"
+      ]
+    },
+    "cdm_pre_sales_season": {
+      "name": "cdm_pre_sales_season",
+      "displayName": "cdm_pre_sales_season",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdatePreSalesSeason"
+      ]
+    },
+    "cdm_price_types": {
+      "name": "cdm_price_types",
+      "displayName": "cdm_price_types",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdatePriceTypes"
+      ]
+    },
+    "cdm_product_type": {
+      "name": "cdm_product_type",
+      "displayName": "cdm_product_type",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProductType"
+      ]
+    },
+    "cdm_reg_style_color_size": {
+      "name": "cdm_reg_style_color_size",
+      "displayName": "cdm_reg_style_color_size",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateStyleColorSize"
+      ]
+    },
+    "cdm_reg_style_lang_aprl_sesnyr": {
+      "name": "cdm_reg_style_lang_aprl_sesnyr",
+      "displayName": "cdm_reg_style_lang_aprl_sesnyr",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateFabricContent"
+      ]
+    },
+    "cdm_region": {
+      "name": "cdm_region",
+      "displayName": "cdm_region",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateRegion"
+      ]
+    },
+    "cdm_region_style": {
+      "name": "cdm_region_style",
+      "displayName": "cdm_region_style",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProdReg",
+        "UpdateStyleCarryOverFlag"
+      ]
+    },
+    "cdm_region_style_color": {
+      "name": "cdm_region_style_color",
+      "displayName": "cdm_region_style_color",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProdReg",
+        "UpdateStyleCarryOverFlag"
+      ]
+    },
+    "cdm_region_style_color_sesnyr": {
+      "name": "cdm_region_style_color_sesnyr",
+      "displayName": "cdm_region_style_color_sesnyr",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateTTAllSesnChanges",
+        "UpdateProdReg",
+        "UpdateProdCategory",
+        "UpdateStyleCarryOverFlag",
+        "UpdateProdRegCyc"
+      ]
+    },
+    "cdm_region_style_language": {
+      "name": "cdm_region_style_language",
+      "displayName": "cdm_region_style_language",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProdReg"
+      ]
+    },
+    "cdm_region_style_language_ftwr": {
+      "name": "cdm_region_style_language_ftwr",
+      "displayName": "cdm_region_style_language_ftwr",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProdReg"
+      ]
+    },
+    "cdm_region_style_sesnyr": {
+      "name": "cdm_region_style_sesnyr",
+      "displayName": "cdm_region_style_sesnyr",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateTTAllSesnChanges",
+        "UpdateProdReg",
+        "UpdateProdCategory",
+        "UpdateStyleCarryOverFlag",
+        "UpdateProdRegCyc"
+      ]
+    },
+    "cdm_remove_header_style_color": {
+      "name": "cdm_remove_header_style_color",
+      "displayName": "cdm_remove_header_style_color",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": []
+    },
+    "cdm_sales_season": {
+      "name": "cdm_sales_season",
+      "displayName": "cdm_sales_season",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateSalesSeason"
+      ]
+    },
+    "cdm_season_year": {
+      "name": "cdm_season_year",
+      "displayName": "cdm_season_year",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateSeasonYear"
+      ]
+    },
+    "cdm_segment_code": {
+      "name": "cdm_segment_code",
+      "displayName": "cdm_segment_code",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateSegment"
+      ]
+    },
+    "cdm_silhouette": {
+      "name": "cdm_silhouette",
+      "displayName": "cdm_silhouette",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateSilhouette"
+      ]
+    },
+    "cdm_size_display": {
+      "name": "cdm_size_display",
+      "displayName": "cdm_size_display",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "SizeDisplayLoader"
+      ]
+    },
+    "cdm_size_type": {
+      "name": "cdm_size_type",
+      "displayName": "cdm_size_type",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateSizeType"
+      ]
+    },
+    "cdm_style": {
+      "name": "cdm_style",
+      "displayName": "cdm_style",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProd"
+      ]
+    },
+    "cdm_style_air_bags": {
+      "name": "cdm_style_air_bags",
+      "displayName": "cdm_style_air_bags",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProd"
+      ]
+    },
+    "cdm_style_aprl": {
+      "name": "cdm_style_aprl",
+      "displayName": "cdm_style_aprl",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProd"
+      ]
+    },
+    "cdm_style_color": {
+      "name": "cdm_style_color",
+      "displayName": "cdm_style_color",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProd"
+      ]
+    },
+    "cdm_style_color_price": {
+      "name": "cdm_style_color_price",
+      "displayName": "cdm_style_color_price",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdatePrice"
+      ]
+    },
+    "cdm_style_color_size": {
+      "name": "cdm_style_color_size",
+      "displayName": "cdm_style_color_size",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateStyleColorSize"
+      ]
+    },
+    "cdm_style_eqmt": {
+      "name": "cdm_style_eqmt",
+      "displayName": "cdm_style_eqmt",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProd"
+      ]
+    },
+    "cdm_style_ftwr": {
+      "name": "cdm_style_ftwr",
+      "displayName": "cdm_style_ftwr",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProd"
+      ]
+    },
+    "cdm_style_size": {
+      "name": "cdm_style_size",
+      "displayName": "cdm_style_size",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateStyleSize"
+      ]
+    },
+    "cdm_style_spain": {
+      "name": "cdm_style_spain",
+      "displayName": "cdm_style_spain",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProd"
+      ]
+    },
+    "cdm_sub_category": {
+      "name": "cdm_sub_category",
+      "displayName": "cdm_sub_category",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateSubCategory"
+      ]
+    },
+    "cdm_transactional_profile": {
+      "name": "cdm_transactional_profile",
+      "displayName": "cdm_transactional_profile",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": []
+    },
+    "cdm_uom": {
+      "name": "cdm_uom",
+      "displayName": "cdm_uom",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateUom"
+      ]
+    },
+    "temp1_cdb_price": {
+      "name": "temp1_cdb_price",
+      "displayName": "temp1_cdb_price",
+      "notes": [
+        "Temp table",
+        "truncated between runs"
+      ],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdatePrice"
+      ]
+    },
+    "temp_cdm_prod_category": {
+      "name": "temp_cdm_prod_category",
+      "displayName": "temp_cdm_prod_category",
+      "notes": [
+        "Temp table",
+        " truncated between runs"
+      ],
+      "ranking": "CDM Tables",
+      "dependencies": [
+        "UpdateProd"
+      ]
+    },
+    "user_tables": {
+      "name": "user_tables",
+      "displayName": "user_tables",
+      "notes": [],
+      "ranking": "CDM Tables",
+      "dependencies": []
+    }
+  }
+}

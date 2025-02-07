@@ -11,9 +11,7 @@
       "dependencies": []
     },
     "elisabeth_elliot": {
-      "spouses": [
-        "donn_bullard"
-      ],
+      "spouses": [],
       "name": "elisabeth_elliot",
       "displayName": "Elisabeth Elliot",
       "notes": [],
@@ -60,7 +58,9 @@
       ]
     },
     "Ruth_Nemetz": {
-      "spouses": ["Wylie_Aubrey_Bullard"],
+      "spouses": [
+        "Wylie_Aubrey_Bullard"
+      ],
       "name": "Ruth_Nemetz",
       "displayName": "Ruth Nemetz",
       "notes": [
@@ -70,7 +70,9 @@
       "dependencies": []
     },
     "Wylie_Aubrey_Bullard": {
-      "spouses": ["Ruth_Nemetz"],
+      "spouses": [
+        "Ruth_Nemetz"
+      ],
       "name": "Wylie_Aubrey_Bullard",
       "displayName": "Wylie Aubrey Bullard",
       "notes": [
@@ -101,21 +103,21 @@
   "rankings": [
     {
       "name": "Grandparents",
+      "rank": 0,
       "color": "black",
-      "shape": "rectangle",
-      "rank": 0
+      "shape": "rectangle"
     },
     {
       "name": "Contemporaries",
+      "rank": 2,
       "color": "black",
-      "shape": "rectangle",
-      "rank": 1
+      "shape": "rectangle"
     },
     {
       "name": "Parents",
+      "rank": 1,
       "color": "black",
-      "shape": "rectangle",
-      "rank": 2
+      "shape": "rectangle"
     }
   ]
 }

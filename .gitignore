@@ -150,3 +150,7 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+/.kotlin/
+/classes/
+/generated/
+/generated_tests/

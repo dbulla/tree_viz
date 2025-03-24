@@ -33,8 +33,8 @@ class FamilyTreeDataSet : BaseDependencyDataSet() {
     }
 
     fun getMarriagesForPerson(person: Person): List<Marriage> {
-       return marriages
-           .filter { it.hasMarried(person.name) }
+        return marriages
+            .filter { it.hasMarried(person.name) }
     }
 
     fun addMarriage(person: Person, name2: String) {
@@ -44,7 +44,7 @@ class FamilyTreeDataSet : BaseDependencyDataSet() {
 
         // if it doesn't, then record the marriage
         if (!hasMarried) {
-            marriages.add(Marriage(person.name, name2,))
+            marriages.add(Marriage(person.name, name2))
         }
     }
 }

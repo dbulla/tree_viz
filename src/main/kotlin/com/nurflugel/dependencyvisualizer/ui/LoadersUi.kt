@@ -33,6 +33,7 @@ import javax.swing.BoxLayout.Y_AXIS
 import javax.swing.JFileChooser.APPROVE_OPTION
 import javax.swing.border.Border
 import javax.swing.border.EtchedBorder
+import kotlin.system.exitProcess
 
 
 /**
@@ -107,7 +108,7 @@ class LoadersUi private constructor() : JFrame() {
         quitButton.addActionListener { _ -> quitAction() }
         makeGraphButton.addActionListener { _ -> makeGraph() }
         findDotButton.addActionListener { _ -> findDotExecutablePath() }
-        loadDatafileButton.addActionListener { _ -> loadDatafile(null) }
+        loadDatafileButton.addActionListener { _ -> loadDatafile() }
         editDataButton.addActionListener { _ -> DataEditorUI(dataSet) }
         newDataButton.addActionListener { _ -> println() } // todo ask if family tree or not, what to call it - then save it
         saveDataFileButton.addActionListener { _ -> dataHandler.saveDataset() }
@@ -156,9 +157,7 @@ class LoadersUi private constructor() : JFrame() {
         get() {
             val keyObjects: MutableList<BaseDependencyObject> = ArrayList()
 
-            listCollection
-                .flatMap { it.selectedValuesList }
-                .forEach { keyObjects.add(it as BaseDependencyObject) }
+            listCollection.flatMap { it.selectedValuesList }.forEach { keyObjects.add(it as BaseDependencyObject) }
             return keyObjects
         }
 
@@ -180,10 +179,8 @@ class LoadersUi private constructor() : JFrame() {
         val start = Instant.now()
 
         if (isWindows) {
-            val quote = if (isWindows)
-                "\""
-            else
-                ""
+            val quote = if (isWindows) "\""
+            else ""
             val dot = quote + dotExecutablePath + quote
             val output = " -o $quote$outputFilePath$quote"
             runProcess(mutableListOf(dot, "-T$outputFormat", "$quote$dotFilePath$quote$output"))
@@ -232,8 +229,7 @@ class LoadersUi private constructor() : JFrame() {
     }
 
     private fun runProcess(commandList: MutableList<String>) {
-        val process = ProcessBuilder(commandList).start()
-        // grab the error stream and print that to stdout so we can see any errors
+        val process = ProcessBuilder(commandList).start() // grab the error stream and print that to stdout so we can see any errors
         val bre = BufferedReader(InputStreamReader(process.errorStream))
         var line: String? = bre.readLine()
         while (line != null) {
@@ -243,19 +239,19 @@ class LoadersUi private constructor() : JFrame() {
     }
 
     private val isOsX: Boolean
-        get() = os.lowercase(Locale.getDefault()).startsWith("mac os")
+        get() {
+            return System.getProperty("os.name").lowercase().startsWith("mac os")
+        }
 
     private fun findDotExecutablePath() {
         dotExecutablePath = preferences[DOT_EXECUTABLE, ""]
 
         if (dotExecutablePath.isEmpty()) {
-            (if (os.startsWith(MAC_OS)) {
-                OSX_DOT_LOCATION
+            dotExecutablePath = when { // try default install
+                File(OSX_DOT_LOCATION).exists()          -> OSX_DOT_LOCATION // try homebrew
+                File(OSX_HOMEBREW_DOT_LOCATION).exists() -> OSX_HOMEBREW_DOT_LOCATION
+                else                                     -> WINDOWS_DOT_LOCATION
             }
-            else  // if (os.toLowerCase().startsWith("windows"))
-            {
-                WINDOWS_DOT_LOCATION
-            }).also { dotExecutablePath = it }
         }
 
         // Create a file chooser
@@ -267,47 +263,46 @@ class LoadersUi private constructor() : JFrame() {
         }
     }
 
-    private fun loadDatafile(file: File?) {
-        // load data
-        var selectedFile = file
+    private fun loadDatafile() {
+        val fileChooser = JFileChooser()
+        val filter = ExampleFileFilter()
+
+        filter.addExtension("txt")
+        filter.addExtension("json")
+        filter.setDescription("data files")
+        fileChooser.fileFilter = filter
+
+        val lastDir = preferences[LAST_DIR, ""]
+
+        if (lastDir != null) {
+            fileChooser.currentDirectory = File(lastDir)
+        }
+
+        fileChooser.isMultiSelectionEnabled = false
+
+        val returnVal = fileChooser.showOpenDialog(this)
+
+        if (returnVal == APPROVE_OPTION) {
+            loadDatafile(fileChooser.selectedFile)
+        }
+    }
+
+    private fun loadDatafile(selectedFile: File) { // load data
+        //        var selectedFile = file
         cursor = busyCursor
 
-        if (selectedFile == null) {
-            val fileChooser = JFileChooser()
-            val filter = ExampleFileFilter()
-
-            filter.addExtension("txt")
-            filter.addExtension("json")
-            filter.setDescription("data files")
-            fileChooser.fileFilter = filter
-
-            val lastDir = preferences[LAST_DIR, ""]
-
-            if (lastDir != null) {
-                fileChooser.currentDirectory = File(lastDir)
-            }
-
-            fileChooser.isMultiSelectionEnabled = false
-
-            val  returnVal = fileChooser.showOpenDialog(this)
-
-            if (returnVal == APPROVE_OPTION) {
-                selectedFile = fileChooser.selectedFile
-            }
-        }
-        if (selectedFile != null) {
-            preferences.put(LAST_DIR, selectedFile.parent)
-            makeGraphButton.isEnabled = true
-            clearRankings()
-            dataHandler = DataHandler(selectedFile)
-            dataHandler.loadDataset()
-            dataSet = dataHandler.dataset
-            familyTreeCheckBox.isSelected = dataSet.isFamilyTree
-            populateDropdowns()
-            editDataButton.isEnabled = true
-            saveDataFileButton.isEnabled = true
-            makeGraphButton.isEnabled = true
-        }
+        // file might be null, skip this if so
+        preferences.put(LAST_DIR, selectedFile.parent)
+        makeGraphButton.isEnabled = true
+        clearRankings()
+        dataHandler = DataHandler(selectedFile)
+        dataHandler.loadDataset()
+        dataSet = dataHandler.dataset
+        familyTreeCheckBox.isSelected = dataSet.isFamilyTree
+        populateDropdowns()
+        editDataButton.isEnabled = true
+        saveDataFileButton.isEnabled = true
+        makeGraphButton.isEnabled = true
 
         pack()
         center()
@@ -341,19 +336,14 @@ class LoadersUi private constructor() : JFrame() {
         val filteredObjects: MutableList<BaseDependencyObject> = ArrayList()
 
         filteredObjects.add(DependencyObject("", type.name))
-        filteredObjects.addAll(
-            dataSet.getObjects()
-                .filter { it.ranking != null }
-                .sortedBy { it.name.uppercase() }
-                .filter { it.ranking == type.name }
-                .toList())
+        filteredObjects.addAll(dataSet.getObjects().filter { it.ranking != null }.sortedBy { it.name.uppercase() }.filter { it.ranking == type.name }.toList())
 
         return filteredObjects.toTypedArray<BaseDependencyObject>()
     }
 
     private fun quitAction() {
         saveSettings()
-        System.exit(0)
+        exitProcess(0)
     }
 
     private fun saveSettings() {
@@ -367,8 +357,7 @@ class LoadersUi private constructor() : JFrame() {
         get() {
             if (isOsX) {
                 return OutputFormat.getDefaultExtension()
-            }
-            // todo fix - get from settings
+            } // todo fix - get from settings
             return OutputFormat.getDefaultExtension()
         }
 
@@ -474,7 +463,6 @@ class LoadersUi private constructor() : JFrame() {
         quitButton.text = "Quit"
         rightButtonPanel.add(quitButton)
 
-
         contentPane.add(filtersPanel, CENTER)
         contentPane.add(rightPanel, EAST)
 
@@ -490,14 +478,13 @@ class LoadersUi private constructor() : JFrame() {
         private const val FAMILY_TREE = "familyTree"
         private const val WINDOWS_DOT_LOCATION = "\"C:\\Program Files\\ATT\\Graphviz\\bin\\dot.exe\""
         private const val OSX_DOT_LOCATION = "/Applications/Graphviz.app/Contents/MacOS/dot"
-        private const val OSX_DOT_LOCATION2 = "/opt/homebrew/bin/dot"
+        private const val OSX_HOMEBREW_DOT_LOCATION = "/opt/homebrew/bin/dot"
         private const val MAC_OS = "Mac OS"
         private const val PREVIEW_LOCATION = "/Applications/Preview.app/Contents/MacOS/Preview"
         private const val WINDOWS = "windows"
 
         @JvmStatic
-        fun main(args: Array<String>) {
-            //            val ui = LoadersUi()
+        fun main(args: Array<String>) { //            val ui = LoadersUi()
             SwingUtilities.invokeLater {
                 val loadersUi = LoadersUi()
                 loadersUi.loadDatafile(File("src/test/resources/data/family_tree.json"))

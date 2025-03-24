@@ -2,7 +2,9 @@ package com.nurflugel.dependencyvisualizer.data
 
 import com.google.common.collect.Sets
 import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
+import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
+import com.nurflugel.dependencyvisualizer.data.pojos.Person
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.DOWN
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.UP
@@ -48,6 +50,9 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
             .map { filterObjectsByDirection(dataSet, keyObjects, 0, it) }
             .forEach { filteredObjects.addAll(it) }
 
+        // add spouses
+        addSpouse(dataSet, keyObjects, filteredObjects)
+
         return filteredObjects
     }
 
@@ -60,7 +65,7 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
         keyObjects: Set<BaseDependencyObject>,
         initialSize: Int,
         directionalFilter: DirectionalFilter,
-    ): Set<BaseDependencyObject> {
+    ): MutableSet<BaseDependencyObject> {
         val filteredObjects: MutableSet<BaseDependencyObject> = mutableSetOf()
 
         if (directionalFilter == UP) {
@@ -74,14 +79,27 @@ class ObjectFilterer(directionalFilters: List<DirectionalFilter>, typesToFilter:
         }
 
         val currentSize = filteredObjects.size
-        var loaderObjectsToReturn: Set<BaseDependencyObject> = filteredObjects.toSet() // todo remove temp set when unit tests pass
+        var loaderObjectsToReturn: MutableSet<BaseDependencyObject> = filteredObjects.toMutableSet() // todo remove temp set when unit tests pass
+
 
         // Keep doing this until it stabilizes
         if (currentSize != initialSize) {
             loaderObjectsToReturn = filterObjectsByDirection(dataSet, loaderObjectsToReturn, currentSize, directionalFilter)
         }
-
         return loaderObjectsToReturn
+    }
+
+    private fun addSpouse(
+        dataSet: BaseDependencyDataSet,
+        keyObjects: Set<BaseDependencyObject>,
+        loaderObjectsToReturn: MutableSet<BaseDependencyObject>,
+    ) {
+        if (dataSet is FamilyTreeDataSet) {
+            keyObjects.forEach { person ->
+                val marriagesForPerson = dataSet.getMarriagesForPerson(person as Person)
+                marriagesForPerson.mapTo(loaderObjectsToReturn) { dataSet.objectByName(it.getSpouse(person.name)) }
+            }
+        }
     }
 
     /** Filter from this object on up.  */

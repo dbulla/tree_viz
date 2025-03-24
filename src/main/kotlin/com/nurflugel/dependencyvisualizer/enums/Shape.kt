@@ -24,12 +24,12 @@ enum class Shape {
             }
         }
 
-//        fun first(): Shape {
-//            return entries[0]
-//        }
-//
-//        fun last(): Shape {
-//            return entries[entries.size - 1]
-//        }
+        //        fun first(): Shape {
+        //            return entries[0]
+        //        }
+        //
+        //        fun last(): Shape {
+        //            return entries[entries.size - 1]
+        //        }
     }
 }

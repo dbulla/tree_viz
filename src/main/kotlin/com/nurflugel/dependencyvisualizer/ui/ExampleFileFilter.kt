@@ -7,12 +7,9 @@ import javax.swing.filechooser.FileFilter
 /**
  * A convenience implementation of FileFilter that filters out all files except for those type extensions that it knows about.
  *
- *
  * Extensions are of the type ".foo", which is typically found on Windows and Unix boxes, but not on Macinthosh. Case is ignored.
  *
- *
- * Example - create a new filter that filerts out all files but gif and jpg image files:
- *
+ * Example - create a new filter that filters out all files but gif and jpg image files:
  *
  * JFileChooser chooser = new JFileChooser(); ExampleFileFilter filter = new ExampleFileFilter(new String{"gif", "jpg" }, "JPEG & GIF Images")
  * chooser.addChoosableFileFilter(filter); chooser.showOpenDialog(this);
@@ -21,31 +18,15 @@ import javax.swing.filechooser.FileFilter
  * @version  1.10 02/06/02
  */
 class ExampleFileFilter() : FileFilter() {
-    private var filters: Hashtable<String, ExampleFileFilter>? = null
+    //  If no filters are added, then all files are accepted.
+    private var filters: MutableMap<String, ExampleFileFilter> = mutableMapOf()
     private var description: String? = null
     private var fullDescription: String? = null
     private var useExtensionsInDescription = true
 
-    /**
-     * Creates a file filter. If no filters are added, then all files are accepted.
-     *
-     * @see .addExtension
-     */
-    init {
-        filters = Hashtable()
-    }
 
     /**
-     * Creates a file filter from the given string array and description. Example: new ExampleFileFilter(String {"gif", "jpg" }, "Gif and JPG Images");
-     *
-     *
-     * Note that the "." before the extension is not needed and will be ignored.
-     *
-     * @see .addExtension
-     */
-    /**
      * Creates a file filter from the given string array. Example: new ExampleFileFilter(String {"gif", "jpg" });
-     *
      *
      * Note that the "." before the extension is not needed adn will be ignored.
      *
@@ -100,16 +81,12 @@ class ExampleFileFilter() : FileFilter() {
      * Note that the "." before the extension is not needed and will be ignored.
      */
     fun addExtension(extension: String) {
-        if (filters == null) {
-            filters = Hashtable(5)
-        }
-
-        filters!![extension.lowercase(Locale.getDefault())] = this
+        filters[extension.lowercase(Locale.getDefault())] = this
         fullDescription = null
     }
 
     /**
-     * Sets the human readable description of this filter. For example: filter.setDescription("Gif and JPG Images");
+     * Sets the human-readable description of this filter. For example: filter.setDescription("Gif and JPG Images");
      *
      * @see .setDescription
      *
@@ -117,7 +94,7 @@ class ExampleFileFilter() : FileFilter() {
      *
      * @see .isExtensionListInDescription
      */
-    fun setDescription(description: String?) {
+    fun setDescription(description: String) {
         this.description = description
         fullDescription = null
     }
@@ -133,20 +110,14 @@ class ExampleFileFilter() : FileFilter() {
      *
      * @see FileFilter.accept
      */
-    override fun accept(f: File?): Boolean {
-        if (f != null) {
-            if (f.isDirectory) {
-                return true
-            }
-
-            val extension = getExtension(f)
-
-            if ((extension != null) && (filters!![getExtension(f)] != null)) {
-                return true
-            }
+    override fun accept(f: File): Boolean {
+        if (f.isDirectory) {
+            return true
         }
 
-        return false
+        val extension = getExtension(f)
+
+        return (extension != null) && (filters[getExtension(f)] != null)
     }
 
     /**
@@ -183,19 +154,18 @@ class ExampleFileFilter() : FileFilter() {
     override fun getDescription(): String {
         if (fullDescription == null) {
             if ((description == null) || isExtensionListInDescription) {
-                fullDescription = if (description == null)
-                    "("
-                else
-                    ("$description (")
+                fullDescription = when (description) {
+                    null -> "("
+                    else -> "$description ("
+                }
 
                 // build the description from the extension list
-                val extensions = filters!!.keys()
+                val extensions = filters.keys
 
-                if (extensions != null) {
-                    fullDescription += ("." + extensions.nextElement())
-
-                    while (extensions.hasMoreElements()) {
-                        fullDescription += (", " + extensions.nextElement())
+                extensions.forEachIndexed { index, extension ->
+                    fullDescription += when (index) {
+                        0    -> ".$extension"
+                        else -> ", $extension"
                     }
                 }
 
@@ -211,7 +181,7 @@ class ExampleFileFilter() : FileFilter() {
 
     private var isExtensionListInDescription: Boolean
         /**
-         * Returns whether the extension list (.jpg, .gif, etc) should show up in the human readable description.
+         * Returns whether the extension list (.jpg, .gif, etc.) should show up in the human-readable description.
          *
          * Only relevant if a description was provided in the constructor or using setDescription();
          *
@@ -221,10 +191,10 @@ class ExampleFileFilter() : FileFilter() {
          */
         get() = useExtensionsInDescription
         /**
-         * Determines whether the extension list (.jpg, .gif, etc) should show up in the human readable description.
+         * Determines whether the extension list (.jpg, .gif, etc.) should show up in the human-readable description.
          *
          *
-         * Only relevent if a description was provided in the constructor or using setDescription();
+         * Only relevant if a description was provided in the constructor or using setDescription();
          * @see .getDescription
          * @see .setDescription
          * @see .isExtensionListInDescription

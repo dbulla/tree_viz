@@ -32,7 +32,7 @@ abstract class BaseDependencyDataSet {
             baseDependencyObject = getValue(trimmedName) // replace with get or else?  Still want to log that a new instance was created...
         }
         else {
-            baseDependencyObject = if (isFamilyTree)// todo sleazy
+            baseDependencyObject = if (isFamilyTree) // todo sleazy
                 Person(trimmedName, Ranking.first().name)
             else
                 DependencyObject(trimmedName, Ranking.first().name)

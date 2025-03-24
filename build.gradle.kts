@@ -10,8 +10,8 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
     id("com.github.ben-manes.versions") version "0.52.0"
-    id("com.dorongold.task-tree") version "4.0.0"
-    kotlin("jvm") version "2.1.20-Beta2"
+    id("com.dorongold.task-tree") version "4.0.1"
+    kotlin("jvm") version "2.1.20"
 }
 
 repositories {
@@ -19,7 +19,7 @@ repositories {
 }
 
 val kotestVersion = "5.9.1"
-val logbackVersion = "1.5.16"
+val logbackVersion = "1.5.18"
 
 dependencies {
     // Align versions of all Kotlin components
@@ -32,12 +32,12 @@ dependencies {
     implementation("ch.qos.logback:logback-core:$logbackVersion")
     implementation("ch.qos.logback:logback-core:$logbackVersion")
     implementation("com.google.code.gson:gson:2.12.1")
-    implementation("com.google.guava:guava:33.4.0-jre")
+    implementation("com.google.guava:guava:33.4.5-jre")
     implementation("com.thoughtworks.xstream:xstream:1.4.21")
     implementation("commons-io:commons-io:2.18.0")
     implementation("org.apache.commons:commons-lang3:3.17.0")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.12.0-M1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.13.0-M1")
     testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
 
     // Use the Kotlin test library.

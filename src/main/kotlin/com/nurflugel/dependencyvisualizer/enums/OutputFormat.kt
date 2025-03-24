@@ -10,9 +10,9 @@ package com.nurflugel.dependencyvisualizer.enums
 /** Copyright 2005, Nurflugel.com.  */
 enum class OutputFormat(
     // for debug only
-     val displayLabel: String, // for debug only
-     var type: String,
-     var extension: String
+    val displayLabel: String, // for debug only
+    var type: String,
+    var extension: String,
 ) {
     // ------------------------------ FIELDS ------------------------------
     Svg("SVG", "svg", ".svg"),

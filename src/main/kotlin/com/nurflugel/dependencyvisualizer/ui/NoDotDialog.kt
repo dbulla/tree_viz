@@ -122,8 +122,8 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-//            val dialog = NoDotDialog("/opt/homebrew/bin/dot")
-            SwingUtilities.invokeLater { NoDotDialog("/opt/homebrew/bin/dot")}
+            val dialog = NoDotDialog("/opt/homebrew/bin/dot")
+//            SwingUtilities.invokeLater { NoDotDialog("/opt/homebrew/bin/dot")}
 
             System.exit(0)
         }

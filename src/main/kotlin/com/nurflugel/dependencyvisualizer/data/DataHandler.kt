@@ -1,10 +1,8 @@
 package com.nurflugel.dependencyvisualizer.data
 
 import com.nurflugel.dependencyvisualizer.data.dataset.BaseDependencyDataSet
-import com.nurflugel.dependencyvisualizer.data.dataset.FamilyTreeDataSet
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject
 import com.nurflugel.dependencyvisualizer.data.pojos.BaseDependencyObject.Companion.replaceAllBadChars
-import com.nurflugel.dependencyvisualizer.data.pojos.Person
 import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter
 import com.nurflugel.dependencyvisualizer.enums.Ranking
 import com.nurflugel.dependencyvisualizer.io.DataFileFactory
@@ -46,6 +44,7 @@ class DataHandler(sourceDataFile: File) {
     // -------------------------- OTHER METHODS --------------------------
     fun writeObjects(): File {
         val filteredObjects = filterObjects()
+
         val writer = DotFileWriter(dotFile, isRanking)
 
         try {
@@ -94,15 +93,15 @@ class DataHandler(sourceDataFile: File) {
     fun setKeyObjectsToFilterOn(keyObjects: List<BaseDependencyObject>) {
         this.keyObjects = TreeSet(keyObjects)
 
-        if (dataset is FamilyTreeDataSet) {
-            keyObjects
-                .filterIsInstance<Person>()
-                .forEach { person ->
-                    (dataset as FamilyTreeDataSet).getMarriagesForPerson(person)
-                        .map { it.getSpouse(person.name) }
-                        .forEach { this.keyObjects.add(dataset.objectByName(it)) }
-                }
-        }
+//        if (dataset is FamilyTreeDataSet) {  If this is added here, it adds all ancestors for the spouse as well
+//            keyObjects
+//                .filterIsInstance<Person>()
+//                .forEach { person ->
+//                    (dataset as FamilyTreeDataSet).getMarriagesForPerson(person)
+//                        .map { it.getSpouse(person.name) }
+//                        .forEach { this.keyObjects.add(dataset.objectByName(it)) }
+//                }
+//        }
     }
 
     fun setTypesFilters(typesFilters: List<Ranking>) {

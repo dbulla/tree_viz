@@ -979,12 +979,6 @@
       "color": "blue",
       "shape": "rectangle",
       "rank": 5
-    },
-    {
-      "name": "",
-      "color": "black",
-      "shape": "rectangle",
-      "rank": 0
     }
   ]
 }

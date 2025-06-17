@@ -11,7 +11,7 @@ plugins {
     application
     id("com.github.ben-manes.versions") version "0.52.0"
     id("com.dorongold.task-tree") version "4.0.1"
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "2.2.0-RC3"
 }
 
 repositories {
@@ -31,13 +31,14 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("ch.qos.logback:logback-core:$logbackVersion")
     implementation("ch.qos.logback:logback-core:$logbackVersion")
-    implementation("com.google.code.gson:gson:2.12.1")
-    implementation("com.google.guava:guava:33.4.5-jre")
+    implementation("com.google.code.gson:gson:2.13.1")
+    implementation("com.google.guava:guava:33.4.8-jre")
     implementation("com.thoughtworks.xstream:xstream:1.4.21")
-    implementation("commons-io:commons-io:2.18.0")
+    implementation("commons-io:commons-io:2.19.0")
     implementation("org.apache.commons:commons-lang3:3.17.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.13.0-M1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.13.0-RC1")
     testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
 
     // Use the Kotlin test library.

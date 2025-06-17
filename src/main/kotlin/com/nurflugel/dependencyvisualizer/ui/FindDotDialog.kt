@@ -13,38 +13,51 @@ import javax.swing.*
 import javax.swing.JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
 import javax.swing.JFileChooser.APPROVE_OPTION
 
-open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
+open class FindDotDialog(dotExecutablePath: String) : NurflugelDialog() {
     lateinit var file: File
     private lateinit var buttonCancel: JButton
     private lateinit var buttonOK: JButton
     private lateinit var useTextBoxButton: JButton
-    private lateinit var contentPane: JPanel
+    private lateinit var mainPanel: JPanel
     private lateinit var pathTextField: JTextField
     var wasFileChosen = false
 
-    init {
-        buildDialog(dotExecutablePath)
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            SwingUtilities.invokeLater {
+                val findDotDialog = FindDotDialog("/opt/homebrew/bin/dot")
+                findDotDialog.isVisible = true
+                println(findDotDialog.file.absolutePath)
+                findDotDialog.dispose()
+            }
+        }
     }
 
-    private fun buildDialog(dotExecutablePath: String?) {
+    init {
         setupUI()
-//        setContentPane(contentPane)
-        isModal = true
+        buildDialog()
+        addListeners()
+        pack()
+
         getRootPane().defaultButton = buttonOK
         pathTextField.text = dotExecutablePath
-        addListeners()
-
-        // call onCancel() when cross is clicked
-        defaultCloseOperation = DO_NOTHING_ON_CLOSE
-        pack()
         center()
-        isVisible = true
+        this.isVisible = true
+    }
+
+    private fun buildDialog() {
+        contentPane = mainPanel
+        isModal = true
+        getRootPane().defaultButton = buttonOK
+        this.defaultCloseOperation = DO_NOTHING_ON_CLOSE
     }
 
     override fun addListeners() {
         buttonOK.addActionListener { e: ActionEvent? -> onOK() }
         useTextBoxButton.addActionListener { e: ActionEvent? ->
             file = File(pathTextField.text)
+            wasFileChosen = true
             dispose()
         }
         buttonCancel.addActionListener { e: ActionEvent? -> onCancel() }
@@ -56,7 +69,7 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
         })
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction({ e: ActionEvent? -> onCancel() }, KeyStroke.getKeyStroke(VK_ESCAPE, 0), WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+        mainPanel.registerKeyboardAction({ e: ActionEvent? -> onCancel() }, KeyStroke.getKeyStroke(VK_ESCAPE, 0), WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
     }
 
     private fun onOK() {
@@ -68,6 +81,7 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
             file = fileChooser.selectedFile
         }
         wasFileChosen = true
+        pathTextField.text = file.absolutePath
         dispose()
     }
 
@@ -78,8 +92,8 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
 
     // non-IDE UI stuff
     private fun setupUI() {
-        contentPane = JPanel()
-        contentPane.layout = BorderLayout(5, 5)
+        mainPanel = JPanel()
+        mainPanel.layout = BorderLayout(5, 5)
 
         val labelPanel = JPanel()
         val textPanel = JPanel()
@@ -114,18 +128,8 @@ open class NoDotDialog(dotExecutablePath: String) : NurflugelDialog() {
         buttonCancel.text = "Cancel"
         buttonPanel.add(buttonCancel)
 
-        contentPane.add(labelPanel, NORTH)
-        contentPane.add(textPanel, CENTER)
-        contentPane.add(buttonPanel, SOUTH)
-    }
-
-    companion object {
-        @JvmStatic
-        fun main(args: Array<String>) {
-            val dialog = NoDotDialog("/opt/homebrew/bin/dot")
-//            SwingUtilities.invokeLater { NoDotDialog("/opt/homebrew/bin/dot")}
-
-            System.exit(0)
-        }
+        mainPanel.add(labelPanel, NORTH)
+        mainPanel.add(textPanel, CENTER)
+        mainPanel.add(buttonPanel, SOUTH)
     }
 }

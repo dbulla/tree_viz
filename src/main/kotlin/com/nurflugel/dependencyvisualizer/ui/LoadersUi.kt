@@ -10,7 +10,6 @@ import com.nurflugel.dependencyvisualizer.enums.DirectionalFilter.UP
 import com.nurflugel.dependencyvisualizer.enums.OutputFormat
 import com.nurflugel.dependencyvisualizer.enums.Ranking
 import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.clearRankings
-import com.nurflugel.dependencyvisualizer.enums.Ranking.Companion.values
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.awt.*
@@ -54,7 +53,7 @@ class LoadersUi private constructor() : JFrame() {
     private val normalCursor: Cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
 
     /**
-     * Get the dot executable path if it already exists in Preferences, or is installed. If not easily findable, as the user where the hell he put it.
+     * Get the dot executable path if it already exists in Preferences or is installed. If not easily findable, ask the user where the hell they put it.
      */
     private lateinit var dotExecutablePath: String
     private val os: String = System.getProperty("os.name")
@@ -109,7 +108,7 @@ class LoadersUi private constructor() : JFrame() {
         makeGraphButton.addActionListener { _ -> makeGraph() }
         findDotButton.addActionListener { _ -> findDotExecutablePath() }
         loadDatafileButton.addActionListener { _ -> loadDatafile() }
-        editDataButton.addActionListener { _ -> DataEditorUI(dataSet) }
+        editDataButton.addActionListener { _ -> editDatapoint() }
         newDataButton.addActionListener { _ -> println() } // todo ask if family tree or not, what to call it - then save it
         saveDataFileButton.addActionListener { _ -> dataHandler.saveDataset() }
         addWindowListener(object : WindowAdapter() {
@@ -118,6 +117,11 @@ class LoadersUi private constructor() : JFrame() {
                 quitAction()
             }
         })
+    }
+
+    // todo - if ONLY 1 datapoint is selected, then pre-select the data editor for that datapoint
+    private fun editDatapoint() {
+        DataEditorUI(dataSet)
     }
 
     @Throws(IOException::class, InterruptedException::class)
@@ -161,6 +165,7 @@ class LoadersUi private constructor() : JFrame() {
             return keyObjects
         }
 
+    /** Take the .dot file and generate the image from it by calling dot on the native OS */
     @Throws(IOException::class, InterruptedException::class)
     private fun convertDataFile(dotFile: File): String {
         val outputFileName = getOutputFileName(dotFile, outputFormat.extension)
@@ -230,11 +235,11 @@ class LoadersUi private constructor() : JFrame() {
 
     private fun runProcess(commandList: MutableList<String>) {
         val process = ProcessBuilder(commandList).start() // grab the error stream and print that to stdout so we can see any errors
-        val bre = BufferedReader(InputStreamReader(process.errorStream))
-        var line: String? = bre.readLine()
+        val bufferedReader = BufferedReader(InputStreamReader(process.errorStream))
+        var line: String? = bufferedReader.readLine()
         while (line != null) {
             println(line)
-            line = bre.readLine()
+            line = bufferedReader.readLine()
         }
     }
 
@@ -255,7 +260,7 @@ class LoadersUi private constructor() : JFrame() {
         }
 
         // Create a file chooser
-        val dialog = NoDotDialog(dotExecutablePath)
+        val dialog = FindDotDialog(dotExecutablePath)
 
         if (dialog.wasFileChosen) {
             dotExecutablePath = dialog.file.absolutePath
@@ -288,10 +293,9 @@ class LoadersUi private constructor() : JFrame() {
     }
 
     private fun loadDatafile(selectedFile: File) { // load data
-        //        var selectedFile = file
         cursor = busyCursor
 
-        // file might be null, skip this if so
+        // the file might be null, skip this if so
         preferences.put(LAST_DIR, selectedFile.parent)
         makeGraphButton.isEnabled = true
         clearRankings()
@@ -303,20 +307,21 @@ class LoadersUi private constructor() : JFrame() {
         editDataButton.isEnabled = true
         saveDataFileButton.isEnabled = true
         makeGraphButton.isEnabled = true
-
+        this.title= selectedFile.name
         pack()
         center()
         cursor = normalCursor
     }
 
     private fun populateDropdowns() {
-        val shapeAttributes = values()
+        val rankings = Ranking.Companion.values()
 
         filtersPanel.removeAll()
         listCollection.clear()
-        filtersPanel.layout = GridLayout((shapeAttributes.size / 2) + 1, 2)
+        filtersPanel.layout = GridLayout((rankings.size / 2) + 1, 2)
 
-        for (type in shapeAttributes) {
+        // for each of the rankings, create a panel with a list box with all those of equal rank
+        for (type in rankings) {
             val filteredObjects = getObjectsForType(type)
             val dependencyObjectJList = JList(filteredObjects)
             listCollection.add(dependencyObjectJList)

@@ -7,6 +7,7 @@ package com.nurflugel.dependencyvisualizer.data.pojos
 class Person(name: String, type: String) : BaseDependencyObject(name, type) {
     var birthDate: String? = null
     var deathDate: String? = null
+    // todo store some sort of photo(s) link???
 
     override fun toString(): String {
         return displayName
